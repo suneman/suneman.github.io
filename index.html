@@ -9,14 +9,16 @@
             }
         </style>
         <meta charset="utf-8">
-        <title>D3 Page Template</title>
+        <title>A simple page with some D3 and SVG</title>
         <script type="text/javascript" src="d3/d3.js"></script>
     </head>
     <body>
         <script type="text/javascript">
             // Your beautiful D3 code will go here
+			
+
 			var dataset = [ 5, 10, 15, 20, 25 ];
-			// d3.select("body").append("p").text("New paragraph!");
+
 			d3.select("body").selectAll("p")
 		    	.data(dataset)
 		    	.enter()
