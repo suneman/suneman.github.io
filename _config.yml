@@ -33,6 +33,10 @@ github_username: suneman
 theme: minima
 plugins:
   - jekyll-feed
+  
+header_pages:
+  - publications.markdown
+  - about.markdown
 
 # Exclude from processing.
 # The following items will not be processed, by default.
