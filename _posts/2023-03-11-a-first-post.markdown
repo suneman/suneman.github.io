@@ -5,6 +5,8 @@ date: 2023-03-11 09:24:00 -0100
 categories: jekyll teaching
 ---
 
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
 So I don't have a lot to say, this is mostly to make sure that things work. 
 
 I can now use latex for simple inline variables like $$\sigma^2$$. But that's not all, I can also do displaymath
