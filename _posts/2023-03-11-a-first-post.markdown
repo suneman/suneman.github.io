@@ -16,3 +16,7 @@ Pretty nice, right!?
 I'm also including a simple image from a previous lecture
 
 ![Anscombe](https://github.com/suneman/socialdata2023/raw/e3c6f2f2d78cd60b4d0514e88f98b945c1af4aca/files/anscombe.png)
+
+I like the inclusion of math so much that I need to also see what a simple integral looks like
+
+$$\int_0^\infty \frac{1}{x^2+1} \mathrm{d}x =\frac{\pi}{2} $$.
