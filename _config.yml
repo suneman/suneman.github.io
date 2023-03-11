@@ -33,6 +33,7 @@ github_username: suneman
 theme: minima
 plugins:
   - jekyll-feed
+  - jektex
   
 header_pages:
   - publications.markdown
