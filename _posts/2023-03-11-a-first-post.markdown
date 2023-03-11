@@ -19,4 +19,6 @@ I'm also including a simple image from a previous lecture
 
 I like the inclusion of math so much that I need to also see what a simple integral looks like
 
-$$\int_0^\infty \frac{1}{x^2+1} \mathrm{d}x =\frac{\pi}{2} $$.
+\begin{equation}
+\int_0^\infty \frac{1}{x^2+1} \mathrm{d}x =\frac{\pi}{2}
+\end{equation}
