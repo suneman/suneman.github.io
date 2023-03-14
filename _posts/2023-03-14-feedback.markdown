@@ -1,0 +1,152 @@
+---
+layout: post
+title: "Feedback"
+date: 2023-03-14 08:00:01 -0100
+categories: teaching feedback
+---
+
+
+# Workload according to the study planner
+
+One ECTS is approximately 28 hours. That means 5 ECTS is 140 hours. That a bit more than 10 hours per week (in a 13 week course).
+
+
+# Comments on teaching materials
+
+* You use concepts and want us to use concepts, which you then miss to give us clear deffinitions of..
+
+* I don't like when the only material we have at our disposal are the videos.
+
+* They are good, maybe if you could give a few more suggestions on where to look for the information, because most of the time, it's more the time I spent looking for the right way to do an exercise than the time I used to actually do it.
+
+* a little more demo to cover related basics, for example basics of how to work with plotly or polar plots. hands on demo, code and parameter explanation of something new. it will save time and less frustration.
+
+* I would like to have more material that improves my programming knowledge. I understand I am learning by doing, but what about doing and then being able to see I could have done it even better?
+
+* Its not that I don't like the way the course is beeing tought, it's just I would prefer it if there were actual lectures, with the teacher implementing some of the tasks and explain libraries and algorithms.
+
+* A mixture between selected readings from various sources and a single book
+
+# What could be better
+
+## Content
+
+* I would love to have included choosing colours. Just a brief mention - some colours are great, but are hard to discern if you are colourblind.
+
+* a class/video to learn to use github would be great
+
+## What is Dataviz?
+* I am sure if this is relevant or how it can be improve: most of the hours I spent on this course are on tweaking the small parameters of the plot, since it is difficult for me to know which would give the "best" result, and sometimes I got carried away and doing that for hours.
+
+* Up until now, my biggest "regret" about the course is that I think we do a lot(!) of work that one does not learn anything from. This is partly because I find many of the assignments to be ambiguous and not very well formulated, **but also because we have to spend time on e.g. coming up with unqualified reasons why prostitution is most prevalent on Thursdays in San Francisco.** I was also quite annoyed about the lack of material regarding "encoding", which we had to write about in the assignment. I also really do not like the peer feedback element of the course - Once again, a lot of work and not much learning. Also, I don't think notebooks are good for writing reports/assignments. **Lastly, the entire course seem somewhat outdated - I am not under the impression that we are learning the newest stuff regarding plotting cool stuff.**
+
+* As I said before, there is lack of learning from the material. I need to do extra courses online to understand best practices. Why some of it could not be coevered in the lecture, or recommended by the course responsible, TAs.
+
+## It's too easy
+* I think the project can mix some new materials, not all of these picked up in the every week assignment . More challenge to me is fine.
+
+* Furthermore, the content is mostly something that we have covered beforehand so the tasks take ages but feels repetitive.
+
+* Not that I mind our current SF crime data but perhaps consider using new data in the assignments where we can apply same methods/analysis but yet put an effort into making new insights and readings.
+
+## It's too hard
+* Perhaps a few fewer exercises, but I believe the number is adequate given that they include exercises in the assignments as well.
+
+* The workload for a beginner in Python is very overwhelming
+
+* may be a little less workload for beginning and then we can add up some pressure. as a first semester new international student, it was quite difficult for me to catch up at first.
+
+* hmmm, it is great, you learn a lot. after the first weak, it becomes very very high paced. with readings and assignments, make it 10 ECTS.
+
+* For some exchange students its pretty hard to do those assignment without knowing much about Python and stuff… it will be better with easier assignments
+
+## Solutions and related comments
+* I think the class is too much based on us. We supposed to learn from excercises from which we do not have the solution. So even if we manage to solve them with or without the help of TAs, Google etc, we cannot be 100% if it is the best solution or if have missed something.
+
+* I like the idea of peer grading so you can see how other people solved the notebooks. Maybe after the assignment there could be one posted that is especially good so we can learn from other peoples work?
+
+* I wish there was a way to confirm if you've done the exercises correctly instead of having to ask the TA. Maybe just include a figure of the proposed solution and not the actual code may be way?
+
+* For me, it takes a really long time to get through the exercises each week. The exercises themselves are interesting, and you learn a lot from them, and the theory you apply in them is generally pretty easy to understand. The thing is just that when you have solved an exercise, you have no way of knowing if the way you solved it was "the smart" way to do it (and sometimes it can be hard to know if what you did was actually correct). So I spend a lot of time thinking about how I could improve my solutions. I.e. in things such as data visualization, there are a lot of ways to e.g. filter the dataframe and plot the data, but unless you want to bombard the TA's after every exercise, you have no way of knowing if you could have done what you did in a more elegant way. What I am trying to say is that it would be really nice if there for each exercise was some sort of solution provided, such that you could check if there was a better way to arrive at the solution, or whether your solution was correct in the first place. I see how this interferes with the fact that the assignments are subsets of the weekly exercises, but maybe the assignments could instead be variations of the weekly exercises with small (or big) changes here and there.
+
+* As said above, more hints would be nice to have. Also if you could add examples of what you expect at the end of each exercise would be useful, for example for week 5 you did not put a picture of how you were expecting the linear and loglog plot
+
+* Maybe solutions for each exercise in a few days? (At least after the assignment)
+
+## Tutorials by Sune
+
+* I would like to have more explanatory and detailed videos on how to make the different types of graphs.
+
+* more detailed tutorials
+
+* I would say have more material to study ,while we go through the exercises. I get the point you mentioned early in your lectures though, that you want us to search a lot by ourselves on the internet.
+
+* a little more demo and guidance... (specially new things like plotly and geo maps/heat maps) a major disadvantage about learning from only book reading and links is that i dont know if all i am doing is right and up to the standards demanded by this course. if not complete solution, at least results/plots of "every" section should be provided so that I can compare my work and ensure that I am accurately understanding the material and my work is up to the standards of this course. Otherwise, there is a high possibility that I may miss something or make mistakes.
+
+* Some Live Demonstration of the tasks.
+
+## Clarity of exercises
+* I just feel that sometimes it is not so clear what the exercise is asking, maybe it would be better if we get some examples of visualizations in more cases, so that we can compare our output with what is being asked.
+
+* Sometimes it is hard to understand how to even start on an exercise, few times due to frustration I just skipped few of them
+
+## Practical things
+* A minor thing, but a link to the various tools (Slack, github, peergrade) from inside would be much appreciated. In a pinsedag announcement maybe
+
+* i would like the communication to be consistent with other courses, but may be it's just me disliking slack for a person that has a part-time job, its very exhausting to finish all the exercises, even though i like them 
+
+* It would be great if the readings (only the chapters, not the actual class with exercises) are announced a bit before than the following class. For example, usually they are released on Sunday and sometimes it is a bit hard to manage to read and prepare before the next class.   I also think it would be great if the assignment are released slightly earlier than 12pm. I understand that Sune wants to make us work on the exercises (which might be needed for the assignment itself), however it would be great to have a look at the assignment in class with our teammate so that we can organise ourself and we don't have to meet again just to distribute the work, if that makes sense.
+
+* A heads up when we need to read things in advance would be nice, so we can prepare and use our time with the TAs optimally.  For the assignments it would be nice to know if we need to hand-in only the notebook, or the notebook with the data needed to run it.
+
+* Two comments from the same person
+  1. Perhaps there can be a folder on github where saves the DAOST files (or just put a link in readme), so that we don't have to go to DTU learn anymore :) 
+  2. It would be nice to put the course overview and agendas for each week in readme, such that we can directly see the plan at the front page on github
+  
+* Know a little bit better the connection between the class exercises and the assignments
+
+* The videos have a funny background noise to them. It's like there is a whistle in my left ear all the time. 
+
+* I think TAs available online would be really nice to have
+
+* I acknowledge that individual assignments is a lot harder on the TA's (3x times the amount of hand-ins to process), but I really do not think that 3-man groups for the assignments has a positive impact on my learning or motivation. **The majority of groups just splits the work evenly between each group member, meaning that if I am strong in Part 3 but skipped class for Part 4, it is most natural for the group to assign part 4 to someone that isn't me (the lazy path-of-least-resistance). The groupwork makes me learn less, I feel reduced ownership of my hand-in (lower motivation) and worst of all, it makes me feel like I can get away with skipping class some of the time. I think it is OK that people are allowed to hand-in as a group, but it should not be the default option that students without a group are encouraged to pursue.**
+
+* I think the format of Github + Notebooks and videos works great - however sometimes it's little difficult to keep track of the updated information on the Github Wiki, which could lead to missing important information.
+
+## Outdated?
+* I know that there are general best practices in visualisation but the content could be updated. 
+
+* I think the videos seems outdated. And i think we do not get the newest or best teaching for code. I also think the videos which we need to make by the end is boring and way to much work in an already very workoverloaded course, this is a five ects-course. I would like the videos to show more code and less silly.
+
+## Peergrade & platforms
+* I think the peergrade questions could be improved. The questions were very abstract and most of my peers had their own interpretation of the questions. This resulted in feedback that were not useful at alll, very subjective and even wrong feedback. I used peergrade a lot before and it can work out really well - but the questions should be very concrete and force people to be objective in the feedback.  I also think the scale used in peergrade (below expectations, meets expectations and exceeds expectations) could be improved, so it relates more to (objective) correctness instead of something subjective as expectations. I think an assignment should be rated according to how it is formulated and not according to other students' expectations.   
+
+* If we just used DTU Learn instead of Github, you can link peergrade through learn and then we don't have to have the gitlab, learn, peergrade and slack. Everything would just be in one place. Also using slack there is a lot of noise on the channels so I ended up having to mute the whole thing but then I have to remember to go on there and check for announcements from Sune. But if it were through learn I would get an email with important announcements. We could also have slack + learn and use slack for asking questions, but then at least its less platforms used for the course. Also uploading a .ipynb to learn lets us download it directly as .ipynb file, through github it's not as straight forward unless we clone the whole repo.
+
+* I am not a believer in peer grading and I wish the class was less reliant on it.
+
+
+## Misc
+* Also it feels like the class is super easy for Sune to manage - almost too easy :D 
+
+* Furthermore, I really want to stress how **unnecessary and time consuming it is to make videos and a website which are not part of the learning objectives** and what we enrolled in the course to learn (also my experience from social graphs). It takes a lot of time extra time (too much) and I would rather prioritize diving more in to the field of visualisations. Of course we spent a lot of time on e.g. putting together a video, when we are not completely sure how this will be graded, and I have no(!) interest in being good at producing a video and spending all of that time doing irrelevant video stuff - so cut that part pleaaase.
+
+
+## Nothing big is wrong
+* Honestly, it's hard to come up with something. It's my first semester on DTU so I don't really have a benchmark between DTU classes but compared to the other courses I have this is one of the best. Just one thing I don't like about this course it's the building 358 where classes take place because it's on the edge of the campus and takes time to get there (especially unpleasant in the mornings). I guess if the building is the worst thing about the course it's preety good.
+
+* To be honest, I really enjoy the class and feel like I'm learning a lot every time, so great job.
+
+* There is nothing special I would like to change, just the lack of lectures, which is not so important.
+
+* I like the flipped concept (less lecturing and more problems to solve).
+
+
+
+
+
+
+
+
+
+
