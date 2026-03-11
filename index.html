@@ -3,97 +3,870 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sune Lehmann</title>
+  <title>Sune Lehmann — Networks, Complexity, Data</title>
+  <meta name="description" content="Sune Lehmann is a Professor of Networks and Complexity Science at DTU and Professor of Social Data Science at the University of Copenhagen.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
+    :root {
+      --bg: #f4f1eb;
+      --bg-warm: #ede8df;
+      --text: #1a1a2e;
+      --text-muted: #5a5a6e;
+      --accent: #2d5f6a;
+      --accent-light: #3a7d8a;
+      --accent-faint: rgba(45, 95, 106, 0.08);
+      --rule: rgba(26, 26, 46, 0.12);
+      --serif: "Cormorant Garamond", "Georgia", serif;
+      --sans: "Outfit", "Helvetica Neue", sans-serif;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html {
+      scroll-behavior: smooth;
+      font-size: 18px;
+    }
+
     body {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      color: #222;
-      background: #fafafa;
-      line-height: 1.6;
-      padding: 3rem 1.5rem;
-      max-width: 640px;
+      font-family: var(--sans);
+      font-weight: 300;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ---- Layout ---- */
+    .page {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 820px;
       margin: 0 auto;
+      padding: 0 2rem;
     }
 
-    h1 {
-      font-size: 1.8rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .title {
-      color: #555;
-      font-size: 0.95rem;
-      margin-bottom: 2rem;
-    }
-
-    p {
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
-    }
-
-    h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-top: 2rem;
-      margin-bottom: 0.75rem;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    ul li {
-      margin-bottom: 0.4rem;
-      font-size: 0.95rem;
-    }
-
-    a {
-      color: #1a6ea0;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .links {
+    /* ---- Hero ---- */
+    .hero {
+      min-height: 100vh;
       display: flex;
-      flex-wrap: wrap;
-      gap: 1.25rem;
-      margin-top: 0.5rem;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-content {
+      padding: 4rem 0;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: 4.2rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .hero .subtitle {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text-muted);
+      line-height: 1.5;
+      max-width: 540px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .hero .affiliations {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+
+    .hero .affiliations span {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.8s forwards;
+    }
+
+    .scroll-hint span {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: var(--accent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* ---- Sections ---- */
+    section {
+      padding: 5rem 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    section h2 {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      letter-spacing: -0.01em;
+    }
+
+    section h2 .section-num {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    section p {
+      font-size: 1rem;
+      max-width: 600px;
+      margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+
+    /* ---- About ---- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 1rem;
+    }
+
+    .about-col p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .about-col p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ---- Research areas ---- */
+    .research-areas {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .area-card {
+      background: var(--accent-faint);
+      border: 1px solid var(--rule);
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .area-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(26, 26, 46, 0.06);
+    }
+
+    .area-card h3 {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .area-card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    /* ---- D3 Network ---- */
+    .network-section {
+      background: var(--bg-warm);
+    }
+
+    .network-section .section-intro {
+      max-width: 600px;
+    }
+
+    #network-container {
+      width: 100%;
+      height: 480px;
+      margin-top: 2rem;
+      border: 1px solid var(--rule);
+      background: var(--bg);
+      position: relative;
+      cursor: grab;
+      overflow: hidden;
+    }
+
+    #network-container:active {
+      cursor: grabbing;
+    }
+
+    #network-container svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .network-hint {
+      position: absolute;
+      bottom: 1rem;
+      right: 1.25rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      opacity: 0.6;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .network-tooltip {
+      position: absolute;
+      padding: 0.4rem 0.75rem;
+      background: var(--text);
+      color: var(--bg);
+      font-size: 0.75rem;
+      font-family: var(--sans);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      white-space: nowrap;
+    }
+
+    /* ---- Teaching ---- */
+    .teaching-list {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .teaching-list li {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .teaching-list li:last-child {
+      border-bottom: none;
+    }
+
+    .course-name {
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+
+    .course-code {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* ---- Background ---- */
+    .timeline {
+      margin-top: 1.5rem;
+      position: relative;
+      padding-left: 1.5rem;
+      border-left: 1px solid var(--rule);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 1.75rem;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -1.5rem;
+      top: 0.45rem;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translateX(-50%);
+    }
+
+    .timeline-year {
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .timeline-role {
+      font-size: 0.95rem;
+      margin-top: 0.15rem;
+    }
+
+    .timeline-place {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ---- Links / Connect ---- */
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--accent-faint);
+      border: 1px solid var(--rule);
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    .link-card:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(45, 95, 106, 0.15);
+    }
+
+    .link-card:hover .link-icon {
+      color: #fff;
+    }
+
+    .link-icon {
+      font-size: 1.4rem;
+      color: var(--accent);
+      transition: color 0.3s ease;
+      flex-shrink: 0;
+      width: 1.6rem;
+      text-align: center;
+    }
+
+    .link-label {
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+
+    .link-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transition: color 0.3s ease;
+    }
+
+    .link-card:hover .link-desc {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      padding: 3rem 0;
+      border-top: 1px solid var(--rule);
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      max-width: 100%;
+    }
+
+    /* ---- Scroll animations ---- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---- Keyframes ---- */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; }
+      50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 768px) {
+      html { font-size: 16px; }
+      .hero h1 { font-size: 2.8rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .research-areas { grid-template-columns: 1fr; }
+      .link-grid { grid-template-columns: 1fr; }
+      .container { padding: 0 1.25rem; }
+      section { padding: 3.5rem 0; }
+      #network-container { height: 380px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 2.2rem; }
+      .hero .subtitle { font-size: 1.1rem; }
+      #network-container { height: 300px; }
     }
   </style>
 </head>
 <body>
 
-  <h1>Sune Lehmann</h1>
-  <p class="title">
-    Professor of Networks and Complexity Science, DTU Compute<br>
-    Professor of Social Data Science, University of Copenhagen
-  </p>
+<div class="page">
 
-  <p>
-    I study quantitative patterns in social systems using large-scale data.
-    My work draws on physics, machine learning, and statistics to
-    understand complex networks, human mobility, sleep, disease
-    transmission, information spreading, and social media dynamics.
-  </p>
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Sune Lehmann</h1>
+        <p class="subtitle">
+          Studying the hidden patterns of social systems through networks, data, and complexity science.
+        </p>
+        <div class="affiliations">
+          <span>Professor of Networks &amp; Complexity Science &mdash; DTU Compute</span>
+          <span>Professor of Social Data Science &mdash; University of Copenhagen</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </header>
 
-  <p>
-    With Laura Alessandretti, I direct the <a href="https://sunelehmann.com">Social Complexity Lab</a>.
-  </p>
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <h2 class="reveal"><span class="section-num">About</span>Research &amp; Perspective</h2>
+      <div class="about-grid">
+        <div class="about-col reveal">
+          <p>
+            My work focuses on developing a quantitative understanding of social systems based on
+            massive datasets. Trained as a physicist, I use methods from complex systems,
+            machine learning, and statistics to make sense of human behavior at scale.
+          </p>
+          <p>
+            With Laura Alessandretti, I direct the
+            <a href="https://sunelehmann.com">Social Complexity Lab</a>,
+            where we study everything from how people move through cities to how
+            information spreads through networks.
+          </p>
+        </div>
+        <div class="about-col reveal">
+          <p>
+            I am a member of the Danish Royal Academy of Sciences and Letters.
+            During the COVID-19 pandemic, I served on a Danish government task force
+            modeling disease spread, and contributed to the development of the national
+            contact tracing app.
+          </p>
+          <p>
+            I have published 112 papers, including work in Nature, Nature Physics, Science Advances,
+            PNAS, and Nature Human Behaviour.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <h2>Links</h2>
-  <div class="links">
-    <a href="https://sunelehmann.com">Blog</a>
-    <a href="https://bsky.app/profile/sunelehmann.com">Bluesky</a>
-    <a href="https://scholar.google.dk/citations?hl=en&user=wvkUbiUAAAAJ">Google Scholar</a>
-    <a href="https://github.com/suneman">GitHub</a>
-  </div>
+  <!-- Research -->
+  <section id="research">
+    <div class="container">
+      <h2 class="reveal"><span class="section-num">Research</span>Areas of Focus</h2>
+      <div class="research-areas">
+        <div class="area-card reveal">
+          <h3>Complex Networks</h3>
+          <p>Community detection, temporal networks, and the structure of large-scale social systems.</p>
+        </div>
+        <div class="area-card reveal">
+          <h3>Human Mobility</h3>
+          <p>How people move through cities and across borders, and what mobility patterns reveal about society.</p>
+        </div>
+        <div class="area-card reveal">
+          <h3>Computational Social Science</h3>
+          <p>Applying physics and machine learning to understand behavior, sleep, academic performance, and health.</p>
+        </div>
+        <div class="area-card reveal">
+          <h3>Information Spreading</h3>
+          <p>How ideas, news, and misinformation propagate through social media and communication networks.</p>
+        </div>
+        <div class="area-card reveal">
+          <h3>Epidemic Modeling</h3>
+          <p>Modeling disease transmission dynamics using network science and large-scale behavioral data.</p>
+        </div>
+        <div class="area-card reveal">
+          <h3>Social Media Dynamics</h3>
+          <p>Quantitative analysis of online behavior, platform effects, and digital social systems.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Network -->
+  <section id="network" class="network-section">
+    <div class="container">
+      <h2 class="reveal"><span class="section-num">Interactive</span>A Small Network</h2>
+      <p class="reveal section-intro">
+        Networks are at the heart of my research. Drag the nodes below to explore
+        a force-directed graph &mdash; a model of how connected systems self-organize.
+      </p>
+      <div id="network-container" class="reveal">
+        <span class="network-hint">Drag nodes to interact</span>
+        <div class="network-tooltip"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teaching -->
+  <section id="teaching">
+    <div class="container">
+      <h2 class="reveal"><span class="section-num">Teaching</span>Courses at DTU</h2>
+      <p class="reveal">I teach courses on social data analysis and network science. Materials are open on GitHub.</p>
+      <ul class="teaching-list">
+        <li class="reveal">
+          <span class="course-name">Social Data Analysis and Visualization</span>
+          <span class="course-code">02806 &middot; DTU</span>
+        </li>
+        <li class="reveal">
+          <span class="course-name">Social Graphs and Interactions</span>
+          <span class="course-code">02805 &middot; DTU</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Background -->
+  <section id="background">
+    <div class="container">
+      <h2 class="reveal"><span class="section-num">Background</span>Path</h2>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-year">Current</div>
+          <div class="timeline-role">Professor, DTU Compute &amp; SODAS, University of Copenhagen</div>
+          <div class="timeline-place">Technical University of Denmark &middot; Copenhagen</div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-year">Postdoc</div>
+          <div class="timeline-role">Postdoctoral Fellow</div>
+          <div class="timeline-place">Institute for Quantitative Social Science &middot; Harvard University</div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-year">Postdoc</div>
+          <div class="timeline-role">Postdoctoral Fellow &amp; Researcher</div>
+          <div class="timeline-place">Center for Complex Network Research &middot; Northeastern University</div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-year">Ph.D. 2007</div>
+          <div class="timeline-role">Complex Networks</div>
+          <div class="timeline-place">Technical University of Denmark</div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-year">M.Sc. 2003</div>
+          <div class="timeline-role">Physics</div>
+          <div class="timeline-place">Niels Bohr Institute &middot; University of Copenhagen</div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-year">B.Sc. 2001</div>
+          <div class="timeline-role">Physics</div>
+          <div class="timeline-place">Niels Bohr Institute &middot; University of Copenhagen</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Connect -->
+  <section id="connect">
+    <div class="container">
+      <h2 class="reveal"><span class="section-num">Connect</span>Find Me Online</h2>
+      <div class="link-grid">
+        <a class="link-card reveal" href="https://sunelehmann.com">
+          <span class="link-icon">&para;</span>
+          <div>
+            <div class="link-label">Blog</div>
+            <div class="link-desc">Intermittent updates on research &amp; life</div>
+          </div>
+        </a>
+        <a class="link-card reveal" href="https://bsky.app/profile/sunelehmann.com">
+          <span class="link-icon">&#9678;</span>
+          <div>
+            <div class="link-label">Bluesky</div>
+            <div class="link-desc">@sunelehmann.com</div>
+          </div>
+        </a>
+        <a class="link-card reveal" href="https://scholar.google.dk/citations?hl=en&user=wvkUbiUAAAAJ">
+          <span class="link-icon">&#9830;</span>
+          <div>
+            <div class="link-label">Google Scholar</div>
+            <div class="link-desc">Full publication list &amp; citations</div>
+          </div>
+        </a>
+        <a class="link-card reveal" href="https://github.com/suneman">
+          <span class="link-icon">&#9000;</span>
+          <div>
+            <div class="link-label">GitHub</div>
+            <div class="link-desc">Course materials &amp; code</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Sune Lehmann &middot; DTU Compute &middot; University of Copenhagen</p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// ---- D3 Force-Directed Network ----
+(function() {
+  const container = document.getElementById('network-container');
+  const tooltip = container.querySelector('.network-tooltip');
+  const hint = container.querySelector('.network-hint');
+  let hasDragged = false;
+
+  // Generate a network with community structure
+  const groups = [
+    { id: 'mobility', label: 'Human Mobility', color: '#2d5f6a' },
+    { id: 'networks', label: 'Complex Networks', color: '#6a4c2d' },
+    { id: 'spreading', label: 'Information Spreading', color: '#4c2d6a' },
+    { id: 'health', label: 'Health & Epidemics', color: '#6a2d4c' },
+    { id: 'social', label: 'Social Systems', color: '#2d6a4c' }
+  ];
+
+  const nodes = [];
+  const links = [];
+  let nodeId = 0;
+
+  // Create clustered nodes per group
+  groups.forEach((g, gi) => {
+    const size = 8 + Math.floor(Math.random() * 5);
+    const groupNodes = [];
+    for (let i = 0; i < size; i++) {
+      const node = {
+        id: nodeId++,
+        group: gi,
+        label: g.label,
+        color: g.color,
+        r: 3 + Math.random() * 5
+      };
+      nodes.push(node);
+      groupNodes.push(node);
+    }
+
+    // Dense intra-group links
+    for (let i = 0; i < groupNodes.length; i++) {
+      for (let j = i + 1; j < groupNodes.length; j++) {
+        if (Math.random() < 0.4) {
+          links.push({ source: groupNodes[i].id, target: groupNodes[j].id, intra: true });
+        }
+      }
+    }
+  });
+
+  // Sparse inter-group links
+  for (let i = 0; i < groups.length; i++) {
+    for (let j = i + 1; j < groups.length; j++) {
+      const nodesA = nodes.filter(n => n.group === i);
+      const nodesB = nodes.filter(n => n.group === j);
+      const bridgeCount = 1 + Math.floor(Math.random() * 3);
+      for (let b = 0; b < bridgeCount; b++) {
+        const a = nodesA[Math.floor(Math.random() * nodesA.length)];
+        const c = nodesB[Math.floor(Math.random() * nodesB.length)];
+        links.push({ source: a.id, target: c.id, intra: false });
+      }
+    }
+  }
+
+  function render() {
+    const rect = container.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+
+    // Clear previous
+    d3.select(container).select('svg').remove();
+
+    const svg = d3.select(container)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
+
+    const simulation = d3.forceSimulation(nodes)
+      .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.intra ? 30 : 80).strength(d => d.intra ? 0.6 : 0.1))
+      .force('charge', d3.forceManyBody().strength(-60))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('collision', d3.forceCollide().radius(d => d.r + 2))
+      .force('x', d3.forceX(width / 2).strength(0.04))
+      .force('y', d3.forceY(height / 2).strength(0.04));
+
+    const link = svg.append('g')
+      .selectAll('line')
+      .data(links)
+      .join('line')
+      .attr('stroke', d => d.intra ? 'rgba(45, 95, 106, 0.15)' : 'rgba(45, 95, 106, 0.07)')
+      .attr('stroke-width', d => d.intra ? 0.8 : 0.5);
+
+    const node = svg.append('g')
+      .selectAll('circle')
+      .data(nodes)
+      .join('circle')
+      .attr('r', d => d.r)
+      .attr('fill', d => d.color)
+      .attr('fill-opacity', 0.7)
+      .attr('stroke', d => d.color)
+      .attr('stroke-width', 0.5)
+      .attr('stroke-opacity', 0.3)
+      .attr('cursor', 'grab')
+      .on('mouseover', function(event, d) {
+        d3.select(this)
+          .transition().duration(150)
+          .attr('fill-opacity', 1)
+          .attr('r', d.r * 1.4);
+
+        // Highlight connected
+        const connected = new Set();
+        links.forEach(l => {
+          const sid = typeof l.source === 'object' ? l.source.id : l.source;
+          const tid = typeof l.target === 'object' ? l.target.id : l.target;
+          if (sid === d.id) connected.add(tid);
+          if (tid === d.id) connected.add(sid);
+        });
+
+        node.attr('fill-opacity', n => n.id === d.id || connected.has(n.id) ? 0.9 : 0.15);
+        link.attr('stroke-opacity', l => {
+          const sid = typeof l.source === 'object' ? l.source.id : l.source;
+          const tid = typeof l.target === 'object' ? l.target.id : l.target;
+          return (sid === d.id || tid === d.id) ? 0.6 : 0.03;
+        });
+
+        tooltip.textContent = d.label;
+        tooltip.style.opacity = '1';
+        const cr = container.getBoundingClientRect();
+        tooltip.style.left = (event.clientX - cr.left + 12) + 'px';
+        tooltip.style.top = (event.clientY - cr.top - 10) + 'px';
+      })
+      .on('mousemove', function(event) {
+        const cr = container.getBoundingClientRect();
+        tooltip.style.left = (event.clientX - cr.left + 12) + 'px';
+        tooltip.style.top = (event.clientY - cr.top - 10) + 'px';
+      })
+      .on('mouseout', function(event, d) {
+        d3.select(this)
+          .transition().duration(150)
+          .attr('fill-opacity', 0.7)
+          .attr('r', d.r);
+        node.attr('fill-opacity', 0.7);
+        link.attr('stroke-opacity', 1).attr('stroke', l => l.intra ? 'rgba(45, 95, 106, 0.15)' : 'rgba(45, 95, 106, 0.07)');
+        tooltip.style.opacity = '0';
+      })
+      .call(d3.drag()
+        .on('start', (event, d) => {
+          if (!hasDragged) { hasDragged = true; hint.style.opacity = '0'; }
+          if (!event.active) simulation.alphaTarget(0.3).restart();
+          d.fx = d.x; d.fy = d.y;
+        })
+        .on('drag', (event, d) => {
+          d.fx = event.x; d.fy = event.y;
+        })
+        .on('end', (event, d) => {
+          if (!event.active) simulation.alphaTarget(0);
+          d.fx = null; d.fy = null;
+        })
+      );
+
+    simulation.on('tick', () => {
+      link
+        .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+      node
+        .attr('cx', d => d.x).attr('cy', d => d.y);
+    });
+  }
+
+  // Render when section becomes visible
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        render();
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  observer.observe(container);
+
+  // Re-render on resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(render, 200);
+  });
+})();
+
+// ---- Scroll reveal ----
+(function() {
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  reveals.forEach(el => observer.observe(el));
+})();
+</script>
 
 </body>
 </html>
