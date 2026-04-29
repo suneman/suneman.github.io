@@ -1,0 +1,77 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("pages", ({ data }) => data.status === "publish");
+  return pages.map((page) => ({
+    params: { page: page.data.slug ?? page.id },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+
+<BaseLayout title={page.data.title}>
+  <article class="page">
+    <h1>{page.data.title}</h1>
+    <div class="page-body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .page h1 {
+    margin: 0;
+    font-size: clamp(2rem, 4.4vw, 2.75rem);
+    letter-spacing: -0.01em;
+  }
+
+  .page-body {
+    font-size: 1.05rem;
+  }
+
+  .page-body :global(p) {
+    margin: 1em 0;
+  }
+
+  .page-body :global(h2) {
+    margin: 2em 0 0.5em;
+    font-size: 1.4rem;
+  }
+
+  .page-body :global(h3) {
+    margin: 1.5em 0 0.4em;
+    font-size: 1.15rem;
+  }
+
+  .page-body :global(img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5em auto;
+  }
+
+  .page-body :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 2.5em 0;
+  }
+
+  .page-body :global(blockquote) {
+    margin: 1.5em 0;
+    padding-left: 1em;
+    border-left: 2px solid var(--accent);
+    color: var(--fg-muted);
+    font-style: italic;
+  }
+</style>

@@ -1,0 +1,222 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  date: string | Date;
+  description?: string;
+  categories?: string[];
+  tags?: string[];
+  images?: string[];
+  original_url?: string;
+}
+
+const {
+  title,
+  date,
+  description,
+  categories = [],
+  tags = [],
+  images = [],
+  original_url,
+} = Astro.props;
+
+const dateObj = date instanceof Date ? date : new Date(date);
+const isoDate = dateObj.toISOString();
+const displayDate = dateObj.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+// Use the first post image as og:image when available, fall back to site default
+const postOgImage = images[0];
+---
+
+<BaseLayout title={title} description={description} ogImage={postOgImage}>
+  <article class="post">
+    <header class="post-header">
+      <h1>{title}</h1>
+      <p class="post-meta">
+        <time datetime={isoDate}>{displayDate}</time>
+        {categories.length > 0 && (
+          <>
+            <span class="post-meta__sep" aria-hidden="true">·</span>
+            <span class="post-categories">{categories.join(", ")}</span>
+          </>
+        )}
+      </p>
+    </header>
+
+    <div class="post-body">
+      <slot />
+    </div>
+
+    <footer class="post-footer">
+      {tags.length > 0 && (
+        <ul class="post-tags" aria-label="Tags">
+          {tags.map((tag) => (
+            <li>#{tag}</li>
+          ))}
+        </ul>
+      )}
+
+      <p class="post-back">
+        <a href="/blog">← All posts</a>
+      </p>
+
+      {original_url && (
+        <p class="post-original">
+          Originally published at{" "}
+          <a href={original_url} rel="nofollow">{original_url}</a>.
+        </p>
+      )}
+    </footer>
+  </article>
+
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <style>
+    .post {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .post-header h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(2rem, 4.4vw, 2.75rem);
+      letter-spacing: -0.01em;
+    }
+
+    .post-meta {
+      margin: 0;
+      color: var(--fg-muted);
+      font-size: 0.9rem;
+    }
+
+    .post-meta__sep {
+      margin: 0 0.4em;
+    }
+
+    .post-categories {
+      color: inherit;
+    }
+
+    .post-body {
+      font-size: 1.05rem;
+    }
+
+    .post-body :global(p) {
+      margin: 1em 0;
+    }
+
+    .post-body :global(img) {
+      max-width: 100%;
+      height: auto;
+      border-radius: 2px;
+      margin: 1.5em auto;
+      display: block;
+    }
+
+    .post-body :global(figure) {
+      margin: 1.5em 0;
+    }
+
+    /* YouTube embed wrapper — responsive 16:9 box */
+    .post-body :global(.embed--youtube) {
+      position: relative;
+      padding-top: 56.25%;
+      margin: 1.5em 0;
+      background: var(--rule);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .post-body :global(.embed--youtube iframe) {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Twitter blockquote sits centered while widgets.js upgrades it */
+    .post-body :global(blockquote.twitter-tweet) {
+      margin: 1.5em auto;
+      max-width: 550px;
+    }
+
+    .post-body :global(blockquote) {
+      margin: 1.5em 0;
+      padding-left: 1em;
+      border-left: 2px solid var(--accent);
+      color: var(--fg-muted);
+      font-style: italic;
+    }
+
+    .post-body :global(pre),
+    .post-body :global(code) {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    .post-body :global(pre) {
+      background: color-mix(in srgb, var(--fg) 5%, transparent);
+      padding: 1em;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+    }
+
+    .post-body :global(:not(pre) > code) {
+      background: color-mix(in srgb, var(--fg) 8%, transparent);
+      padding: 0.1em 0.3em;
+      border-radius: 3px;
+      font-size: 0.95em;
+    }
+
+    .post-body :global(hr) {
+      border: 0;
+      border-top: 1px solid var(--rule);
+      margin: 2.5em auto;
+      width: 4rem;
+    }
+
+    .post-footer {
+      border-top: 1px solid var(--rule);
+      padding-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .post-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .post-tags li {
+      color: var(--fg-muted);
+    }
+
+    .post-back {
+      margin: 0;
+    }
+
+    .post-original {
+      margin: 0;
+      color: var(--fg-muted);
+      font-size: 0.85rem;
+    }
+
+    .post-original a {
+      color: inherit;
+      text-decoration-color: var(--rule);
+    }
+  </style>
+</BaseLayout>

@@ -1,0 +1,344 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const PORTRAITS = [
+  "astronaut",
+  "beekeeper",
+  "cowboy",
+  "disco_dancer",
+  "fireman",
+  "mad_scientist",
+  "samurai",
+  "scuba_diver",
+  "skinny_black_tie",
+  "toreador",
+];
+
+const posts = (await getCollection("posts", ({ data }) => data.status === "publish"))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const recentPosts = posts.slice(0, 5);
+---
+
+<BaseLayout wide>
+  <section class="hero" aria-label="Hero">
+    <div class="hero__art" aria-hidden="true">
+      <canvas class="hero__cell"></canvas>
+      <canvas class="hero__cell"></canvas>
+      <canvas class="hero__cell"></canvas>
+      <canvas class="hero__cell"></canvas>
+      <canvas class="hero__cell"></canvas>
+    </div>
+
+    <div class="hero__portrait-wrap">
+      <img
+        id="hero-portrait"
+        class="hero__portrait"
+        width="1254"
+        height="1254"
+        alt="Portrait of Sune Lehmann"
+        decoding="async"
+        data-portraits={PORTRAITS.join(",")}
+      />
+      <script is:inline>
+        (function () {
+          var img = document.getElementById("hero-portrait");
+          var list = img.getAttribute("data-portraits").split(",");
+          var pick = list[Math.floor(Math.random() * list.length)];
+          img.src = "/photos/" + pick + ".jpg";
+          img.dataset.portrait = pick;
+        })();
+      </script>
+      <noscript>
+        <style>#hero-portrait { display: none; }</style>
+        <img class="hero__portrait" src="/photos/skinny_black_tie.jpg" alt="Portrait of Sune Lehmann" />
+      </noscript>
+    </div>
+
+    <script is:inline>
+      (function () {
+        var cells = document.querySelectorAll(".hero__cell");
+        if (!cells.length) return;
+
+        // Curated Clifford attractor parameter sets (a, b, c, d) drawn from
+        // canonical references (Paul Bourke et al). Each gives a visually
+        // distinct, non-degenerate orbit. The runtime filter below also
+        // rejects any whose bounding box collapses to a small region.
+        var PARAMS = [
+          [-1.4, 1.6, 1.0, 0.7],
+          [-1.7, 1.3, -0.1, -1.2],
+          [-1.8, -2.0, -0.5, -0.9],
+          [1.7, 1.7, 0.6, 1.2],
+          [-1.7, 1.3, 0.5, 1.4],
+          [1.6, -0.6, -1.2, 1.6],
+          [-2.0, -2.0, -1.2, 2.0],
+          [1.5, -1.8, 1.6, 0.9],
+          [-1.7, 1.8, -1.9, -0.4],
+          [-1.1, 1.2, -1.0, 1.7],
+          [-2.0, -1.7, 1.6, 1.7],
+          [-1.24, -1.25, -1.81, -1.91],
+        ];
+
+        // Subtle in-theme palette: variations around burnt sienna #A0431E.
+        // Stays earthy/warm — slight shifts in hue, saturation, depth.
+        var COLORS = [
+          [160, 67, 30],   // burnt sienna (canonical accent)
+          [140, 60, 40],   // darker, more brown
+          [180, 82, 38],   // brighter, more orange
+          [148, 50, 28],   // deeper, redder
+          [170, 95, 55],   // softer, terra cotta
+        ];
+
+        function computeBbox(a, b, c, d) {
+          var x = 0.0, y = 0.0;
+          var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+          for (var i = 0; i < 4000; i++) {
+            var xn = Math.sin(a * y) + c * Math.cos(a * x);
+            var yn = Math.sin(b * x) + d * Math.cos(b * y);
+            x = xn; y = yn;
+            if (i > 200) {
+              if (x < minX) minX = x;
+              if (x > maxX) maxX = x;
+              if (y < minY) minY = y;
+              if (y > maxY) maxY = y;
+            }
+          }
+          return { minX: minX, maxX: maxX, minY: minY, maxY: maxY };
+        }
+
+        function drawCell(canvas, paramIdx, colorIdx, bbox) {
+          var rect = canvas.getBoundingClientRect();
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          var W = Math.max(1, Math.floor(rect.width * dpr));
+          var H = Math.max(1, Math.floor(rect.height * dpr));
+          canvas.width = W;
+          canvas.height = H;
+
+          var ctx = canvas.getContext("2d");
+          if (!ctx) return;
+
+          var p = PARAMS[paramIdx];
+          var a = p[0], b = p[1], c = p[2], d = p[3];
+
+          var pad = 0.1;
+          var spanX = (bbox.maxX - bbox.minX) || 1;
+          var spanY = (bbox.maxY - bbox.minY) || 1;
+          var scale = Math.min(
+            (W * (1 - 2 * pad)) / spanX,
+            (H * (1 - 2 * pad)) / spanY
+          );
+          var ox = W / 2 - scale * (bbox.minX + bbox.maxX) / 2;
+          var oy = H / 2 - scale * (bbox.minY + bbox.maxY) / 2;
+
+          var color = COLORS[colorIdx];
+          ctx.fillStyle = "rgba(" + color[0] + "," + color[1] + "," + color[2] + ",0.07)";
+          var dot = Math.max(1, Math.round(dpr * 1.6));
+          var x = 0.0, y = 0.0;
+          var ITER = 60000;
+          for (var j = 0; j < ITER; j++) {
+            var xn2 = Math.sin(a * y) + c * Math.cos(a * x);
+            var yn2 = Math.sin(b * x) + d * Math.cos(b * y);
+            x = xn2; y = yn2;
+            if (j < 200) continue;
+            var px = scale * x + ox;
+            var py = scale * y + oy;
+            ctx.fillRect(px, py, dot, dot);
+          }
+
+          canvas.dataset.attractor = "clifford-" + paramIdx + "-c" + colorIdx;
+        }
+
+        function drawAll() {
+          // Precompute bboxes once and filter to non-degenerate orbits only —
+          // a span < 1.5 in either axis means the orbit collapsed to a point or
+          // small loop and would render as just a dot in the cell's center.
+          var MIN_SPAN = 1.5;
+          var goodParams = [];
+          var goodBboxes = [];
+          for (var i = 0; i < PARAMS.length; i++) {
+            var p = PARAMS[i];
+            var bbox = computeBbox(p[0], p[1], p[2], p[3]);
+            var sx = bbox.maxX - bbox.minX;
+            var sy = bbox.maxY - bbox.minY;
+            if (sx >= MIN_SPAN && sy >= MIN_SPAN && isFinite(sx) && isFinite(sy)) {
+              goodParams.push(i);
+              goodBboxes.push(bbox);
+            }
+          }
+          if (goodParams.length === 0) return; // unreachable for curated list
+
+          // Sample params and colors without replacement so adjacent cells differ.
+          var paramPool = goodParams.slice();
+          var bboxPool = goodBboxes.slice();
+          var colorPool = COLORS.map(function (_, i) { return i; });
+          for (var k = 0; k < cells.length; k++) {
+            if (paramPool.length === 0) {
+              paramPool = goodParams.slice();
+              bboxPool = goodBboxes.slice();
+            }
+            if (colorPool.length === 0) {
+              colorPool = COLORS.map(function (_, i) { return i; });
+            }
+            var pi = Math.floor(Math.random() * paramPool.length);
+            var ci = Math.floor(Math.random() * colorPool.length);
+            var paramIdx = paramPool.splice(pi, 1)[0];
+            var bbox2 = bboxPool.splice(pi, 1)[0];
+            var colorIdx = colorPool.splice(ci, 1)[0];
+            drawCell(cells[k], paramIdx, colorIdx, bbox2);
+          }
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", drawAll);
+        } else {
+          drawAll();
+        }
+      })();
+    </script>
+  </section>
+
+  <section class="landing">
+    <p class="landing__bio">
+      You have arrived at Sune Lehmann's site. I (Sune) am a Professor of
+      Networks and Complexity Science at the Technical University of Denmark
+      (DTU), and also a Professor of Social Data Science at the University of
+      Copenhagen. A physicist by training, my research uses massive datasets
+      and methods from complex systems, machine learning, and network science
+      to understand human behavior — from how we move through cities to how
+      information spreads online. I'm a member of the Royal Danish Academy of
+      Sciences and Letters and Chief Scientist at the Danish National Center
+      for AI in Society (CAISA).
+    </p>
+
+    <section class="landing__recent" aria-labelledby="recent-heading">
+      <h2 id="recent-heading">Recent posts</h2>
+      <ul class="post-list">
+        {recentPosts.map((post) => {
+          const slug = post.data.slug ?? post.id;
+          return (
+            <li>
+              <a href={`/blog/${slug}`}>{post.data.title}</a>
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </time>
+            </li>
+          );
+        })}
+      </ul>
+      <p class="landing__more">
+        <a href="/blog">All posts ({posts.length}) →</a>
+      </p>
+    </section>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    width: 100%;
+    max-width: 55.5rem;
+    aspect-ratio: 6 / 1;
+    min-height: 80px;
+    margin: clamp(1rem, 3vw, 2rem) auto 0;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .hero__art {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    min-width: 0;
+  }
+
+  .hero__cell {
+    flex: 1 1 0;
+    height: 100%;
+    width: 0;
+    min-width: 0;
+    display: block;
+  }
+
+  .hero__portrait-wrap {
+    flex: none;
+    aspect-ratio: 1 / 1;
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .hero__portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 18px;
+  }
+
+  .landing {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: clamp(1rem, 3vw, 2rem) var(--gutter) clamp(2rem, 6vw, 4rem);
+  }
+
+  .landing__bio {
+    font-size: 1.05rem;
+    margin: 0 0 3rem;
+  }
+
+  .landing__recent h2 {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-muted);
+    font-weight: 500;
+    margin: 0 0 1rem;
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .post-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+
+  .post-list a {
+    color: var(--fg);
+    text-decoration: none;
+    flex: 1;
+  }
+
+  .post-list a:hover {
+    color: var(--accent);
+  }
+
+  .post-list time {
+    color: var(--fg-muted);
+    font-size: 0.875rem;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .landing__more {
+    margin: 1rem 0 0;
+    font-size: 0.95rem;
+  }
+</style>
