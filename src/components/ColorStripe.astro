@@ -1,0 +1,43 @@
+---
+interface Props {
+  thickness?: string;
+  maxWidth?: string;
+  margin?: string;
+  class?: string;
+}
+
+const {
+  thickness = "4px",
+  maxWidth = "none",
+  margin = "0",
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class:list={["color-stripe", className]}
+  aria-hidden="true"
+  style={`--stripe-thickness: ${thickness}; --stripe-max: ${maxWidth}; --stripe-margin: ${margin};`}
+>
+  <span style="background:var(--accent)"></span>
+  <span style="background:var(--accent-clay)"></span>
+  <span style="background:var(--accent-mustard)"></span>
+  <span style="background:var(--accent-olive)"></span>
+  <span style="background:var(--accent-teal)"></span>
+  <span style="background:var(--accent-oxblood)"></span>
+</div>
+
+<style>
+  .color-stripe {
+    display: flex;
+    width: 100%;
+    height: var(--stripe-thickness, 4px);
+    max-width: var(--stripe-max, none);
+    margin: var(--stripe-margin, 0);
+  }
+
+  .color-stripe span {
+    flex: 1;
+    display: block;
+  }
+</style>

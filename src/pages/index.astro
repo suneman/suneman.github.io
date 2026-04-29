@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ColorStripe from "../components/ColorStripe.astro";
 
 const PORTRAITS = [
   "astronaut",
@@ -80,14 +81,16 @@ const recentPosts = posts.slice(0, 5);
           [-1.24, -1.25, -1.81, -1.91],
         ];
 
-        // Subtle in-theme palette: variations around burnt sienna #A0431E.
-        // Stays earthy/warm — slight shifts in hue, saturation, depth.
+        // Site's 6-color earth palette. Same family as --accent and friends
+        // in the global tokens; kept inline here so the canvas script doesn't
+        // need to read CSS custom properties.
         var COLORS = [
-          [160, 67, 30],   // burnt sienna (canonical accent)
-          [140, 60, 40],   // darker, more brown
-          [180, 82, 38],   // brighter, more orange
-          [148, 50, 28],   // deeper, redder
-          [170, 95, 55],   // softer, terra cotta
+          [184, 69, 30],    // burnt sienna   (--accent)
+          [217, 106, 44],   // terracotta     (--accent-clay)
+          [232, 177, 38],   // mustard ochre  (--accent-mustard)
+          [126, 141, 32],   // olive          (--accent-olive)
+          [16, 112, 120],   // deep teal      (--accent-teal)
+          [153, 44, 68],    // oxblood        (--accent-oxblood)
         ];
 
         function computeBbox(a, b, c, d) {
@@ -198,6 +201,12 @@ const recentPosts = posts.slice(0, 5);
     </script>
   </section>
 
+  <ColorStripe
+    thickness="6px"
+    maxWidth="55.5rem"
+    margin="clamp(0.75rem, 2vw, 1.25rem) auto 0"
+  />
+
   <section class="landing">
     <p class="landing__bio">
       You have arrived at Sune Lehmann's site. I (Sune) am a Professor of
@@ -296,12 +305,25 @@ const recentPosts = posts.slice(0, 5);
   }
 
   .landing__recent h2 {
-    font-size: 1.1rem;
+    font-family: var(--sans);
+    font-size: 0.78rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.14em;
     color: var(--fg-muted);
-    font-weight: 500;
+    font-weight: 600;
     margin: 0 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .landing__recent h2::before {
+    content: "";
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--accent-olive);
+    border-radius: 50%;
   }
 
   .post-list {
