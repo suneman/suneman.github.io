@@ -10,4 +10,4 @@ original_url: "https://sunelehmann.com/2014/08/19/demo-of-sensibledtu-data-explo
 
 As part of a Master's project, Marta Magiera, a student in my group has developed a great tool for visualizing geo-data. Check it out below (looks best in 720p)
 
-<iframe src="https://www.youtube.com/embed/tKRJRaJawgY" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+<div class="embed embed--youtube"><iframe src="https://www.youtube.com/embed/tKRJRaJawgY" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>

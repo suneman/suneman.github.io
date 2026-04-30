@@ -19,7 +19,7 @@ And I think I can explain why. Until now, we've categorized earthquakes among ev
 So the surprise is not that electronic signals are fast, *but that a news medium (i.e. Twitter/Facebook) can deliver news faster than things that used to be instantaneous*. That is what is new (and kind of awesome)!
 But not that awesome - because even though you know the earthquake is coming before it hits, there's still not really time to react properly to the threat; the earthquake will still be there in a few seconds time. And the Twitter advertisement team picked up on just this fact in their most recent advertisement, embedded below.
 
-<iframe src="https://www.youtube.com/embed/0UFsJhYBxzY" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+<div class="embed embed--youtube"><iframe src="https://www.youtube.com/embed/0UFsJhYBxzY" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
 
 The message is clear: You do get the news about the quake arriving, but it doesn't really change anything.
 But let's dig a little deeper. Last year, when we created the twitter *Pulse of the Nation* visualization (check it out [here](http://www.ccs.neu.edu/home/amislove/twittermood/) if you haven't seen it), I came up with a highly speculative (and self-important) analogy that I love to talk about.
@@ -30,7 +30,7 @@ In analogy to individual neurons firing together to add up to the human consciou
 Now, I think the earthquake visualization can be thought of as a a manifestation of the same kind of phenomenon. If the twitterverse is to be taken seriously as some kind of global-scale nervous system, the earthquake response is not something like the state-of-mind or consciousness that I claimed the mood was.
 The earthquake response is something closer to that ultra fast reflex that kicks in right before you're unavoidably punched in the face. Like the guy in the movie below at around 16 seconds in. Notice him closing his eyes and clenching his facial muscles tightly in anticipation:
 
-<iframe src="https://www.youtube.com/embed/90VyvOhPmA0" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+<div class="embed embed--youtube"><iframe src="https://www.youtube.com/embed/90VyvOhPmA0" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
 
 He knows something uncomfortable is coming, but has to hang tight and hope that it's not too tough. And that's the type of edge that twitter has given us with respect to the earthquake.
 Let me know what you think in the comments!

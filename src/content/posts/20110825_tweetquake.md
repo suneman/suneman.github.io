@@ -21,7 +21,7 @@ Now, as I am sure many people have already pointed out (e.g. [on twitter](http:/
 As Munroe points out, the speed of "damaging" seismic waves is around 3-5 km/second, which is much slower than the speed of information spreading on the internet. This simple fact means that if you're more than 100 km away from the epicenter you can read about the quake on twitter before it hits you.
 Now, combine idea from the ***xkcd*** strip with data from the tweetquake and it's *possible to observe this phenomenon in practice*. In the visualization below, we've generated a video of the mentions of the work "earthquake" in tweets from the gardenhose in the 5 minutes immediately following the earthquake. For simplicity, we have assumed a uniform 4 km/s wave and ignored deformations due to map projections, etc (we're not geologists, after all).
 
-<iframe src="https://www.youtube.com/embed/XJ1EQbmJ_LQ" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+<div class="embed embed--youtube"><iframe src="https://www.youtube.com/embed/XJ1EQbmJ_LQ" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
 
 The comic strip doesn't factor in the time it takes to actually write a tweet, and since seconds count, it takes more than 100 km before we see tweets posted outside the wavefront (validating the last frame of the comic strip). It is awe inspiring to see a *truly* real time news medium in action.
 **Notes**:

@@ -22,6 +22,6 @@ We have an amazing Program Committee that includes:
 **Didier Sornette**, ETH Zurich, Switzerland.
 Full details can be found at the workshop website <http://hth.eccs2010.eu/>. There's even a neat little introductory video (from our talk at [Ignite Boston 7](http://igniteboston7.eventbrite.com/)):
 
-<iframe src="http://www.youtube.com/v/q4RLQ2KC-cU" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+<div class="embed embed--youtube"><iframe src="https://www.youtube.com/embed/q4RLQ2KC-cU" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
 
 We hope you will submit an abstract!

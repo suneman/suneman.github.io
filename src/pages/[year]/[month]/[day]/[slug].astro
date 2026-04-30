@@ -1,0 +1,37 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => data.status === "publish");
+  const paths = [];
+  for (const post of posts) {
+    const url = post.data.original_url;
+    if (!url) continue;
+    const m = url.match(/\/(\d{4})\/(\d{2})\/(\d{2})\/([^/]+)\/?$/);
+    if (!m) continue;
+    const [, year, month, day, oldSlug] = m;
+    const newSlug = post.data.slug ?? post.id;
+    paths.push({
+      params: { year, month, day, slug: oldSlug },
+      props: { target: `/blog/${newSlug}/` },
+    });
+  }
+  return paths;
+}
+
+const { target } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <link rel="canonical" href={target} />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p>This page has moved to <a href={target}>{target}</a>.</p>
+    <script is:inline set:html={`window.location.replace(${JSON.stringify(target)});`}></script>
+  </body>
+</html>

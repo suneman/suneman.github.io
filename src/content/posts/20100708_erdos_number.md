@@ -16,6 +16,6 @@ The scientific version of the [Bacon number](http://en.wikipedia.org/wiki/Bacon_
 
 With respect to the Erdös-Bacon number, I could make the case that I should have a number of four. The reason is that I actually appear in the documentary (it's just an uncredited half-second shot of me sitting at my computer) *[Connected - The power of six degrees](http://www.imdb.com/title/tt1310375/), which features my ex-boss and renowned scientist [Albert-Laszlo Barabási](http://www.barabasi.com/).* Here's the trailer:
 
-<iframe src="https://www.youtube.com/embed/zK1Cb9qj3qQ" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+<div class="embed embed--youtube"><iframe src="https://www.youtube.com/embed/zK1Cb9qj3qQ" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
 
 But since I don't appear on IMDb, I guess it doesn't really count...
