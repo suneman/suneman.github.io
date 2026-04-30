@@ -9,8 +9,8 @@ interface Props {
   wide?: boolean;
 }
 
-const SITE_NAME = "sunelehmann.com";
-const SITE_SUBTITLE = "intermittent updates";
+const SITE_NAME = "Sune Lehmann";
+const SITE_SUBTITLE = "Intermittent Updates";
 const DEFAULT_DESCRIPTION =
   "Sune Lehmann — networks, complexity, and the occasional blog post.";
 const DEFAULT_OG_IMAGE = "/og-image.jpg";
@@ -23,7 +23,7 @@ const {
   wide = false,
 } = Astro.props;
 
-const pageTitle = title ? `${title} — ${SITE_NAME}` : `${SITE_NAME} — ${SITE_SUBTITLE}`;
+const pageTitle = title ? `${title} — ${SITE_NAME}` : `${SITE_NAME}: ${SITE_SUBTITLE}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL(ogImage, Astro.site);
 
@@ -65,7 +65,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE_NAME} />
-    <meta property="og:title" content={title ?? `${SITE_NAME} — ${SITE_SUBTITLE}`} />
+    <meta property="og:title" content={title ?? `${SITE_NAME}: ${SITE_SUBTITLE}`} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImageUrl} />
@@ -77,7 +77,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     <link
       rel="alternate"
       type="application/rss+xml"
-      title={`${SITE_NAME} — ${SITE_SUBTITLE}`}
+      title={`${SITE_NAME}: ${SITE_SUBTITLE}`}
       href="/rss.xml"
     />
   </head>
@@ -85,9 +85,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
   <body>
     <header class="site-header">
       <a class="site-title" href="/">
-        <span class="site-title__name">sune<span class="site-title__lehmann">lehmann</span>.com</span>
-        <span class="site-title__sep" aria-hidden="true">—</span>
-        <span class="site-title__subtitle">{SITE_SUBTITLE}</span>
+        <span class="site-title__name">{SITE_NAME}</span><span class="site-title__subtitle">: {SITE_SUBTITLE}</span>
       </a>
       <nav class="site-nav" aria-label="Main">
         <ul>
@@ -218,32 +216,22 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
       .site-title {
         font-family: var(--serif);
-        font-size: 1.65rem;
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+        font-weight: 600;
         text-decoration: none;
         color: var(--fg);
         white-space: nowrap;
-        letter-spacing: -0.025em;
-        font-variation-settings: "opsz" 48;
-        line-height: 1;
+        letter-spacing: -0.015em;
+        font-variation-settings: "opsz" 72;
+        line-height: 1.1;
       }
 
-      .site-title__name {
-        font-weight: 400;
-      }
-
-      .site-title__lehmann {
-        font-weight: 700;
-        font-style: italic;
-      }
-
-      .site-title__sep,
       .site-title__subtitle {
         color: var(--fg-muted);
         font-style: italic;
       }
 
       @media (max-width: 540px) {
-        .site-title__sep,
         .site-title__subtitle {
           display: none;
         }
