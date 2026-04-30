@@ -85,7 +85,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
   <body>
     <header class="site-header">
       <a class="site-title" href="/">
-        <span class="site-title__name">{SITE_NAME}</span><span class="site-title__subtitle">: {SITE_SUBTITLE}</span>
+        <span class="site-title__name">{SITE_NAME}</span><span class="site-title__sep" aria-hidden="true">: </span><span class="site-title__subtitle">{SITE_SUBTITLE}</span>
       </a>
       <nav class="site-nav" aria-label="Main">
         <ul>
@@ -194,9 +194,25 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
       h4 {
         font-family: var(--serif);
         font-weight: 600;
+      }
+
+      h1 {
         line-height: 1.1;
         letter-spacing: -0.015em;
         font-variation-settings: "opsz" 96;
+      }
+
+      h2 {
+        line-height: 1.25;
+        letter-spacing: 0;
+        font-variation-settings: "opsz" 36;
+      }
+
+      h3,
+      h4 {
+        line-height: 1.3;
+        letter-spacing: 0.005em;
+        font-variation-settings: "opsz" 18;
       }
 
       /* ---------- header ---------- */
@@ -205,7 +221,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         top: 0;
         z-index: 10;
         display: flex;
-        align-items: baseline;
+        align-items: center;
         justify-content: space-between;
         gap: 1.5rem;
         padding: 0.75rem var(--gutter);
@@ -226,12 +242,17 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         line-height: 1.1;
       }
 
+      .site-title__sep {
+        color: var(--fg-muted);
+      }
+
       .site-title__subtitle {
         color: var(--fg-muted);
         font-style: italic;
       }
 
       @media (max-width: 540px) {
+        .site-title__sep,
         .site-title__subtitle {
           display: none;
         }
@@ -248,7 +269,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
       .site-nav a {
         color: var(--fg);
         text-decoration: none;
-        font-size: 0.95rem;
+        font-size: 1.05rem;
         font-weight: 600;
       }
 

@@ -17,6 +17,7 @@
     "@astrojs/sitemap": "^3.7.2",
     "astro": "^5.0.0",
     "astro-embed": "^0.13.0",
+    "d3-drag": "^3.0.0",
     "d3-force": "^3.0.0",
     "d3-selection": "^3.0.0",
     "remark-heading-id": "^1.0.1"

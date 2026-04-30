@@ -19,7 +19,40 @@ const PORTRAITS = [
 const posts = (await getCollection("posts", ({ data }) => data.status === "publish"))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const recentPosts = posts.slice(0, 5);
+const featured = posts[0];
+const recentPosts = posts.slice(1, 6);
+
+function makeExcerpt(body: string, maxLen = 280): string {
+  // Pick the first prose paragraph (skip image-only blocks).
+  let para = "";
+  for (const p of body.split(/\n\s*\n/)) {
+    const cleaned = p.replace(/!\[[^\]]*\]\([^)]*\)/g, "").trim();
+    if (cleaned.length > 20) {
+      para = cleaned;
+      break;
+    }
+  }
+  const text = para
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/[*_~`]+/g, "")
+    .replace(/^#+\s*/gm, "")
+    .replace(/^>\s*/gm, "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (text.length <= maxLen) return text;
+  const cut = text.slice(0, maxLen);
+  const lastSpace = cut.lastIndexOf(" ");
+  return (lastSpace > 60 ? cut.slice(0, lastSpace) : cut) + "…";
+}
+
+const featuredSlug = featured.data.slug ?? featured.id;
+const featuredExcerpt = makeExcerpt(featured.body ?? "");
+const featuredDate = featured.data.date.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
 ---
 
 <BaseLayout wide>
@@ -57,6 +90,7 @@ const recentPosts = posts.slice(0, 5);
   <script>
     import { select } from "d3-selection";
     import { forceSimulation, forceLink, forceManyBody, forceX, forceY } from "d3-force";
+    import { drag } from "d3-drag";
 
     function buildNetwork() {
       const svg = document.querySelector(".hero__network");
@@ -200,6 +234,31 @@ const recentPosts = posts.slice(0, 5);
         .alpha(0.9)
         .alphaDecay(0.025);
 
+      // Make nodes draggable. Non-anchors release on drag end and the
+      // simulation re-settles them; the two pinned anchors stay wherever
+      // the user drops them.
+      const anchorIds = new Set([leftIdx, rightIdx]);
+      const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+      nodeSel.call(
+        drag()
+          .on("start", (event, d) => {
+            if (!event.active) sim.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+          })
+          .on("drag", (event, d) => {
+            d.fx = clamp(event.x, PAD, W - PAD);
+            d.fy = clamp(event.y, PAD, H - PAD);
+          })
+          .on("end", (event, d) => {
+            if (!event.active) sim.alphaTarget(0);
+            if (!anchorIds.has(d.id)) {
+              d.fx = null;
+              d.fy = null;
+            }
+          })
+      );
+
       sim.on("tick", () => {
         for (const n of nodes) {
           if (n.x < PAD) n.x = PAD;
@@ -243,6 +302,31 @@ const recentPosts = posts.slice(0, 5);
       Sciences and Letters and Chief Scientist at the Danish National Center
       for AI in Society (CAISA).
     </p>
+
+    <section class="landing__featured" aria-labelledby="featured-heading">
+      <h2 id="featured-heading">Latest post</h2>
+      <article class="featured-post">
+        <ColorStripe thickness="4px" />
+        <div class="featured-post__inner">
+          <p class="featured-post__meta">
+            <time datetime={featured.data.date.toISOString()}>{featuredDate}</time>
+            {featured.data.categories.length > 0 && (
+              <>
+                <span class="featured-post__sep" aria-hidden="true">·</span>
+                <span>{featured.data.categories.join(", ")}</span>
+              </>
+            )}
+          </p>
+          <h3 class="featured-post__title">
+            <a href={`/blog/${featuredSlug}`}>{featured.data.title}</a>
+          </h3>
+          <p class="featured-post__excerpt">{featuredExcerpt}</p>
+          <p class="featured-post__more">
+            <a href={`/blog/${featuredSlug}`}>Read more →</a>
+          </p>
+        </div>
+      </article>
+    </section>
 
     <section class="landing__recent" aria-labelledby="recent-heading">
       <h2 id="recent-heading">Recent posts</h2>
@@ -297,6 +381,14 @@ const recentPosts = posts.slice(0, 5);
     height: 100%;
   }
 
+  .hero__network circle {
+    cursor: grab;
+  }
+
+  .hero__network circle:active {
+    cursor: grabbing;
+  }
+
   .hero__portrait-wrap {
     flex: none;
     aspect-ratio: 1 / 1;
@@ -326,6 +418,12 @@ const recentPosts = posts.slice(0, 5);
     margin: 0 0 3rem;
   }
 
+  .landing__featured,
+  .landing__recent {
+    margin: 0 0 3rem;
+  }
+
+  .landing__featured h2,
   .landing__recent h2 {
     font-family: var(--sans);
     font-size: 0.78rem;
@@ -333,19 +431,77 @@ const recentPosts = posts.slice(0, 5);
     letter-spacing: 0.14em;
     color: var(--fg-muted);
     font-weight: 600;
+    font-variation-settings: normal;
     margin: 0 0 1rem;
     display: flex;
     align-items: center;
     gap: 0.6rem;
+    line-height: 1;
   }
 
+  .landing__featured h2::before,
   .landing__recent h2::before {
     content: "";
     display: inline-block;
     width: 0.5rem;
     height: 0.5rem;
-    background: var(--accent-olive);
     border-radius: 50%;
+  }
+
+  .landing__featured h2::before {
+    background: var(--accent);
+  }
+
+  .landing__recent h2::before {
+    background: var(--accent-olive);
+  }
+
+  .featured-post {
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .featured-post__inner {
+    padding: 1.25rem 1.5rem 1.25rem;
+  }
+
+  .featured-post__meta {
+    margin: 0 0 0.5rem;
+    color: var(--fg-muted);
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .featured-post__sep {
+    margin: 0 0.4em;
+  }
+
+  .featured-post__title {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 60;
+    line-height: 1.15;
+  }
+
+  .featured-post__title a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .featured-post__title a:hover {
+    color: var(--accent);
+  }
+
+  .featured-post__excerpt {
+    margin: 0 0 0.75rem;
+    font-size: 1.05rem;
+  }
+
+  .featured-post__more {
+    margin: 0;
+    font-size: 0.95rem;
   }
 
   .post-list {
