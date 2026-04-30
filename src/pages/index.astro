@@ -25,11 +25,7 @@ const recentPosts = posts.slice(0, 5);
 <BaseLayout wide>
   <section class="hero" aria-label="Hero">
     <div class="hero__art" aria-hidden="true">
-      <canvas class="hero__cell"></canvas>
-      <canvas class="hero__cell"></canvas>
-      <canvas class="hero__cell"></canvas>
-      <canvas class="hero__cell"></canvas>
-      <canvas class="hero__cell"></canvas>
+      <svg class="hero__network" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet"></svg>
     </div>
 
     <div class="hero__portrait-wrap">
@@ -56,150 +52,178 @@ const recentPosts = posts.slice(0, 5);
         <img class="hero__portrait" src="/photos/skinny_black_tie.jpg" alt="Portrait of Sune Lehmann" />
       </noscript>
     </div>
-
-    <script is:inline>
-      (function () {
-        var cells = document.querySelectorAll(".hero__cell");
-        if (!cells.length) return;
-
-        // Curated Clifford attractor parameter sets (a, b, c, d) drawn from
-        // canonical references (Paul Bourke et al). Each gives a visually
-        // distinct, non-degenerate orbit. The runtime filter below also
-        // rejects any whose bounding box collapses to a small region.
-        var PARAMS = [
-          [-1.4, 1.6, 1.0, 0.7],
-          [-1.7, 1.3, -0.1, -1.2],
-          [-1.8, -2.0, -0.5, -0.9],
-          [1.7, 1.7, 0.6, 1.2],
-          [-1.7, 1.3, 0.5, 1.4],
-          [1.6, -0.6, -1.2, 1.6],
-          [-2.0, -2.0, -1.2, 2.0],
-          [1.5, -1.8, 1.6, 0.9],
-          [-1.7, 1.8, -1.9, -0.4],
-          [-1.1, 1.2, -1.0, 1.7],
-          [-2.0, -1.7, 1.6, 1.7],
-          [-1.24, -1.25, -1.81, -1.91],
-        ];
-
-        // Site's 6-color earth palette. Same family as --accent and friends
-        // in the global tokens; kept inline here so the canvas script doesn't
-        // need to read CSS custom properties.
-        var COLORS = [
-          [184, 69, 30],    // burnt sienna   (--accent)
-          [217, 106, 44],   // terracotta     (--accent-clay)
-          [232, 177, 38],   // mustard ochre  (--accent-mustard)
-          [126, 141, 32],   // olive          (--accent-olive)
-          [16, 112, 120],   // deep teal      (--accent-teal)
-          [153, 44, 68],    // oxblood        (--accent-oxblood)
-        ];
-
-        function computeBbox(a, b, c, d) {
-          var x = 0.0, y = 0.0;
-          var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-          for (var i = 0; i < 4000; i++) {
-            var xn = Math.sin(a * y) + c * Math.cos(a * x);
-            var yn = Math.sin(b * x) + d * Math.cos(b * y);
-            x = xn; y = yn;
-            if (i > 200) {
-              if (x < minX) minX = x;
-              if (x > maxX) maxX = x;
-              if (y < minY) minY = y;
-              if (y > maxY) maxY = y;
-            }
-          }
-          return { minX: minX, maxX: maxX, minY: minY, maxY: maxY };
-        }
-
-        function drawCell(canvas, paramIdx, colorIdx, bbox) {
-          var rect = canvas.getBoundingClientRect();
-          var dpr = Math.min(window.devicePixelRatio || 1, 2);
-          var W = Math.max(1, Math.floor(rect.width * dpr));
-          var H = Math.max(1, Math.floor(rect.height * dpr));
-          canvas.width = W;
-          canvas.height = H;
-
-          var ctx = canvas.getContext("2d");
-          if (!ctx) return;
-
-          var p = PARAMS[paramIdx];
-          var a = p[0], b = p[1], c = p[2], d = p[3];
-
-          var pad = 0.1;
-          var spanX = (bbox.maxX - bbox.minX) || 1;
-          var spanY = (bbox.maxY - bbox.minY) || 1;
-          var scale = Math.min(
-            (W * (1 - 2 * pad)) / spanX,
-            (H * (1 - 2 * pad)) / spanY
-          );
-          var ox = W / 2 - scale * (bbox.minX + bbox.maxX) / 2;
-          var oy = H / 2 - scale * (bbox.minY + bbox.maxY) / 2;
-
-          var color = COLORS[colorIdx];
-          ctx.fillStyle = "rgba(" + color[0] + "," + color[1] + "," + color[2] + ",0.07)";
-          var dot = Math.max(1, Math.round(dpr * 1.6));
-          var x = 0.0, y = 0.0;
-          var ITER = 60000;
-          for (var j = 0; j < ITER; j++) {
-            var xn2 = Math.sin(a * y) + c * Math.cos(a * x);
-            var yn2 = Math.sin(b * x) + d * Math.cos(b * y);
-            x = xn2; y = yn2;
-            if (j < 200) continue;
-            var px = scale * x + ox;
-            var py = scale * y + oy;
-            ctx.fillRect(px, py, dot, dot);
-          }
-
-          canvas.dataset.attractor = "clifford-" + paramIdx + "-c" + colorIdx;
-        }
-
-        function drawAll() {
-          // Precompute bboxes once and filter to non-degenerate orbits only —
-          // a span < 1.5 in either axis means the orbit collapsed to a point or
-          // small loop and would render as just a dot in the cell's center.
-          var MIN_SPAN = 1.5;
-          var goodParams = [];
-          var goodBboxes = [];
-          for (var i = 0; i < PARAMS.length; i++) {
-            var p = PARAMS[i];
-            var bbox = computeBbox(p[0], p[1], p[2], p[3]);
-            var sx = bbox.maxX - bbox.minX;
-            var sy = bbox.maxY - bbox.minY;
-            if (sx >= MIN_SPAN && sy >= MIN_SPAN && isFinite(sx) && isFinite(sy)) {
-              goodParams.push(i);
-              goodBboxes.push(bbox);
-            }
-          }
-          if (goodParams.length === 0) return; // unreachable for curated list
-
-          // Sample params and colors without replacement so adjacent cells differ.
-          var paramPool = goodParams.slice();
-          var bboxPool = goodBboxes.slice();
-          var colorPool = COLORS.map(function (_, i) { return i; });
-          for (var k = 0; k < cells.length; k++) {
-            if (paramPool.length === 0) {
-              paramPool = goodParams.slice();
-              bboxPool = goodBboxes.slice();
-            }
-            if (colorPool.length === 0) {
-              colorPool = COLORS.map(function (_, i) { return i; });
-            }
-            var pi = Math.floor(Math.random() * paramPool.length);
-            var ci = Math.floor(Math.random() * colorPool.length);
-            var paramIdx = paramPool.splice(pi, 1)[0];
-            var bbox2 = bboxPool.splice(pi, 1)[0];
-            var colorIdx = colorPool.splice(ci, 1)[0];
-            drawCell(cells[k], paramIdx, colorIdx, bbox2);
-          }
-        }
-
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", drawAll);
-        } else {
-          drawAll();
-        }
-      })();
-    </script>
   </section>
+
+  <script>
+    import { select } from "d3-selection";
+    import { forceSimulation, forceLink, forceManyBody, forceX, forceY } from "d3-force";
+
+    function buildNetwork() {
+      const svg = document.querySelector(".hero__network");
+      if (!svg) return;
+
+      // viewBox units — 5:1 strip
+      const W = 1000;
+      const H = 200;
+      const N = 100;
+      const R = 0.4 * H;          // RGG connection radius (~0.4 of strip height)
+      const NODE_R = 5;
+      const PAD = NODE_R + 1;
+
+      const css = getComputedStyle(document.documentElement);
+      const PALETTE = [
+        css.getPropertyValue("--accent").trim(),
+        css.getPropertyValue("--accent-clay").trim(),
+        css.getPropertyValue("--accent-mustard").trim(),
+        css.getPropertyValue("--accent-olive").trim(),
+        css.getPropertyValue("--accent-teal").trim(),
+        css.getPropertyValue("--accent-oxblood").trim(),
+      ];
+      const MUTED = css.getPropertyValue("--fg-muted").trim() || "#6B655D";
+
+      const nodes = Array.from({ length: N }, (_, i) => ({
+        id: i,
+        x: PAD + Math.random() * (W - 2 * PAD),
+        y: PAD + Math.random() * (H - 2 * PAD),
+      }));
+
+      // Pin the leftmost and rightmost initial nodes as anchors so the layout
+      // stretches across the 5:1 strip instead of collapsing into a circle and
+      // pressing nodes against the side boundaries.
+      const ANCHOR_INSET = 0.25 * H;
+      let leftIdx = 0, rightIdx = 0;
+      for (let i = 1; i < N; i++) {
+        if (nodes[i].x < nodes[leftIdx].x) leftIdx = i;
+        if (nodes[i].x > nodes[rightIdx].x) rightIdx = i;
+      }
+      nodes[leftIdx].fx = ANCHOR_INSET;
+      nodes[leftIdx].fy = H / 2;
+      nodes[rightIdx].fx = W - ANCHOR_INSET;
+      nodes[rightIdx].fy = H / 2;
+
+      const links = [];
+      const R2 = R * R;
+      for (let i = 0; i < N; i++) {
+        for (let j = i + 1; j < N; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          if (dx * dx + dy * dy < R2) {
+            links.push({ source: i, target: j });
+          }
+        }
+      }
+
+      const adj = Array.from({ length: N }, () => []);
+      for (const l of links) {
+        adj[l.source].push(l.target);
+        adj[l.target].push(l.source);
+      }
+
+      // Find connected components and bridge any disconnected ones with a
+      // single random link, so the network is always one piece.
+      const componentOf = new Array(N).fill(-1);
+      const components = [];
+      for (let i = 0; i < N; i++) {
+        if (componentOf[i] !== -1) continue;
+        const comp = [];
+        const stack = [i];
+        componentOf[i] = components.length;
+        while (stack.length) {
+          const u = stack.pop();
+          comp.push(u);
+          for (const v of adj[u]) {
+            if (componentOf[v] === -1) {
+              componentOf[v] = components.length;
+              stack.push(v);
+            }
+          }
+        }
+        components.push(comp);
+      }
+      if (components.length > 1) {
+        components.sort((a, b) => b.length - a.length);
+        const root = components[0];
+        for (let i = 1; i < components.length; i++) {
+          const comp = components[i];
+          const u = comp[Math.floor(Math.random() * comp.length)];
+          const v = root[Math.floor(Math.random() * root.length)];
+          links.push({ source: u, target: v });
+          adj[u].push(v);
+          adj[v].push(u);
+          for (const k of comp) root.push(k);
+        }
+      }
+
+      // BFS shells from a random epicenter, before d3-force resolves link refs
+      const epicenter = Math.floor(Math.random() * N);
+      const dist = new Array(N).fill(-1);
+      dist[epicenter] = 0;
+      const queue = [epicenter];
+      while (queue.length) {
+        const u = queue.shift();
+        for (const v of adj[u]) {
+          if (dist[v] === -1) {
+            dist[v] = dist[u] + 1;
+            queue.push(v);
+          }
+        }
+      }
+
+      const colorFor = (d) => (d < 0 ? MUTED : PALETTE[d % PALETTE.length]);
+
+      const svgSel = select(svg);
+      svgSel.selectAll("*").remove();
+
+      const linkSel = svgSel.append("g")
+        .attr("class", "hero__network-links")
+        .selectAll("line")
+        .data(links)
+        .join("line")
+        .attr("stroke", (d) => colorFor(Math.min(dist[d.source], dist[d.target])))
+        .attr("stroke-width", 0.9)
+        .attr("stroke-opacity", 0.55)
+        .attr("stroke-linecap", "round");
+
+      const nodeSel = svgSel.append("g")
+        .attr("class", "hero__network-nodes")
+        .selectAll("circle")
+        .data(nodes)
+        .join("circle")
+        .attr("r", (d) => (dist[d.id] < 0 ? NODE_R * 0.7 : NODE_R))
+        .attr("fill", (d) => colorFor(dist[d.id]));
+
+      const sim = forceSimulation(nodes)
+        .force("link", forceLink(links).id((d) => d.id))
+        .force("charge", forceManyBody().strength(-15))
+        .force("compress-x", forceX(W / 2).strength(0.01))
+        .force("compress-y", forceY(H / 2).strength(0.02))
+        .alpha(0.9)
+        .alphaDecay(0.025);
+
+      sim.on("tick", () => {
+        for (const n of nodes) {
+          if (n.x < PAD) n.x = PAD;
+          else if (n.x > W - PAD) n.x = W - PAD;
+          if (n.y < PAD) n.y = PAD;
+          else if (n.y > H - PAD) n.y = H - PAD;
+        }
+        linkSel
+          .attr("x1", (d) => d.source.x)
+          .attr("y1", (d) => d.source.y)
+          .attr("x2", (d) => d.target.x)
+          .attr("y2", (d) => d.target.y);
+        nodeSel.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+      });
+
+      svg.dataset.network = `n${N}-r${Math.round(R)}-e${epicenter}`;
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", buildNetwork);
+    } else {
+      buildNetwork();
+    }
+  </script>
 
   <ColorStripe
     thickness="6px"
@@ -262,17 +286,15 @@ const recentPosts = posts.slice(0, 5);
 
   .hero__art {
     flex: 1 1 auto;
-    display: flex;
-    flex-direction: row;
+    display: block;
     min-width: 0;
+    height: 100%;
   }
 
-  .hero__cell {
-    flex: 1 1 0;
-    height: 100%;
-    width: 0;
-    min-width: 0;
+  .hero__network {
     display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .hero__portrait-wrap {
