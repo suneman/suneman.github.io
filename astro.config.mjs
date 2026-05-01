@@ -2,6 +2,7 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import remarkHeadingId from "remark-heading-id";
 import remarkEmbeds from "./src/lib/remark-embeds.mjs";
+import remarkFigureCaptions from "./src/lib/remark-figure-captions.mjs";
 
 export default defineConfig({
   site: "https://sunelehmann.com",
@@ -11,6 +12,6 @@ export default defineConfig({
   },
   integrations: [sitemap()],
   markdown: {
-    remarkPlugins: [remarkHeadingId, remarkEmbeds],
+    remarkPlugins: [remarkHeadingId, remarkEmbeds, remarkFigureCaptions],
   },
 });
