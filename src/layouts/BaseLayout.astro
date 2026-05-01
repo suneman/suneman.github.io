@@ -15,6 +15,9 @@ const DEFAULT_DESCRIPTION =
   "Sune Lehmann — networks, complexity, and the occasional blog post.";
 const DEFAULT_OG_IMAGE = "/og-image.jpg";
 
+// GoatCounter analytics. Empty string disables. See ANALYTICS.md for setup.
+const GOATCOUNTER_CODE = "";
+
 const {
   title,
   description = DEFAULT_DESCRIPTION,
@@ -119,6 +122,15 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
       </p>
     </footer>
 
+    {GOATCOUNTER_CODE && (
+      <script
+        is:inline
+        data-goatcounter={`https://${GOATCOUNTER_CODE}.goatcounter.com/count`}
+        async
+        src="https://gc.zgo.at/count.js"
+      ></script>
+    )}
+
     <style is:global>
       /* ---------- tokens ---------- */
       :root {
@@ -142,6 +154,19 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
         --measure: 36rem;
         --gutter: clamp(1rem, 4vw, 2.5rem);
+
+        /* Six-band gradient mirroring <ColorStripe />, for use on hr,
+           pseudo-elements, and other places where mounting the component
+           is awkward. Hard stops keep the bands equal width. */
+        --color-stripe-gradient: linear-gradient(
+          to right,
+          var(--accent) 0 16.6667%,
+          var(--accent-clay) 16.6667% 33.3333%,
+          var(--accent-mustard) 33.3333% 50%,
+          var(--accent-olive) 50% 66.6667%,
+          var(--accent-teal) 66.6667% 83.3333%,
+          var(--accent-oxblood) 83.3333% 100%
+        );
       }
 
       @media (prefers-color-scheme: dark) {

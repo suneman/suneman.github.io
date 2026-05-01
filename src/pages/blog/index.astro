@@ -18,7 +18,7 @@ const years = [...postsByYear.keys()].sort((a, b) => b - a);
 
 <BaseLayout title="Archive" description={`All ${posts.length} posts from sunelehmann.com.`}>
   <h1>Archive</h1>
-  <ColorStripe thickness="3px" margin="0 0 0.5rem" />
+  <ColorStripe thickness="8px" margin="0 0 0.5rem" />
   <p class="archive-intro">
     {posts.length} posts, {years[years.length - 1]}–{years[0]}.
   </p>
@@ -66,8 +66,8 @@ const years = [...postsByYear.keys()].sort((a, b) => b - a);
     color: var(--fg-muted);
     font-weight: 500;
     margin: 0 0 0.75rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 1px solid var(--rule);
+    padding-bottom: calc(0.4rem + 2px);
+    background: var(--color-stripe-gradient) bottom / 100% 2px no-repeat;
   }
 
   .archive-year ul {

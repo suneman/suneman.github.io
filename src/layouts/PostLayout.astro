@@ -38,7 +38,7 @@ const postOgImage = images[0];
   <article class="post">
     <header class="post-header">
       <h1>{title}</h1>
-      <ColorStripe thickness="3px" margin="0.25rem 0 0.5rem" />
+      <ColorStripe thickness="8px" margin="0.25rem 0 0.5rem" />
       <p class="post-meta">
         <time datetime={isoDate}>{displayDate}</time>
         {categories.length > 0 && (
@@ -179,14 +179,15 @@ const postOgImage = images[0];
 
     .post-body :global(hr) {
       border: 0;
-      border-top: 1px solid var(--rule);
+      height: 2px;
+      width: 5rem;
+      background: var(--color-stripe-gradient);
       margin: 2.5em auto;
-      width: 4rem;
     }
 
     .post-footer {
-      border-top: 1px solid var(--rule);
-      padding-top: 1.5rem;
+      background: var(--color-stripe-gradient) top / 100% 2px no-repeat;
+      padding-top: calc(1.5rem + 2px);
       display: flex;
       flex-direction: column;
       gap: 1rem;
