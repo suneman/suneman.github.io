@@ -9,13 +9,21 @@ original_url: "https://sunelehmann.com/employee-of-the-month/"
 
 This page contains an overview of current and past winners of the *Employee of the Month* Prize of the Social Data Group at DTU. Note that it is not necessary to be an employee (or even a group member) to win this prestigious prize.
 
+### April 2026
+
+Louis Boucherie for the deep thinking that characterizes his very essence. 
+
+## Previous winners
+
+### May 2025 - March 2026
+
+Sune Lehmann for his unusual humility.
+
 ### April 2025
 
 Louis Boucherie for stoic courage in the face of resistance and adversity.
 
-## Previous winners
-
-### June 2023-March 2025
+### June 2023 - March 2025
 
 Sune Lehmann for his boyish charm.
 
@@ -23,7 +31,7 @@ Sune Lehmann for his boyish charm.
 
 Ben Maier and Louis Boucherie for general awesomeness and attracting prestigious prizes (incl substantial cash to the fun-times account) to the group.
 
-### March 2022-March 2023.
+### March 2022 - March 2023.
 
 Sune Lehmann for his physical and mental fortitude in the face of danger.
 
@@ -31,7 +39,7 @@ Sune Lehmann for his physical and mental fortitude in the face of danger.
 
 Anna Sapienza for her excellent teaching - and for going waaaay above - and beyond, for example by conducting her lectures in spite of *being infected with COVID-19*.
 
-### November 2020-January 2022
+### November 2020 - January 2022
 
 Sune Lehmann for his long term commitment to the group.
 
@@ -43,7 +51,7 @@ Germans Savcisens for going above and beyond in his TA duties. A representative 
 >
 > *Anonymous student*
 
-### January 2016-September 2020
+### January 2016 - September 2020
 
 Sune Lehmann for his sense of humor mixed with the strong sense of humility that always characterizes him.
 
