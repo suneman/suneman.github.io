@@ -28,4 +28,28 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { posts, pages };
+// Featured publications. One markdown file per paper:
+// frontmatter holds the metadata, the body is the blurb.
+// Order on the page is by `year` desc, then file order.
+const papers = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/papers" }),
+  schema: z.object({
+    slug: z.string(),
+    title: z.string(),
+    authors: z.string(),
+    venue: z.string(),
+    year: z.number(),
+    pdf: z.string().optional(),
+    thumb: z.string().optional(),
+    links: z
+      .array(
+        z.object({
+          label: z.string(),
+          href: z.string(),
+        })
+      )
+      .default([]),
+  }),
+});
+
+export const collections = { posts, pages, papers };
