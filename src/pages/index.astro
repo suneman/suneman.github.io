@@ -120,13 +120,65 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
       ];
       const MUTED = css.getPropertyValue("--fg-muted").trim() || "#6B655D";
 
-      const nodes = Array.from({ length: N }, (_, i) => ({
-        id: i,
-        x: PAD + Math.random() * (W - 2 * PAD),
-        y: PAD + Math.random() * (H - 2 * PAD),
-      }));
+      // Keep regenerating geometry until we get a network with at most one
+      // "large" component. Two large components would force an arbitrary
+      // cross-strip bridge, which reads as a clumsy splice; redrawing is
+      // honest. Small dangling stragglers still get bridged below.
+      const LARGE_COMPONENT_THRESHOLD = 0.2 * N;
+      const MAX_ATTEMPTS = 50;
+      const R2 = R * R;
+      let nodes, links, adj, componentOf, components;
+      let attempt = 0;
+      do {
+        attempt++;
+        nodes = Array.from({ length: N }, (_, i) => ({
+          id: i,
+          x: PAD + Math.random() * (W - 2 * PAD),
+          y: PAD + Math.random() * (H - 2 * PAD),
+        }));
 
-      // Pin the leftmost and rightmost initial nodes as anchors so the layout
+        links = [];
+        for (let i = 0; i < N; i++) {
+          for (let j = i + 1; j < N; j++) {
+            const dx = nodes[i].x - nodes[j].x;
+            const dy = nodes[i].y - nodes[j].y;
+            if (dx * dx + dy * dy < R2) {
+              links.push({ source: i, target: j });
+            }
+          }
+        }
+
+        adj = Array.from({ length: N }, () => []);
+        for (const l of links) {
+          adj[l.source].push(l.target);
+          adj[l.target].push(l.source);
+        }
+
+        componentOf = new Array(N).fill(-1);
+        components = [];
+        for (let i = 0; i < N; i++) {
+          if (componentOf[i] !== -1) continue;
+          const comp = [];
+          const stack = [i];
+          componentOf[i] = components.length;
+          while (stack.length) {
+            const u = stack.pop();
+            comp.push(u);
+            for (const v of adj[u]) {
+              if (componentOf[v] === -1) {
+                componentOf[v] = components.length;
+                stack.push(v);
+              }
+            }
+          }
+          components.push(comp);
+        }
+      } while (
+        attempt < MAX_ATTEMPTS &&
+        components.filter((c) => c.length >= LARGE_COMPONENT_THRESHOLD).length > 1
+      );
+
+      // Pin the leftmost and rightmost final nodes as anchors so the layout
       // stretches across the 5:1 strip instead of collapsing into a circle and
       // pressing nodes against the side boundaries.
       const ANCHOR_INSET = 0.25 * H;
@@ -140,45 +192,8 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
       nodes[rightIdx].fx = W - ANCHOR_INSET;
       nodes[rightIdx].fy = H / 2;
 
-      const links = [];
-      const R2 = R * R;
-      for (let i = 0; i < N; i++) {
-        for (let j = i + 1; j < N; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          if (dx * dx + dy * dy < R2) {
-            links.push({ source: i, target: j });
-          }
-        }
-      }
-
-      const adj = Array.from({ length: N }, () => []);
-      for (const l of links) {
-        adj[l.source].push(l.target);
-        adj[l.target].push(l.source);
-      }
-
-      // Find connected components and bridge any disconnected ones with a
-      // single random link, so the network is always one piece.
-      const componentOf = new Array(N).fill(-1);
-      const components = [];
-      for (let i = 0; i < N; i++) {
-        if (componentOf[i] !== -1) continue;
-        const comp = [];
-        const stack = [i];
-        componentOf[i] = components.length;
-        while (stack.length) {
-          const u = stack.pop();
-          comp.push(u);
-          for (const v of adj[u]) {
-            if (componentOf[v] === -1) {
-              componentOf[v] = components.length;
-              stack.push(v);
-            }
-          }
-        }
-        components.push(comp);
-      }
+      // Bridge any remaining small dangling components to the giant one with
+      // a single random link, so the rendered network is always one piece.
       if (components.length > 1) {
         components.sort((a, b) => b.length - a.length);
         const root = components[0];
