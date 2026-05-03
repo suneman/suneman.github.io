@@ -17,9 +17,7 @@ __pycache__/
 .env.*
 !.env.example
 
-# Private/local instruction docs (kept out of the public repo)
+# Private/local instruction docs (kept out of the public repo).
+# CLAUDE.md is a symlink to ../meta/website/CLAUDE.md in the parent
+# outward_me repo; the other meta docs live there too.
 CLAUDE.md
-HANDOFF.md
-SITE_PLAN.md
-DNS_CUTOVER.md
-NEW_POST.md
