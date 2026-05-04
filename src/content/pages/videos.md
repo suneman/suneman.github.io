@@ -12,7 +12,7 @@ A grab-bag of public-facing video content – podcast trailers, press features, 
 
 **Features:** [VidenSkaber on life2vec – 2024](#videnskaber) · [EliteForsk portrait – 2022](#eliteforsk-portrait) · [Villum YI portrait – 2018](#villum-yi)
 
-**Popular talks:** [Royal Academy on life2vec – 2025](#ras-2025) · [EliteForsk Lecture – 2022](#eliteforsk-lecture) · [TEDxAarhus – 2019](#tedx) · [Science & Cocktails – 2014](#science-cocktails) · [Royal Academy on networks – 2013](#ras-2013)
+**Popular talks:** [Royal Academy on life2vec – 2025](#ras-2025) · [EliteForsk Lecture – 2022](#eliteforsk-lecture) · [TEDxAarhus – 2018](#tedx) · [Science & Cocktails – 2014](#science-cocktails) · [Royal Academy on networks – 2013](#ras-2013)
 
 **Academic talks:** [DIEP – 2024](#diep) · [NSI – 2024](#nsi) · [NICO – 2022](#nico) · [SICSS-HSE – 2021](#sicss-hse) · [IC2S2 keynote – 2021](#ic2s2) · [DTU Inaugural – 2019](#dtu-inaugural)
 
@@ -84,9 +84,9 @@ EliteForsk Prize lecture at the Royal Danish Academy of Sciences and Letters: wh
 
 <https://www.youtube.com/watch?v=BFwlLDQWiYc>
 
-#### TEDxAarhus – 8 January 2019 {#tedx}
+#### TEDxAarhus – 6 October 2018 {#tedx}
 
-My TEDxAarhus talk on predicting social interactions. Not my finest performance – TED's "memorize every word" format scrambled exactly the parts of my brain that usually do the talking. Lesson learned: when the format fights the speaker, push back.
+My [TEDxAarhus](https://www.ted.com/tedx/events/29646) talk on predicting social interactions. Not my finest performance – TED's "memorize every word" format scrambled exactly the parts of my brain that usually do the talking. Lesson learned: when the format fights the speaker, push back.
 
 <https://www.youtube.com/watch?v=gW4sy0X6pGk>
 
