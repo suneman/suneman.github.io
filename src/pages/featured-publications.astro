@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ColorStripe from "../components/ColorStripe.astro";
+import stats from "../data/publication-stats.json";
 
 const entries = (await getCollection("papers")).sort(
   (a, b) => b.data.year - a.data.year
@@ -21,7 +22,9 @@ const papers = await Promise.all(
     <ColorStripe thickness="8px" margin="0 0 0.5rem" />
 
     <p class="page-intro">
-      You can find all my publications on my
+      Since {stats.since_year} I've written {stats.counts.journal} journal articles,
+      {stats.counts.conference} conference papers, {stats.counts.book} book chapters and books,
+      and {stats.counts.arxiv} preprints — you can find them all on my
       <a href="https://scholar.google.com/citations?user=wvkUbiUAAAAJ">Google Scholar profile</a>.
       The handful below is shorter and more selective — papers I'm particularly proud of, with a few
       words on what they're about and why they ended up mattering.
