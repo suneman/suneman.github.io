@@ -26,17 +26,19 @@ Lasse Mohr Mikkelsen's choreographed take on his thesis *Origins of Structure in
 
 <https://www.youtube.com/watch?v=3NCR8G9iDGg>
 
-#### *Too Lazy to Read the Paper*, season 2 trailer – 25 July 2022 {#podcast-s2}
-
-Trailer for the second season.
-
-<https://youtu.be/cf7TG3T8LNA>
 
 #### *Too Lazy to Read the Paper*, season 1 trailer – 23 March 2021 {#podcast-s1}
 
-Trailer for the first season of my podcast about the papers I would have read if only I had the time.
+Trailer for the first season of my podcast about the papers I would have read if only I had the time. I worked hard on the jokes in this one, so a strong recommend!
 
 <https://www.youtube.com/watch?v=b9M6H_FMMyM>
+
+#### *Too Lazy to Read the Paper*, season 2 trailer – 25 July 2022 {#podcast-s2}
+Trailer for the second season. In this one I sing a song with a ukulele!!
+
+<https://youtu.be/cf7TG3T8LNA>
+
+
 
 #### Ulf Aslak's Data Stories prize, *Science* magazine – 25 May 2016 {#data-stories}
 
