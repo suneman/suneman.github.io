@@ -35,6 +35,10 @@ const navLinks = [
   { href: "/about", label: "About" },
   { href: "/featured-publications", label: "Featured publications" },
   { href: "/cv", label: "CV" },
+];
+
+const menuLinks = [
+  { href: "/people", label: "People" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -103,6 +107,33 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             </li>
           ))}
         </ul>
+        <div class="site-menu-wrap">
+          <button
+            type="button"
+            class="site-menu-toggle"
+            aria-controls="site-menu"
+            aria-expanded="false"
+            aria-haspopup="menu"
+            aria-label="Open menu"
+          >
+            <span class="site-menu-toggle__bar" aria-hidden="true"></span>
+            <span class="site-menu-toggle__bar" aria-hidden="true"></span>
+            <span class="site-menu-toggle__bar" aria-hidden="true"></span>
+          </button>
+          <ul id="site-menu" class="site-menu" role="menu" hidden>
+            {menuLinks.map((link) => (
+              <li role="none">
+                <a
+                  href={link.href}
+                  role="menuitem"
+                  aria-current={currentPath === link.href ? "page" : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </nav>
     </header>
 
@@ -120,6 +151,47 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         &copy; {new Date().getFullYear()} Sune Lehmann.
       </p>
     </footer>
+
+    <script is:inline>
+      (function () {
+        const toggle = document.querySelector(".site-menu-toggle");
+        const panel = document.getElementById("site-menu");
+        if (!toggle || !panel) return;
+
+        const open = () => {
+          panel.hidden = false;
+          toggle.setAttribute("aria-expanded", "true");
+          toggle.setAttribute("aria-label", "Close menu");
+        };
+        const close = () => {
+          panel.hidden = true;
+          toggle.setAttribute("aria-expanded", "false");
+          toggle.setAttribute("aria-label", "Open menu");
+        };
+
+        toggle.addEventListener("click", (event) => {
+          event.stopPropagation();
+          if (toggle.getAttribute("aria-expanded") === "true") {
+            close();
+          } else {
+            open();
+          }
+        });
+
+        document.addEventListener("click", (event) => {
+          if (panel.hidden) return;
+          if (panel.contains(event.target) || toggle.contains(event.target)) return;
+          close();
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && !panel.hidden) {
+            close();
+            toggle.focus();
+          }
+        });
+      })();
+    </script>
 
     {GOATCOUNTER_CODE && (
       <script
@@ -282,7 +354,13 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         }
       }
 
-      .site-nav ul {
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+      }
+
+      .site-nav > ul {
         display: flex;
         gap: 1.25rem;
         list-style: none;
@@ -300,6 +378,68 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
       .site-nav a:hover,
       .site-nav a[aria-current="page"] {
         color: var(--accent);
+      }
+
+      .site-menu-wrap {
+        position: relative;
+      }
+
+      .site-menu-toggle {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 1.6rem;
+        height: 1.1rem;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        color: var(--fg);
+      }
+
+      .site-menu-toggle:hover,
+      .site-menu-toggle[aria-expanded="true"] {
+        color: var(--accent);
+      }
+
+      .site-menu-toggle__bar {
+        display: block;
+        height: 2px;
+        background: currentColor;
+        border-radius: 2px;
+      }
+
+      .site-menu {
+        position: absolute;
+        top: calc(100% + 0.6rem);
+        right: 0;
+        min-width: 9rem;
+        margin: 0;
+        padding: 0.5rem 0;
+        list-style: none;
+        background: var(--bg);
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        z-index: 20;
+      }
+
+      .site-menu[hidden] {
+        display: none;
+      }
+
+      .site-menu li {
+        margin: 0;
+      }
+
+      .site-menu a {
+        display: block;
+        padding: 0.4rem 1rem;
+        white-space: nowrap;
+      }
+
+      .site-menu a:hover {
+        background: color-mix(in srgb, var(--accent) 8%, transparent);
       }
 
       /* ---------- main ---------- */
