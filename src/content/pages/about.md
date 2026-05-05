@@ -53,7 +53,7 @@ Lehmann grew up in Denmark and studied physics at the Niels Bohr Institute, Univ
 
 After his doctorate, Lehmann spent three years in Boston. He held simultaneous postdoctoral positions at Albert-László Barabási's Center for Complex Network Research at Northeastern University and the Center for Cancer Systems Biology at Harvard's Dana-Farber Cancer Institute, followed by a fellowship at Harvard's Institute for Quantitative Social Science. These years immersed him in a remarkable community of network scientists and cemented long-running collaborations — with Barabási, David Lazer, Sandy Pentland, Yong-Yeol Ahn, Alan Mislove, and many others — that have shaped his career. He has returned to Northeastern for summer research visits nearly every year since.
 
-Lehmann joined the DTU faculty in 2010, was promoted to Associate Professor in 2012 and Full Professor in 2019. He also holds an Adjunct Professorship in Social Network Science at the Department of Sociology, University of Copenhagen.
+Lehmann joined the DTU faculty in 2010, was promoted to Associate Professor in 2012 and Full Professor in 2019. From 2017 to 2022 he also held an Adjunct Professorship in Social Network Science at the Department of Sociology, University of Copenhagen.
 
 His research spans a striking range of topics unified by a common thread: revealing hidden patterns in large-scale behavioral data. In community detection, his 2010 Nature paper (with Ahn and Bagrow) introduced the concept of link communities, a method for uncovering overlapping structure in networks that has become widely used across disciplines. In human mobility, his group has shown that people maintain a fixed "capacity" of regularly visited places, swapping locations in and out rather than accumulating them (Nature, 2020; Nature Human Behaviour, 2018). Work on collective attention demonstrated that the public's attention span on cultural phenomena — from bestselling books to trending hashtags — has been systematically shrinking over decades (Nature Communications, 2019). His research on complex contagion, using carefully controlled experiments with Twitter bots, provided some of the first experimental evidence that information can spread through social reinforcement rather than simple exposure (PLOS One, 2017; Best Paper Award, IC2S2 2018).
 
@@ -147,7 +147,7 @@ After my doctorate, I moved to Boston for three years that fundamentally shaped 
 
 Boston was where I found my scientific community. I met Yong-Yeol Ahn, Jim Bagrow, and Alan Mislove at Northeastern; Sandy Pentland at MIT; and many others who have remained close collaborators and friends ever since. Some of my best work has grown directly out of those relationships. I've returned to Northeastern for summer research visits almost every year for more than a decade — a tradition that has become one of the fixed points in my calendar.
 
-I joined the DTU faculty in 2010, was promoted to Associate Professor in 2012 and Full Professor in 2019. Since 2020, I've held a joint professorship at the University of Copenhagen's Center for Social Data Science (SODAS), and since 2017, an adjunct professorship in the Department of Sociology there as well.
+I joined the DTU faculty in 2010, was promoted to Associate Professor in 2012 and Full Professor in 2019. Since 2020, I've held a joint professorship at the University of Copenhagen's Center for Social Data Science (SODAS); from 2017 to 2022 I also held an adjunct professorship in the Department of Sociology there.
 
 ### Research themes
 

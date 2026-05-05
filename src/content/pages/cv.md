@@ -22,15 +22,15 @@ A short version of the CV — education, employment, and positions of trust. For
 ### Current
 
 **Professor of Networks and Complexity Science** — 2019–present
-DTU Compute, Technical University of Denmark.
+[DTU Compute](https://www.dtu.dk/english/person/sune-lehmann?id=25317&entity=profile), Technical University of Denmark.
 
 **Professor of Social Data Science** — 2020–present
-Center for Social Data Science (SODAS), University of Copenhagen.
-
-**Adjunct Professor of Social Network Science** — 2017–present
-Department of Sociology, University of Copenhagen.
+[Center for Social Data Science (SODAS)](https://researchprofiles.ku.dk/da/persons/sune-lehmann-jørgensen/), University of Copenhagen.
 
 ### Previous
+
+**Adjunct Professor of Social Network Science** — 2017–2022
+Department of Sociology, University of Copenhagen.
 
 **Associate Professor of Social Informatics** — 2012–2019
 DTU Compute, Technical University of Denmark.
