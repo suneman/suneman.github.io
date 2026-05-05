@@ -69,7 +69,7 @@ As a teacher, Lehmann has developed and taught courses on social networks, data 
 
 Lehmann has been recognized with the EliteForsk Senior Prize (2022) — one of Denmark's most prestigious research awards — the Columbus Prize (2021), and was part of the team named Best Danish Research Environment (2023). He was elected to the Royal Danish Academy of Sciences and Letters in 2024 and is a member of the Danish Academy of Technical Sciences.
 
-He is co-editor of *Complex Spreading Phenomena in Social Systems* (Springer, 2018), and has received over DKK 75 million in research funding as PI or Co-PI, including a Villum Synergy Grant, a Carlsberg Semper Ardens grant, an ERC Advanced Grant, and a Sapere Aude Starting Grant. He has delivered keynotes at IC2S2, Complex Networks, Digital Tech Summit, and TechBBQ, and given invited talks at institutions including MIT, Stanford, Harvard, Cambridge, ETH Zurich, the Santa Fe Institute, and the Royal Danish Academy.
+He is co-editor of *Complex Spreading Phenomena in Social Systems* (Springer, 2018), and has received over DKK 100 million in research funding as PI or Co-PI, including a Villum Synergy Grant, a Carlsberg Semper Ardens grant, an ERC Advanced Grant, and a Sapere Aude Research Leader grant. He has delivered keynotes at IC2S2, Complex Networks, Digital Tech Summit, and TechBBQ, and given invited talks at institutions including MIT, Stanford, Harvard, Cambridge, ETH Zurich, the Santa Fe Institute, and the Royal Danish Academy.
 
 ---
 
@@ -239,7 +239,7 @@ I served on the Danish government's COVID-19 modeling task force, the advisory b
 
 ### Research funding
 
-My work has been supported by major grants including a Villum Foundation Synergy Grant (DKK 19.7 million), a Carlsberg Foundation Semper Ardens Grant (DKK 25 million, co-PI), an ERC Advanced Grant (co-PI), a Sapere Aude Starting Grant from the Danish Council for Independent Research, a Villum Young Investigator Grant, and funding from the University of Copenhagen's Programme of Excellence for Interdisciplinary Research. Total funding as PI or co-PI exceeds DKK 75 million.
+My work has been supported by major grants including a Villum Foundation Synergy Grant (DKK 19.7 million), a Carlsberg Foundation Semper Ardens grant (HOPE — co-PI on Michael Bang Petersen's covid-19 project), an ERC Advanced Grant (co-PI on DISTRACT), a Sapere Aude Research Leader grant from the Independent Research Fund Denmark, a Villum Young Investigator Grant, and funding from the University of Copenhagen's Programme of Excellence for Interdisciplinary Research. Total funding as PI or co-PI exceeds DKK 100 million.
 
 ### The bigger picture
 
