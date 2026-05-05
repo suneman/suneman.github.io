@@ -53,6 +53,12 @@ Center for Complex Network Research, Department of Physics, Northeastern Univers
 **Postdoctoral Research Associate** — 2007
 Informatics and Mathematical Modeling, Technical University of Denmark.
 
+## Honors and prizes
+
+[Best Danish Research Environment](https://youngacademy.dk/da/forskningsgruppen-social-complexity-lab-fra-dtu-vinder-aarets-forskningsmiljoepris-i-2023/) (2023, awarded by Det Unge Akademi to the Social Complexity Lab); [DFF EliteForsk Senior Prize](https://ufm.dk/aktuelt/pressemeddelelser/2022/februar/stor-pris-og-hyldest-til-fem-fremragende-forskere/) (2022); [Columbus Prize](https://sodas.ku.dk/research/news-2021/hope-project-awarded-the-columbus-prize/) (2021, co-recipient with the HOPE project on Denmark's COVID-19 response); Best Paper Award at IC2S2 2018 at Northwestern University, for [*Evidence of Complex Contagion of Information in Social Media*](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0184148); Copenhagen Kongres & Event Award (2013, for organising NetSci 2013); [Reinholdt W. Jorck's Prize](https://www.dtu.dk/nyheder/alle-nyheder/nyhed?id=f01668ce-03ac-483e-a726-19509d2a9562) (2011).
+
+Nominated for best teacher at DTU on four separate occasions; nominated for best PhD advisor at DTU.
+
 ## Positions of trust
 
 ### Leadership and advisory
