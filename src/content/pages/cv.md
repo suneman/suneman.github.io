@@ -9,13 +9,13 @@ A short version of the CV — education, employment, and positions of trust. For
 ## Education
 
 **Ph.D., Technical University of Denmark (DTU Informatics)** — 2007
-*The Structure of Complex Networks*. Advisor: Lars Kai Hansen. Co-advisors: Andrew D. Jackson, Mogens Høgh Jensen.
+[*The Structure of Complex Networks*](/theses/2007_structure-of-complex-networks.pdf) ([DTU Orbit](https://orbit.dtu.dk/en/publications/the-structure-of-complex-networks/)). Advisor: Lars Kai Hansen. Co-advisors: Andrew D. Jackson, Mogens Høgh Jensen.
 
 **M.Sc. in Physics, Niels Bohr Institute, University of Copenhagen** — 2003
-*Complex Networks and Scientific Excellence*. Advisor: Benny Lautrup.
+[*Spires on the Building of Science: Complex Networks and Scientific Excellence*](/theses/2003_spires-on-the-building-of-science.pdf). Advisor: Benny Lautrup.
 
 **B.Sc. in Physics, Niels Bohr Institute, University of Copenhagen** — 2000
-*Fighting Entanglement with Entanglement*. Advisor: Benny Lautrup.
+[*Fighting Entanglement with Entanglement: On Decoherence in Quantum Systems and Quantum Error Correction*](/theses/2000_fighting-entanglement-with-entanglement.pdf). Co-authored with Søren Stenild Juhl. Advisor: Benny Lautrup.
 
 ## Employment
 
