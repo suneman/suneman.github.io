@@ -69,9 +69,6 @@ Danish National Centre for Artificial Intelligence in Society (CAISA).
 **Collaboratory Lead** — 2022–present
 Pioneer Center for AI.
 
-**Associate Director** — 2018–present
-Center for Social Data Science (SODAS), University of Copenhagen.
-
 **Member, Expert Group on Tech Giants** — 2022–2024
 Advisory group to the Danish government on the regulation of large technology companies.
 
@@ -104,8 +101,8 @@ NordForsk-funded; group leader of the Danish section.
 
 ### Editorial roles
 
-**Editor, PNAS** — ongoing
-**Academic Editor, PLOS One** — 2012–present
-**Academic Editor, Applied Network Sciences** — ongoing
-**Academic Editor, Frontiers of Physics** — 2013–present
-**Member, PLOS Data Guidelines Board** — 2016–present
+**Editor, PNAS**
+**Academic Editor, PLOS One**
+**Academic Editor, Applied Network Sciences**
+**Academic Editor, Frontiers of Physics**
+**Member, PLOS Data Guidelines Board**
