@@ -6,6 +6,8 @@ status: publish
 
 A short version of the CV — education, employment, and positions of trust. For a fuller picture of who I am and what I work on, see [About](/about). For the full list of publications, see my [Google Scholar profile](https://scholar.google.com/citations?user=wvkUbiUAAAAJ).
 
+Prefer a portable version? Download my [2-page professional CV (PDF)](/cv/cv-2page.pdf).
+
 ## Education
 
 **Ph.D., Technical University of Denmark (DTU Informatics)** — 2007
@@ -72,10 +74,10 @@ Pioneer Center for AI.
 **Member, Expert Group on Tech Giants** — 2022–2024
 Advisory group to the Danish government on the regulation of large technology companies.
 
-**Member, Danish COVID-19 Modeling Task Force** — 2020–2023
+**Member, Danish COVID-19 Modeling Task Force** — 2020–2022
 Established by the Danish government to model the spread of COVID-19.
 
-**Advisory Board, Smittestop Contact Tracing App** — 2020–2023
+**Advisory Board, Smittestop Contact Tracing App** — 2021
 Agency of Digitization, Danish Ministry of Health.
 
 **Board Member, A.N. Neergaard og Hustrus Fond** — ongoing
