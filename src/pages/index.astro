@@ -411,7 +411,7 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
 
 <style>
   .hero {
-    width: 100%;
+    width: calc(100% - 2 * var(--gutter));
     max-width: 55.5rem;
     aspect-ratio: 6 / 1;
     min-height: 80px;
@@ -468,12 +468,11 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
 
   /* Mobile (<=600px): network strip (2/3 width) + square portrait (1/3
      width). Hero aspect 3:1; with portrait at 1/3 width and 1:1, the
-     network occupies a 2:1 strip. Side gutter matches the .landing
-     gutter below so the hero aligns with the latest-post card. */
+     network occupies a 2:1 strip. The base .hero rule already holds
+     the side gutter, so it carries over here. */
   @media (max-width: 600px) {
     .hero {
       aspect-ratio: 3 / 1;
-      width: calc(100% - 2 * var(--gutter));
     }
     .hero__art--desktop {
       display: none;
