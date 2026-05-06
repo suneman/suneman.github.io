@@ -127,7 +127,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         <span class="site-title__name">{SITE_NAME}</span><span class="site-title__sep" aria-hidden="true">: </span><span class="site-title__subtitle">{SITE_SUBTITLE}</span>
       </a>
       <nav class="site-nav" aria-label="Main">
-        <ul>
+        <ul class="site-nav__primary">
           {navLinks.map((link) => (
             <li>
               <a
@@ -153,6 +153,18 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             <span class="site-menu-toggle__bar" aria-hidden="true"></span>
           </button>
           <ul id="site-menu" class="site-menu" role="menu" hidden>
+            {navLinks.map((link) => (
+              <li class="site-menu__item--primary" role="none">
+                <a
+                  href={link.href}
+                  role="menuitem"
+                  aria-current={currentPath === link.href ? "page" : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+            <li class="site-menu__divider" role="separator" aria-hidden="true"></li>
             {menuLinks.map((link) => (
               <li role="none">
                 <a
@@ -379,20 +391,13 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         font-style: italic;
       }
 
-      @media (max-width: 540px) {
-        .site-title__sep,
-        .site-title__subtitle {
-          display: none;
-        }
-      }
-
       .site-nav {
         display: flex;
         align-items: center;
         gap: 1.25rem;
       }
 
-      .site-nav > ul {
+      .site-nav__primary {
         display: flex;
         gap: 1.25rem;
         list-style: none;
@@ -476,6 +481,34 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
       .site-menu a:hover {
         background: color-mix(in srgb, var(--accent) 8%, transparent);
+      }
+
+      .site-menu__divider {
+        height: 1px;
+        background: var(--rule);
+        margin: 0.4rem 0;
+        padding: 0;
+        border: 0;
+        list-style: none;
+      }
+
+      /* Mobile: hide visible nav links and wordmark suffix; the hamburger
+         panel grows to include all primary links. */
+      @media (max-width: 600px) {
+        .site-title__sep,
+        .site-title__subtitle {
+          display: none;
+        }
+        .site-nav__primary {
+          display: none;
+        }
+      }
+
+      @media (min-width: 601px) {
+        .site-menu__item--primary,
+        .site-menu__divider {
+          display: none;
+        }
       }
 
       /* ---------- video embeds (YouTube via remark-embeds, Vimeo inline) ---------- */

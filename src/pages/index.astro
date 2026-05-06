@@ -62,8 +62,12 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
 
 <BaseLayout wide>
   <section class="hero" aria-label="Hero">
-    <div class="hero__art" aria-hidden="true">
-      <svg class="hero__network" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="hero__art hero__art--desktop" aria-hidden="true">
+      <svg class="hero__network hero__network--desktop" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+
+    <div class="hero__art hero__art--mobile" aria-hidden="true">
+      <svg class="hero__network hero__network--mobile" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet"></svg>
     </div>
 
     <div class="hero__portrait-wrap">
@@ -97,15 +101,10 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
     import { forceSimulation, forceLink, forceManyBody, forceX, forceY } from "d3-force";
     import { drag } from "d3-drag";
 
-    function buildNetwork() {
-      const svg = document.querySelector(".hero__network");
+    function buildNetwork({ svgSelector, W, H, N, R, useAnchors }) {
+      const svg = document.querySelector(svgSelector);
       if (!svg) return;
 
-      // viewBox units — 5:1 strip
-      const W = 1000;
-      const H = 200;
-      const N = 100;
-      const R = 0.4 * H;          // RGG connection radius (~0.4 of strip height)
       const NODE_R = 6.75;
       const PAD = NODE_R + 1;
 
@@ -180,17 +179,23 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
 
       // Pin the leftmost and rightmost final nodes as anchors so the layout
       // stretches across the 5:1 strip instead of collapsing into a circle and
-      // pressing nodes against the side boundaries.
-      const ANCHOR_INSET = 0.25 * H;
-      let leftIdx = 0, rightIdx = 0;
-      for (let i = 1; i < N; i++) {
-        if (nodes[i].x < nodes[leftIdx].x) leftIdx = i;
-        if (nodes[i].x > nodes[rightIdx].x) rightIdx = i;
+      // pressing nodes against the side boundaries. Skipped for the square
+      // mobile network, which should naturally settle into a centered blob.
+      const anchorIds = new Set();
+      if (useAnchors) {
+        const ANCHOR_INSET = 0.25 * H;
+        let leftIdx = 0, rightIdx = 0;
+        for (let i = 1; i < N; i++) {
+          if (nodes[i].x < nodes[leftIdx].x) leftIdx = i;
+          if (nodes[i].x > nodes[rightIdx].x) rightIdx = i;
+        }
+        nodes[leftIdx].fx = ANCHOR_INSET;
+        nodes[leftIdx].fy = H / 2;
+        nodes[rightIdx].fx = W - ANCHOR_INSET;
+        nodes[rightIdx].fy = H / 2;
+        anchorIds.add(leftIdx);
+        anchorIds.add(rightIdx);
       }
-      nodes[leftIdx].fx = ANCHOR_INSET;
-      nodes[leftIdx].fy = H / 2;
-      nodes[rightIdx].fx = W - ANCHOR_INSET;
-      nodes[rightIdx].fy = H / 2;
 
       // Bridge any remaining small dangling components to the giant one with
       // a single random link, so the rendered network is always one piece.
@@ -246,18 +251,37 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
         .attr("r", (d) => (dist[d.id] < 0 ? NODE_R * 0.7 : NODE_R))
         .attr("fill", (d) => colorFor(dist[d.id]));
 
+      // Soft repulsion from the four walls: only fires within WALL_MARGIN
+      // of an edge, with force proportional to penetration depth. Keeps
+      // nodes from sticking to the boundary without compressing the
+      // interior. Anchored nodes (fx/fy set) are unaffected.
+      const WALL_MARGIN = 0.15 * Math.min(W, H);
+      const WALL_STRENGTH = 0.5;
+      function wallForce(alpha) {
+        for (const n of nodes) {
+          const penL = WALL_MARGIN - n.x;
+          if (penL > 0) n.vx += penL * WALL_STRENGTH * alpha;
+          const penR = n.x - (W - WALL_MARGIN);
+          if (penR > 0) n.vx -= penR * WALL_STRENGTH * alpha;
+          const penT = WALL_MARGIN - n.y;
+          if (penT > 0) n.vy += penT * WALL_STRENGTH * alpha;
+          const penB = n.y - (H - WALL_MARGIN);
+          if (penB > 0) n.vy -= penB * WALL_STRENGTH * alpha;
+        }
+      }
+
       const sim = forceSimulation(nodes)
         .force("link", forceLink(links).id((d) => d.id))
         .force("charge", forceManyBody().strength(-15))
         .force("compress-x", forceX(W / 2).strength(0.01))
         .force("compress-y", forceY(H / 2).strength(0.02))
+        .force("walls", wallForce)
         .alpha(0.9)
         .alphaDecay(0.025);
 
       // Make nodes draggable. Non-anchors release on drag end and the
       // simulation re-settles them; the two pinned anchors stay wherever
       // the user drops them.
-      const anchorIds = new Set([leftIdx, rightIdx]);
       const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
       nodeSel.call(
         drag()
@@ -297,16 +321,27 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
       svg.dataset.network = `n${N}-r${Math.round(R)}-e${epicenter}`;
     }
 
+    function buildAll() {
+      buildNetwork({
+        svgSelector: ".hero__network--desktop",
+        W: 1000, H: 200, N: 100, R: 0.4 * 200, useAnchors: true,
+      });
+      buildNetwork({
+        svgSelector: ".hero__network--mobile",
+        W: 400, H: 200, N: 40, R: 0.32 * 200, useAnchors: false,
+      });
+    }
+
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", buildNetwork);
+      document.addEventListener("DOMContentLoaded", buildAll);
     } else {
-      buildNetwork();
+      buildAll();
     }
   </script>
 
   <ColorStripe
     thickness="6px"
-    maxWidth="55.5rem"
+    maxWidth="min(55.5rem, calc(100% - 2 * var(--gutter)))"
     margin="clamp(0.75rem, 2vw, 1.25rem) auto 0"
   />
 
@@ -395,6 +430,10 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
     height: 100%;
   }
 
+  .hero__art--mobile {
+    display: none;
+  }
+
   .hero__network {
     display: block;
     width: 100%;
@@ -425,6 +464,29 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
     object-position: center;
     display: block;
     border-radius: 18px;
+  }
+
+  /* Mobile (<=600px): network strip (2/3 width) + square portrait (1/3
+     width). Hero aspect 3:1; with portrait at 1/3 width and 1:1, the
+     network occupies a 2:1 strip. Side gutter matches the .landing
+     gutter below so the hero aligns with the latest-post card. */
+  @media (max-width: 600px) {
+    .hero {
+      aspect-ratio: 3 / 1;
+      width: calc(100% - 2 * var(--gutter));
+    }
+    .hero__art--desktop {
+      display: none;
+    }
+    .hero__art--mobile {
+      display: block;
+      flex: 2 1 0;
+      height: 100%;
+    }
+    .hero__portrait-wrap {
+      flex: 1 1 0;
+      aspect-ratio: auto;
+    }
   }
 
   .landing {
