@@ -1,12 +1,12 @@
 {
   "since_year": 2003,
   "counts": {
-    "journal": 95,
+    "journal": 93,
     "conference": 11,
     "book": 7,
     "arxiv": 16,
-    "misc": 4
+    "misc": 6
   },
   "total": 133,
-  "updated": "2026-05-04"
+  "updated": "2026-05-06"
 }
