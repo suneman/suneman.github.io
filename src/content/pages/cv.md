@@ -4,7 +4,7 @@ slug: "cv"
 status: publish
 ---
 
-A short version of the CV — education, employment, and positions of trust. For a fuller picture of who I am and what I work on, see [About](/about). For the full list of publications, see my [Google Scholar profile](https://scholar.google.com/citations?user=wvkUbiUAAAAJ).
+A short version of the CV — education, employment, and positions of trust. For a fuller picture of who I am and what I work on, see [About](/about). For more in-depth information about my work, see the [publications page](/featured-publications).
 
 Prefer a portable version? Download my [2-page professional CV (PDF)](/cv/cv-2page.pdf).
 
