@@ -134,7 +134,7 @@ const postOgImage = images[0];
       font-size: 0.85em;
       line-height: 1.4;
       color: var(--muted);
-      text-align: center;
+      text-align: left;
       margin-top: 0.6em;
     }
 
@@ -147,6 +147,10 @@ const postOgImage = images[0];
 
     .post-body :global(.gallery figure) {
       margin: 0;
+    }
+
+    .post-body :global(.gallery figcaption) {
+      text-align: center;
     }
 
     /* YouTube embed wrapper — responsive 16:9 box */
