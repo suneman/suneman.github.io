@@ -10,6 +10,7 @@ interface Props {
   tags?: string[];
   images?: string[];
   original_url?: string;
+  ai_assisted?: boolean;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   tags = [],
   images = [],
   original_url,
+  ai_assisted = false,
 } = Astro.props;
 
 const dateObj = date instanceof Date ? date : new Date(date);
@@ -71,6 +73,12 @@ const postOgImage = images[0];
         <p class="post-original">
           Originally published at{" "}
           <a href={original_url} rel="nofollow">{original_url}</a>.
+        </p>
+      )}
+
+      {ai_assisted && (
+        <p class="post-ai-notice">
+          <span class="post-ai-notice__hl">AI assist warning</span>: In spite of my promises in the footer, parts of this post (event details, abstracts, etc) were extracted from the web by a language model. The connective prose is still typed on a keyboard.
         </p>
       )}
     </footer>
@@ -248,6 +256,24 @@ const postOgImage = images[0];
     .post-original a {
       color: inherit;
       text-decoration-color: var(--rule);
+    }
+
+    .post-ai-notice {
+      margin: 0;
+      color: var(--fg-muted);
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+
+    .post-ai-notice__hl {
+      font-style: normal;
+      background-image: linear-gradient(var(--accent-mustard), var(--accent-mustard));
+      background-repeat: no-repeat;
+      background-position: 0 90%;
+      background-size: 100% 0.42em;
+      padding: 0 0.12em;
+      color: var(--fg);
+      font-weight: 500;
     }
   </style>
 </BaseLayout>

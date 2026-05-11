@@ -6,6 +6,7 @@ status: publish
 author: "sunelehmann"
 categories: ["Talks"]
 images: ["/assets/20260510_science_and_cocktails_amsterdam/hero.jpg"]
+ai_assisted: true
 ---
 
 I'm excited to be heading to Amsterdam on May 19th to give a public lecture at [Science and Cocktails](https://www.scienceandcocktails.org/en/events/amsterdam/predicting-human-life), at Tolhuistuin.
