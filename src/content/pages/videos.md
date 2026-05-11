@@ -10,7 +10,7 @@ A grab-bag of public-facing video content – podcast trailers, press features, 
 
 **Fun:** [Dance Your PhD – 2024](#dance-your-phd) · [Podcast S2 – 2022](#podcast-s2) · [Podcast S1 – 2021](#podcast-s1) · [Data Stories – 2016](#data-stories)
 
-**Features:** [VidenSkaber on life2vec – 2024](#videnskaber) · [EliteForsk portrait – 2022](#eliteforsk-portrait) · [Villum YI portrait – 2018](#villum-yi)
+**Features:** [Future of Work on AI – 2026](#future-of-work-ai) · [VidenSkaber on life2vec – 2024](#videnskaber) · [EliteForsk portrait – 2022](#eliteforsk-portrait) · [Villum YI portrait – 2018](#villum-yi)
 
 **Popular talks:** [Royal Academy on life2vec – 2025](#ras-2025) · [EliteForsk Lecture – 2022](#eliteforsk-lecture) · [TEDxAarhus – 2018](#tedx) · [Science & Cocktails – 2014](#science-cocktails) · [Royal Academy on networks – 2013](#ras-2013)
 
@@ -49,6 +49,12 @@ Ulf Aslak's interactive visualization of how people gather over time, [winner of
 ---
 
 ## Features {#features}
+
+#### Future of Work on AI and meaning – 10 May 2026 {#future-of-work-ai}
+
+One episode of Johanne Havshøj's [*Future of Work*](https://www.futureofwork.nu) video project (non-profit, Carlsberg Foundation, 16 researchers interviewed across six themes) – when AI gets better than us at almost everything, what's the point of working? (In Danish.)
+
+<https://www.youtube.com/watch?v=8Hr55MEvkt0>
 
 #### VidenSkaber on life2vec – 9 August 2024 {#videnskaber}
 
