@@ -78,7 +78,7 @@ Portrait piece for the VILLUM Young Investigator Programme (The Velux Foundation
 
 ## Popular talks {#talks-popular}
 
-#### Royal Academy on life2vec – 4 March 2025 {#ras-2025}
+#### Royal Academy on life2vec – 17 February 2025 {#ras-2025}
 
 Public lecture at the Royal Danish Academy of Sciences and Letters on the life2vec work – *Dit liv på algoritme*: how residence, health data, and employment combine to predict life trajectories. (In Danish.)
 
@@ -142,6 +142,6 @@ My take on higher-order networks: what fundamental structures lurk in temporal n
 
 #### DTU Compute, inaugural lecture – 20 September 2019 {#dtu-inaugural}
 
-My inaugural lecture as professor at DTU Compute.
+My inaugural lecture as professor at DTU Compute – *Data science, complex patterns, and human behavior*.
 
 <https://www.youtube.com/watch?v=FGqx6_CvwQM>
