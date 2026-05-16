@@ -10,7 +10,7 @@ A grab-bag of public-facing video content – podcast trailers, press features, 
 
 **Fun:** [Dance Your PhD – 2024](#dance-your-phd) · [Podcast S2 – 2022](#podcast-s2) · [Podcast S1 – 2021](#podcast-s1) · [Data Stories – 2016](#data-stories)
 
-**Features:** [Future of Work on AI – 2026](#future-of-work-ai) · [VidenSkaber on life2vec – 2024](#videnskaber) · [EliteForsk portrait – 2022](#eliteforsk-portrait) · [Villum YI portrait – 2018](#villum-yi)
+**Features:** [Future of Work on AI – 2026](#future-of-work-ai) · [VidenSkaber on life2vec – 2024](#videnskaber) · [EliteForsk portrait – 2022](#eliteforsk-portrait) · [Villum YI portrait – 2018](#villum-yi) · [CBS Evening News – 2010](#twittermood-cbs)
 
 **Popular talks:** [Royal Academy on life2vec – 2025](#ras-2025) · [EliteForsk Lecture – 2022](#eliteforsk-lecture) · [TEDxAarhus – 2018](#tedx) · [Science & Cocktails – 2014](#science-cocktails) · [Royal Academy on networks – 2013](#ras-2013)
 
@@ -73,6 +73,12 @@ The Danish Ministry of Higher Education and Research's portrait piece accompanyi
 Portrait piece for the VILLUM Young Investigator Programme (The Velux Foundations), directed by Ole Stenum. The best feature anyone has ever made about the work – Ole and I became friends afterwards, which I think shows in the result.
 
 <div class="embed embed--vimeo"><iframe src="https://player.vimeo.com/video/251793047" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+
+#### CBS Evening News on TwitterMood – 22 July 2010 {#twittermood-cbs}
+
+Richard Schlesinger's correspondent piece for *CBS Evening News with Katie Couric* on the [TwitterMood paper](https://www.ccs.neu.edu/home/amislove/twittermood/) (with Mislove, Ahn, Onnela, Rosenquist). [CBS News article →](https://www.cbsnews.com/news/twitter-study-takes-countrys-temp-from-tweets/). The first time the work really took off, and still the wildest media outcome any paper of mine has ever produced.
+
+<https://www.youtube.com/watch?v=hY0UCD5UiiY>
 
 ---
 
