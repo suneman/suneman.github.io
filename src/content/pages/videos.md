@@ -138,7 +138,9 @@ A second take on the Fundamental Structures material – modelling temporal comm
 
 #### IC2S2 2021 keynote, ETH Zurich (virtual) – June 2021 {#ic2s2}
 
-My take on higher-order networks: what fundamental structures lurk in temporal networks once you stop pretending edges are independent. [Watch on the ETH video portal →](https://video.ethz.ch/events/2021/ic2s2/v/:0e85dc8c-8e0a-42cd-9d04-03b35bbfedbf) (no native embed available).
+My take on higher-order networks: what fundamental structures lurk in temporal networks once you stop pretending edges are independent. Also available [on the ETH video portal](https://video.ethz.ch/events/2021/ic2s2/v/:0e85dc8c-8e0a-42cd-9d04-03b35bbfedbf).
+
+<div class="embed embed--panopto"><iframe src="https://panopto.dtu.dk/Panopto/Pages/Embed.aspx?id=9c26def0-ff99-4e6a-b31d-b44001224c82&autoplay=false&offerviewer=true&showtitle=true&showbrand=true&captions=false&interactivity=all" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
 
 #### DTU Compute, inaugural lecture – 20 September 2019 {#dtu-inaugural}
 
