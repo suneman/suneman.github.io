@@ -39,7 +39,7 @@ I hold two professorships, both granted on the assumption that I would do more o
 
 Since 2025 I have also been a Chief Scientist in the Danish National Centre for AI in Society (CAISA) – the national centre for research on what AI does to societies and what societies should do about AI – and since 2022 I've co-led the Networks and Graphs collaboratory at the Pioneer Center for AI. I was elected to the Royal Danish Academy of Sciences and Letters in 2024, joined the Danish Academy of Technical Sciences in 2021, and was a member of the Young Academy from 2012 to 2017.
 
-In September 2025 I became *Efor* of Valkendorfs Kollegium – the academic overseer of one of the four historic student kollegier of the University of Copenhagen. Valkendorfs, founded in 1589 by royal treasurer Christoffer Valkendorf, is the oldest student collegium in the Nordic region; past residents include Grundtvig, Ewald, and Herman Bang. The role is largely ceremonial today, which is part of the appeal. I get to wear an old institution lightly and occasionally show up at dinners.
+In September 2025 I became *Efor* of Valkendorfs Kollegium – the academic overseer of one of the four historic student kollegier of the University of Copenhagen. Valkendorfs, founded in 1589 by royal treasurer Christoffer Valkendorf, is the oldest student collegium in the Nordic region; past residents include Grundtvig, Ewald, and Herman Bang. The role is somewhat ceremonial today, but because Valkendorf is run by its inhabitants, I do get to help out once in a while when they need an old fart to weigh in on complex matters. And the job it puts me in touch with a group of amazing young university student who teach me as much as I teach them. 
 
 ### What I study
 
