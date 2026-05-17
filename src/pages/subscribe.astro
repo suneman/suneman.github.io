@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ColorStripe from "../components/ColorStripe.astro";
+---
+
+<BaseLayout
+  title="Bursty Transmissions"
+  description="A newsletter from Sune Lehmann — science, ideas, and whatever he couldn't stop thinking about long enough to put down. Roughly once a month."
+>
+  <h1>Bursty Transmissions</h1>
+  <ColorStripe thickness="8px" margin="0 0 2rem" />
+
+  <p>
+    In network science, bursty dynamics describes a system with long quiet
+    stretches punctuated by sudden clusters of activity. This newsletter works
+    exactly the same way.
+  </p>
+  <p>
+    I'm <a href="/about">Sune Lehmann</a>, a professor of networks and
+    complexity science at DTU. I write when I have something worth saying —
+    about science, ideas, and whatever I couldn't stop thinking about long enough
+    to put down.
+  </p>
+  <p>No algorithm. No filler. No fixed cadence. Just signal.</p>
+
+  <div class="kit-form">
+    <script async data-uid="91a2bcdb6c" src="https://sunelehmann-com.kit.com/91a2bcdb6c/index.js"></script>
+  </div>
+
+  <p class="fine-print">No spam. Unsubscribe whenever.</p>
+</BaseLayout>
+
+<style>
+  .kit-form {
+    margin: 2.5rem 0 1rem;
+  }
+
+  .fine-print {
+    color: var(--fg-muted);
+    font-size: 0.875rem;
+    margin-top: 0;
+  }
+</style>
