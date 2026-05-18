@@ -117,7 +117,7 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
         css.getPropertyValue("--accent-teal").trim(),
         css.getPropertyValue("--accent-oxblood").trim(),
       ];
-      const MUTED = css.getPropertyValue("--fg-muted").trim() || "#6B655D";
+      const MUTED = css.getPropertyValue("--fg-muted").trim() || "#666669";
 
       // Keep regenerating geometry until we get a network with at most one
       // "large" component. Two large components would force an arbitrary
@@ -538,7 +538,7 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
   }
 
   .featured-post {
-    background: color-mix(in srgb, var(--accent) 5%, transparent);
+    background: #f1f0ea;
     border-radius: 6px;
     overflow: hidden;
   }

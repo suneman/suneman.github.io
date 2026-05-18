@@ -250,15 +250,16 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     <style is:global>
       /* ---------- tokens ---------- */
       :root {
-        --bg: #f6f2ea;
-        --fg: #1a1814;
-        --fg-muted: #6b655d;
-        --rule: #e3ddd0;
+        --bg: #fbfbf8;
+        --fg: #0e0e10;
+        --fg-muted: #666669;
+        --rule: #e4e2da;
 
         /* Six-color earth palette — bolder, saturated, sweeping warm→cool→warm
-           (sienna → clay → mustard → olive → teal → oxblood). All still sit
-           on the warm side; --accent is the primary. */
-        --accent: #b8451e;          /* burnt sienna */
+           (sienna → clay → mustard → olive → teal → oxblood). The spectrum is
+           the only chromatic event on the page; --accent is pulled from its
+           cool end (teal) rather than reusing the warm sienna stop. */
+        --accent: #2a7a8e;          /* teal — brand accent */
         --accent-clay: #d96a2c;     /* terracotta clay */
         --accent-mustard: #e8b126;  /* mustard ochre */
         --accent-olive: #7e8d20;    /* olive */
