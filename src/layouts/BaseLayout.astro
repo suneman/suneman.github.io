@@ -257,14 +257,16 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
         /* Six-color earth palette — bolder, saturated, sweeping warm→cool→warm
            (sienna → clay → mustard → olive → teal → oxblood). The spectrum is
-           the only chromatic event on the page; --accent is pulled from its
-           cool end (teal) rather than reusing the warm sienna stop. */
-        --accent: #2a7a8e;          /* teal — brand accent */
+           the only chromatic event on the page. --accent is a separate role
+           (links, eyebrow dot, "Read more →") and points at the teal stop, so
+           the page reads cool outside the spectrum visualization itself. */
+        --accent-sienna: #b8451e;   /* burnt sienna — spectrum stop 1 */
         --accent-clay: #d96a2c;     /* terracotta clay */
         --accent-mustard: #e8b126;  /* mustard ochre */
         --accent-olive: #7e8d20;    /* olive */
         --accent-teal: #107078;     /* deep teal */
         --accent-oxblood: #992c44;  /* oxblood wine */
+        --accent: var(--accent-teal); /* brand accent */
 
         --serif: "Fraunces", "Palatino", Georgia, serif;
         --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -277,7 +279,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
            is awkward. Hard stops keep the bands equal width. */
         --color-stripe-gradient: linear-gradient(
           to right,
-          var(--accent) 0 16.6667%,
+          var(--accent-sienna) 0 16.6667%,
           var(--accent-clay) 16.6667% 33.3333%,
           var(--accent-mustard) 33.3333% 50%,
           var(--accent-olive) 50% 66.6667%,
