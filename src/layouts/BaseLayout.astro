@@ -55,6 +55,21 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
+    <script is:inline>
+      /* Set data-theme before first paint to avoid FOUC.
+         Tri-state: "system" (default; follows prefers-color-scheme),
+         "light", or "dark" (user override, persisted in localStorage). */
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (t !== "light" && t !== "dark") t = "system";
+          document.documentElement.setAttribute("data-theme", t);
+        } catch (_) {
+          document.documentElement.setAttribute("data-theme", "system");
+        }
+      })();
+    </script>
+
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -177,6 +192,15 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 </a>
               </li>
             ))}
+            <li class="site-menu__divider" role="separator" aria-hidden="true"></li>
+            <li class="site-menu__theme" role="none">
+              <div class="theme-switcher" role="radiogroup" aria-label="Theme">
+                <span class="theme-switcher__label">Theme</span>
+                <button type="button" class="theme-switcher__btn" data-theme-value="system" role="radio" aria-checked="false">System</button>
+                <button type="button" class="theme-switcher__btn" data-theme-value="light" role="radio" aria-checked="false">Light</button>
+                <button type="button" class="theme-switcher__btn" data-theme-value="dark" role="radio" aria-checked="false">Dark</button>
+              </div>
+            </li>
           </ul>
         </div>
       </nav>
@@ -236,6 +260,62 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
           }
         });
       })();
+
+      /* Theme switcher: tri-state (system | light | dark), persisted in
+         localStorage, mirrored to data-theme on <html>. Dispatches a
+         "themechange" CustomEvent on document so other scripts (e.g. the
+         homepage d3 network) can recolor in place. */
+      (function () {
+        const buttons = document.querySelectorAll(".theme-switcher__btn");
+        if (!buttons.length) return;
+
+        const root = document.documentElement;
+
+        const currentTheme = () => {
+          const t = root.getAttribute("data-theme");
+          return t === "light" || t === "dark" ? t : "system";
+        };
+
+        const sync = () => {
+          const active = currentTheme();
+          buttons.forEach((btn) => {
+            btn.setAttribute(
+              "aria-checked",
+              btn.dataset.themeValue === active ? "true" : "false"
+            );
+          });
+        };
+
+        const setTheme = (value) => {
+          if (value !== "light" && value !== "dark") value = "system";
+          root.setAttribute("data-theme", value);
+          try {
+            if (value === "system") localStorage.removeItem("theme");
+            else localStorage.setItem("theme", value);
+          } catch (_) {}
+          sync();
+          document.dispatchEvent(
+            new CustomEvent("themechange", { detail: { theme: value } })
+          );
+        };
+
+        buttons.forEach((btn) => {
+          btn.addEventListener("click", () => setTheme(btn.dataset.themeValue));
+        });
+
+        if (window.matchMedia) {
+          const mq = window.matchMedia("(prefers-color-scheme: dark)");
+          mq.addEventListener("change", () => {
+            if (currentTheme() === "system") {
+              document.dispatchEvent(
+                new CustomEvent("themechange", { detail: { theme: "system" } })
+              );
+            }
+          });
+        }
+
+        sync();
+      })();
     </script>
 
     {GOATCOUNTER_CODE && (
@@ -254,6 +334,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         --fg: #0e0e10;
         --fg-muted: #666669;
         --rule: #e4e2da;
+        --surface-card: #f1f0ea;
 
         /* Six-color earth palette — bolder, saturated, sweeping warm→cool→warm
            (sienna → clay → mustard → olive → teal → oxblood). The spectrum is
@@ -288,13 +369,37 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         );
       }
 
+      /* ---------- dark mode ----------
+         Applied either by explicit user choice (data-theme="dark") or by
+         OS preference when in the default "system" mode. Light remains the
+         bare :root default, so a "light" choice needs no override block. */
+      :root[data-theme="dark"] {
+        --bg: #0b1838;
+        --fg: #e6eaf2;
+        --fg-muted: #8a93a6;
+        --rule: #1f2d56;
+        --surface-card: #152546;
+        --accent-sienna: #d85838;
+        --accent-clay: #e47a45;
+        --accent-mustard: #efc044;
+        --accent-olive: #9cb033;
+        --accent-teal: #3fa0a8;
+        --accent-oxblood: #b7405a;
+      }
+
       @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #0f0e0c;
-          --fg: #ede6d6;
-          --fg-muted: #8a8377;
-          --accent: #d4923a; /* placeholder; final amber-vs-teal pending */
-          --rule: #1f1d18;
+        :root[data-theme="system"] {
+          --bg: #0b1838;
+          --fg: #e6eaf2;
+          --fg-muted: #8a93a6;
+          --rule: #1f2d56;
+          --surface-card: #152546;
+          --accent-sienna: #d85838;
+          --accent-clay: #e47a45;
+          --accent-mustard: #efc044;
+          --accent-olive: #9cb033;
+          --accent-teal: #3fa0a8;
+          --accent-oxblood: #b7405a;
         }
       }
 
@@ -494,6 +599,45 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         padding: 0;
         border: 0;
         list-style: none;
+      }
+
+      .theme-switcher {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 1rem;
+        white-space: nowrap;
+      }
+
+      .theme-switcher__label {
+        font-size: 0.78rem;
+        color: var(--fg-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 600;
+        margin-right: 0.2rem;
+      }
+
+      .theme-switcher__btn {
+        font: inherit;
+        font-size: 0.82rem;
+        background: transparent;
+        color: var(--fg-muted);
+        border: 1px solid transparent;
+        border-radius: 3px;
+        padding: 0.15rem 0.45rem;
+        cursor: pointer;
+        line-height: 1;
+      }
+
+      .theme-switcher__btn:hover {
+        color: var(--fg);
+      }
+
+      .theme-switcher__btn[aria-checked="true"] {
+        color: var(--accent);
+        border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+        background: color-mix(in srgb, var(--accent) 8%, transparent);
       }
 
       /* Mobile: hide visible nav links and wordmark suffix; the hamburger
