@@ -1,5 +1,5 @@
 ---
-title: "Students"
+title: "For Students"
 slug: "students"
 status: publish
 ---
