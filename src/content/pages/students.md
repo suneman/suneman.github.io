@@ -4,18 +4,9 @@ slug: "students"
 status: publish
 ---
 
-This page is for students who is either a) already doing a project with me or b) thinking about it. The three sections below cover, in order: information for students already working on a project, prospective Master's and Bachelor's students at DTU, and prospective PhDs and postdocs from anywhere.
+This page is for students who are either a) already doing a project with me or b) thinking about it. The three sections below cover, in order: prospective Master's and Bachelor's students at DTU, prospective PhDs and postdocs from anywhere, and – at the bottom – resources for students who are already working on a project with me.
 
-[Current students](#current) | [Master's & Bachelor's at DTU](#masters-bsc) | [PhDs & postdocs](#phds-postdocs)
-
----
-
-## Current students {#current}
-
-Two guides I have written over the years that are still the best reference for what I expect from a thesis project. Useful both before you start and while you are in the middle of it.
-
-- [How to write a Master's Thesis](/how-to-write-a-masters-thesis) – a long, opinionated set of notes, mostly about *process*: how to keep track of what you have done, how to build a list of references, how to structure the text, how to write it. Re-read it once in a while during your project; you will get different things out of it at different stages.
-- [Master's defense notes](/masters-defence-notes) – what actually happens in the room on the day of the exam, what each of the three stages is for, and how to prepare for them.
+[Master's & Bachelor's at DTU](#masters-bsc) | [PhDs & postdocs](#phds-postdocs) | [Current students](#current)
 
 ---
 
@@ -49,3 +40,12 @@ I get a lot of emails from people who would like to join the group as a PhD stud
 The reliable signal is this: every open position in the group gets posted on [the blog](/blog) and on [LinkedIn](https://www.linkedin.com/in/sunelehmann/). If you would rather have those announcements arrive in your inbox, the [Bursty Transmissions newsletter](/subscribe) is the slow channel for the same news.
 
 Unsolicited applications are welcome too, but please understand that I cannot always promise an answer.
+
+---
+
+## Current students {#current}
+
+Two guides I have written over the years that are still the best reference for what I expect from a thesis project. Useful both before you start and while you are in the middle of it.
+
+- [How to write a Master's Thesis](/how-to-write-a-masters-thesis) – a long, opinionated set of notes, mostly about *process*: how to keep track of what you have done, how to build a list of references, how to structure the text, how to write it. Re-read it once in a while during your project; you will get different things out of it at different stages.
+- [Master's defense notes](/masters-defence-notes) – what actually happens in the room on the day of the exam, what each of the three stages is for, and how to prepare for them.
