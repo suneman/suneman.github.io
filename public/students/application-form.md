@@ -20,4 +20,6 @@ Please answer all questions below. Use as much or as little detail as you find a
 
 **Q6.** What is the worst class you have taken at DTU, and why?
 
-**Q7.** What grade do you aim to receive for your project?
+**Q7.** How do you think about using AI tools (such as large language models or code assistants) in your work – what do you find useful, and where do you stay careful?
+
+**Q8.** What grade do you aim to receive for your project?
