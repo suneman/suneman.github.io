@@ -26,10 +26,10 @@ M.Sc. Project | Student number: [student number(s)] | Semester: [when you are pl
 
 Attach the following:
 
-- **A short application.** Fill out [this form](/students/application-form.md) and remember return it as `.md` (please don't send `.docx`).
+- **A short application.** Fill out [this form](/students/application-form.md) and remember to return it as `.md` (please don't send `.docx`).
 - **A CV.**
 - **Your DTU grades so far.**
-- **A portfolio**, of cool project you've done during your studies (if relevant).
+- **A portfolio**, of cool projects you've done during your studies (if relevant).
 
 I read these as they arrive, but I am not always quick to reply. Apologies in advance.
 
