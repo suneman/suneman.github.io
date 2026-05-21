@@ -375,6 +375,8 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
       for AI in Society (CAISA).
     </p>
 
+    <hr class="landing__divider" aria-hidden="true" />
+
     <p class="landing__students-cta">
       If you are a student interested in working with me, please take a look at my <a href="/students">For Students</a> page first.
     </p>
@@ -523,6 +525,14 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
   .landing__students-cta {
     font-size: 1.05rem;
     margin: 0 0 3rem;
+  }
+
+  .landing__divider {
+    border: 0;
+    height: 2px;
+    width: 5rem;
+    background: var(--color-stripe-gradient);
+    margin: 0.5rem auto 1.5rem;
   }
 
   .landing__featured,

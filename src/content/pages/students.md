@@ -12,9 +12,11 @@ This page is for students who are either a) already doing a project with me or b
 
 ## Prospective Master's and Bachelor's students at DTU {#masters-bsc}
 
-If you are at DTU and would like to do your Master's or Bachelor's project with me: there is a procedure. I am sorry about the formality – I get more requests than I can handle individually, and a structured intake is the only way I have found to give each one a fair look.
+If you are at DTU and would like to do your Master's or Bachelor's project with me: there is a procedure. 
 
-Send me an email, using this *exact* subject line:
+I am sorry about this formality, but the thing is that I teach two large classes and a lot of students see me, so I get *many* more requests than I can handle and still be good advisor. I might get 30-50 requests per semester and a realistic load is around 5 projects. Therefore a structured intake is the only way I have found to give each one a fair look.
+
+Send me an email, using this *exact* subject line (this is because I use a filter to categorize), also it's a kind of [Van Halen test](https://en.wikipedia.org/wiki/Van_Halen_test):
 
 ```
 M.Sc. Project | Student number: [student number(s)] | Semester: [when you are planning to write your thesis]
@@ -24,10 +26,10 @@ M.Sc. Project | Student number: [student number(s)] | Semester: [when you are pl
 
 Attach the following:
 
-- **A short application.** Fill out [this form](/students/application-form.md) and return it as plain text (`.md` or `.txt`) – please don't send `.docx`.
+- **A short application.** Fill out [this form](/students/application-form.md) and remember return it as `.md` (please don't send `.docx`).
 - **A CV.**
 - **Your DTU grades so far.**
-- **A portfolio**, if you have one.
+- **A portfolio**, of cool project you've done during your studies (if relevant).
 
 I read these as they arrive, but I am not always quick to reply. Apologies in advance.
 
