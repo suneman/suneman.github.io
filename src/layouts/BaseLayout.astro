@@ -465,6 +465,13 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         font-variation-settings: "opsz" 18;
       }
 
+      /* Long literals (copy-paste subject lines, the rare URL) should wrap
+         rather than force horizontal scroll on narrow viewports. */
+      pre {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+
       /* ---------- header ---------- */
       .site-header {
         position: sticky;
