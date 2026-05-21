@@ -33,11 +33,11 @@ const ogImageUrl = new URL(ogImage, Astro.site);
 const navLinks = [
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
-  { href: "/featured-publications", label: "Publications" },
   { href: "/cv", label: "CV" },
 ];
 
 const menuLinks = [
+  { href: "/featured-publications", label: "Publications" },
   { href: "/people", label: "People" },
   { href: "/videos", label: "Videos" },
   { href: "/podcasts", label: "Podcasts" },
@@ -137,6 +137,20 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         <symbol id="i-orcid" viewBox="0 0 24 24">
           <path fill="currentColor" d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z"></path>
         </symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2"></path>
+          <path d="M12 20v2"></path>
+          <path d="m4.93 4.93 1.41 1.41"></path>
+          <path d="m17.66 17.66 1.41 1.41"></path>
+          <path d="M2 12h2"></path>
+          <path d="M20 12h2"></path>
+          <path d="m4.93 19.07 1.41-1.41"></path>
+          <path d="m17.66 6.34 1.41-1.41"></path>
+        </symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </symbol>
       </defs>
     </svg>
     <header class="site-header">
@@ -156,6 +170,28 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             </li>
           ))}
         </ul>
+        <div class="theme-toggle" role="group" aria-label="Theme">
+          <button
+            type="button"
+            class="theme-toggle__btn"
+            data-theme-value="light"
+            aria-pressed="false"
+            aria-label="Light mode"
+            title="Light mode"
+          >
+            <svg aria-hidden="true" focusable="false"><use href="#i-sun"></use></svg>
+          </button>
+          <button
+            type="button"
+            class="theme-toggle__btn"
+            data-theme-value="dark"
+            aria-pressed="false"
+            aria-label="Dark mode"
+            title="Dark mode"
+          >
+            <svg aria-hidden="true" focusable="false"><use href="#i-moon"></use></svg>
+          </button>
+        </div>
         <div class="site-menu-wrap">
           <button
             type="button"
@@ -193,15 +229,6 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                 </a>
               </li>
             ))}
-            <li class="site-menu__divider" role="separator" aria-hidden="true"></li>
-            <li class="site-menu__theme" role="none">
-              <div class="theme-switcher" role="radiogroup" aria-label="Theme">
-                <span class="theme-switcher__label">Theme</span>
-                <button type="button" class="theme-switcher__btn" data-theme-value="system" role="radio" aria-checked="false">System</button>
-                <button type="button" class="theme-switcher__btn" data-theme-value="light" role="radio" aria-checked="false">Light</button>
-                <button type="button" class="theme-switcher__btn" data-theme-value="dark" role="radio" aria-checked="false">Dark</button>
-              </div>
-            </li>
           </ul>
         </div>
       </nav>
@@ -262,38 +289,42 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         });
       })();
 
-      /* Theme switcher: tri-state (system | light | dark), persisted in
-         localStorage, mirrored to data-theme on <html>. Dispatches a
-         "themechange" CustomEvent on document so other scripts (e.g. the
-         homepage d3 network) can recolor in place. */
+      /* Theme toggle: binary (light | dark), persisted in localStorage,
+         mirrored to data-theme on <html>. Absence of a stored choice
+         leaves data-theme="system", which follows prefers-color-scheme.
+         The active button reflects the *effective* (resolved) theme, so
+         a system-mode visitor on a dark OS sees the moon highlighted.
+         Dispatches a "themechange" CustomEvent on document so other
+         scripts (e.g. the homepage d3 network) can recolor in place. */
       (function () {
-        const buttons = document.querySelectorAll(".theme-switcher__btn");
+        const buttons = document.querySelectorAll(".theme-toggle__btn");
         if (!buttons.length) return;
 
         const root = document.documentElement;
+        const mq = window.matchMedia
+          ? window.matchMedia("(prefers-color-scheme: dark)")
+          : null;
 
-        const currentTheme = () => {
+        const effectiveTheme = () => {
           const t = root.getAttribute("data-theme");
-          return t === "light" || t === "dark" ? t : "system";
+          if (t === "light" || t === "dark") return t;
+          return mq && mq.matches ? "dark" : "light";
         };
 
         const sync = () => {
-          const active = currentTheme();
+          const active = effectiveTheme();
           buttons.forEach((btn) => {
             btn.setAttribute(
-              "aria-checked",
+              "aria-pressed",
               btn.dataset.themeValue === active ? "true" : "false"
             );
           });
         };
 
         const setTheme = (value) => {
-          if (value !== "light" && value !== "dark") value = "system";
+          if (value !== "light" && value !== "dark") return;
           root.setAttribute("data-theme", value);
-          try {
-            if (value === "system") localStorage.removeItem("theme");
-            else localStorage.setItem("theme", value);
-          } catch (_) {}
+          try { localStorage.setItem("theme", value); } catch (_) {}
           sync();
           document.dispatchEvent(
             new CustomEvent("themechange", { detail: { theme: value } })
@@ -304,10 +335,10 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
           btn.addEventListener("click", () => setTheme(btn.dataset.themeValue));
         });
 
-        if (window.matchMedia) {
-          const mq = window.matchMedia("(prefers-color-scheme: dark)");
+        if (mq) {
           mq.addEventListener("change", () => {
-            if (currentTheme() === "system") {
+            if (root.getAttribute("data-theme") === "system") {
+              sync();
               document.dispatchEvent(
                 new CustomEvent("themechange", { detail: { theme: "system" } })
               );
@@ -609,43 +640,46 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         list-style: none;
       }
 
-      .theme-switcher {
-        display: flex;
+      .theme-toggle {
+        display: inline-flex;
         align-items: center;
-        gap: 0.4rem;
-        padding: 0.4rem 1rem;
-        white-space: nowrap;
+        gap: 0;
+        padding: 2px;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--rule) 35%, transparent);
+        line-height: 0;
       }
 
-      .theme-switcher__label {
-        font-size: 0.78rem;
-        color: var(--fg-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        font-weight: 600;
-        margin-right: 0.2rem;
-      }
-
-      .theme-switcher__btn {
-        font: inherit;
-        font-size: 0.82rem;
+      .theme-toggle__btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.8rem;
+        height: 1.4rem;
+        padding: 0;
+        border: 0;
         background: transparent;
         color: var(--fg-muted);
-        border: 1px solid transparent;
-        border-radius: 3px;
-        padding: 0.15rem 0.45rem;
+        border-radius: 999px;
         cursor: pointer;
-        line-height: 1;
+        line-height: 0;
+        transition: background-color 120ms ease, color 120ms ease;
       }
 
-      .theme-switcher__btn:hover {
+      .theme-toggle__btn svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      .theme-toggle__btn:hover {
         color: var(--fg);
       }
 
-      .theme-switcher__btn[aria-checked="true"] {
+      .theme-toggle__btn[aria-pressed="true"] {
+        background: var(--bg);
         color: var(--accent);
-        border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-        background: color-mix(in srgb, var(--accent) 8%, transparent);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
       }
 
       /* Mobile: hide visible nav links and wordmark suffix; the hamburger
