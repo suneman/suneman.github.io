@@ -64,7 +64,7 @@ Maybe it's not surprising since ChatGPT came up with it, but the Dragon metaphor
 
 But my favorite thing is that the Dragon metaphor reveals something completely new. (And that's the power of metaphors right there.)
 
-As I read it, the Dragon metaphor also showcases the insanity of the entire endeavor. We created an all-powerful Dragon, but we're using it to do customer support. What a small job for such a big machine.
+**As I read it, the Dragon metaphor also showcases the insanity of the entire endeavor. We created an all-powerful Dragon, but we're using it to do customer support. What a small job for such a big machine.**
 
 I'm left thinking: is this really a good use of scarce resources? Or: shouldn't we be using the Dragon for something more inventive?
 
