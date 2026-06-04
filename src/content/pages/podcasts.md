@@ -8,6 +8,16 @@ I host a podcast called *Too Lazy to Read the Paper*. The premise is that papers
 
 Listen on [Buzzsprout](https://toolazy.buzzsprout.com) or [Apple Podcasts](https://podcasts.apple.com/us/podcast/too-lazy-to-read-the-paper/id1562667368). The two season trailers live on the [Videos page](/videos) under *Fun* — Season 1 (2021) is the one I worked unreasonably hard on the jokes for; Season 2 (2022) is the one with the ukulele.
 
+## 2026 — the comeback {#comeback}
+
+After a long quiet spell, the show is back with a new format and a slightly longer name: *Too Lazy to Figure Out How to Use Claude Code for Science*. No paper this time — just a conversation about agentic coding for working scientists.
+
+#### YY Ahn: *Too Lazy to Figure Out How to Use Claude Code for Science* — 4 June 2026 {#claude-code}
+
+With **Yong-Yeol Ahn** (University of Virginia), old friend and terminal-dweller, on what Claude Code actually is, how a scientist can use it without getting burned, and what we stand to lose along the way. [Read the write-up and full transcript →](/blog/too-lazy-claude-code-for-science)
+
+<https://www.youtube.com/watch?v=8jo91yMtD_E>
+
 ## Season 1 — April–June 2021 {#season-1}
 
 Recorded over Zoom during the pandemic. Every episode has a video version.
