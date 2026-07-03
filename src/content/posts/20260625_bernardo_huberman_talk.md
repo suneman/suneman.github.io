@@ -25,7 +25,7 @@ If you want to get to know Bernardo a little before he arrives, I can warmly rec
 The talk details are
 
 - **Time**: August 20th, 14:00
-- **Place**: DTU, Building 324, room 240 (Lyngby campus)
+- **Place**: DTU, Auditorium 41, Building 303A (Lyngby campus)
 - **Title**: The Quantum Revolution: Security, Coordination, and Trust
 - **Abstract**: Superposition and entanglement are no longer theoretical curiosities; they are the bedrock of a new paradigm in information processing. By harnessing these fundamental quantum phenomena, we can design and implement cryptographic and computational mechanisms with provable security properties that remain unattainable through classical physics alone. This presentation will explain the practical implications of these mechanisms, demonstrating how they address long-standing, complex challenges in economics and communication technology, such as secure private coordination protocols. Beyond security, we will explore the critical role of quantum mechanics in modern infrastructure. We will show how quantum-enabled time synchronization serves as the backbone of reliable, high-performance global networks. Finally, the talk will synthesize these technical advancements to examine a profound social implication: the potential for quantum technology to function as a foundational enabler of trust in human and machine-mediated interactions.
 
