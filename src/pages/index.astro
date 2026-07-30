@@ -2,6 +2,8 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ColorStripe from "../components/ColorStripe.astro";
+import popularData from "../data/popular-posts.json";
+import archivePicks from "../data/archive-picks.json";
 
 const PORTRAITS = [
   "astronaut",
@@ -24,40 +26,38 @@ const PORTRAITS = [
 const posts = (await getCollection("posts", ({ data }) => data.status === "publish"))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const featured = posts[0];
 const recentPosts = posts.slice(1, 6);
 
-function makeExcerpt(body: string, maxLen = 280): string {
-  // Pick the first prose paragraph (skip image-only blocks).
-  let para = "";
-  for (const p of body.split(/\n\s*\n/)) {
-    const cleaned = p.replace(/!\[[^\]]*\]\([^)]*\)/g, "").trim();
-    if (cleaned.length > 20) {
-      para = cleaned;
-      break;
-    }
-  }
-  const text = para
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
-    .replace(/[*_~`]+/g, "")
-    .replace(/^#+\s*/gm, "")
-    .replace(/^>\s*/gm, "")
-    .replace(/<[^>]+>/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-  if (text.length <= maxLen) return text;
-  const cut = text.slice(0, maxLen);
-  const lastSpace = cut.lastIndexOf(" ");
-  return (lastSpace > 60 ? cut.slice(0, lastSpace) : cut) + "…";
-}
+// Three-slot featured card: newest post, most-read post over the trailing
+// three months (from GoatCounter via scripts/popular-posts.mjs), and a
+// monthly-rotating pick from the curated archive pool.
+const bySlug = new Map(posts.map((p) => [p.data.slug ?? p.id, p]));
+const slugOf = (p: (typeof posts)[number]) => p.data.slug ?? p.id;
 
-const featuredSlug = featured.data.slug ?? featured.id;
-const featuredExcerpt = makeExcerpt(featured.body ?? "");
-const featuredDate = featured.data.date.toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
+const newest = posts[0];
+
+const pool = archivePicks.picks.filter((p) => bySlug.has(p.slug));
+const now = new Date();
+const archivePost = pool.length
+  ? bySlug.get(pool[(now.getFullYear() * 12 + now.getMonth()) % pool.length].slug)
+  : undefined;
+
+const popularPost =
+  popularData.posts
+    .map((p) => p.slug)
+    .filter((s) => bySlug.has(s) && s !== slugOf(newest) && (!archivePost || s !== slugOf(archivePost)))
+    .map((s) => bySlug.get(s)!)[0] ?? posts[1];
+
+const fmtDay = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+const fmtMonth = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long" });
+
+const featuredSlots = [
+  { key: "newest", label: "Newest", post: newest, dateStr: fmtDay(newest.data.date) },
+  { key: "popular", label: "Most read (3 mo)", post: popularPost, dateStr: fmtDay(popularPost.data.date) },
+  { key: "archive", label: "From the archive", post: archivePost, dateStr: archivePost ? fmtMonth(archivePost.data.date) : "" },
+].filter((s) => s.post);
 ---
 
 <BaseLayout wide>
@@ -381,27 +381,21 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
       If you are a student interested in working with me, please start by taking a look at my <a href="/students">For Students</a> page.
     </p>
 
-    <section class="landing__featured" aria-labelledby="featured-heading">
-      <h2 id="featured-heading">Latest post</h2>
-      <article class="featured-post">
+    <section class="landing__featured" aria-label="Featured posts">
+      <article class="featured-trio">
         <ColorStripe thickness="4px" />
-        <div class="featured-post__inner">
-          <p class="featured-post__meta">
-            <time datetime={featured.data.date.toISOString()}>{featuredDate}</time>
-            {featured.data.categories.length > 0 && (
-              <>
-                <span class="featured-post__sep" aria-hidden="true">·</span>
-                <span>{featured.data.categories.join(", ")}</span>
-              </>
-            )}
-          </p>
-          <h3 class="featured-post__title">
-            <a href={`/blog/${featuredSlug}`}>{featured.data.title}</a>
-          </h3>
-          <p class="featured-post__excerpt">{featuredExcerpt}</p>
-          <p class="featured-post__more">
-            <a href={`/blog/${featuredSlug}`}>Read more →</a>
-          </p>
+        <div class="featured-trio__inner">
+          {featuredSlots.map((slot) => (
+            <div class={`featured-trio__slot featured-trio__slot--${slot.key}`}>
+              <p class="featured-trio__label">{slot.label}</p>
+              <h3 class="featured-trio__title">
+                <a href={`/blog/${slugOf(slot.post!)}`}>{slot.post!.data.title}</a>
+              </h3>
+              <time class="featured-trio__date" datetime={slot.post!.data.date.toISOString()}>
+                {slot.dateStr}
+              </time>
+            </div>
+          ))}
         </div>
       </article>
     </section>
@@ -540,7 +534,6 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
     margin: 0 0 3rem;
   }
 
-  .landing__featured h2,
   .landing__recent h2 {
     font-family: var(--sans);
     font-size: 0.78rem;
@@ -556,69 +549,97 @@ const featuredDate = featured.data.date.toLocaleDateString("en-US", {
     line-height: 1;
   }
 
-  .landing__featured h2::before,
   .landing__recent h2::before {
     content: "";
     display: inline-block;
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
-  }
-
-  .landing__featured h2::before {
-    background: var(--accent);
-  }
-
-  .landing__recent h2::before {
     background: var(--accent-olive);
   }
 
-  .featured-post {
+  .featured-trio {
     background: var(--surface-card);
     border-radius: 6px;
     overflow: hidden;
   }
 
-  .featured-post__inner {
-    padding: 1.25rem 1.5rem 1.25rem;
+  .featured-trio__inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem 1.4rem;
   }
 
-  .featured-post__meta {
-    margin: 0 0 0.5rem;
+  .featured-trio__slot {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .featured-trio__label {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
     color: var(--fg-muted);
-    font-size: 0.875rem;
-    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    margin: 0 0 0.55rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    line-height: 1;
   }
 
-  .featured-post__sep {
-    margin: 0 0.4em;
+  .featured-trio__label::before {
+    content: "";
+    display: inline-block;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    flex: none;
   }
 
-  .featured-post__title {
-    margin: 0 0 0.75rem;
-    font-size: clamp(1.6rem, 3vw, 2rem);
-    letter-spacing: -0.01em;
-    font-variation-settings: "opsz" 60;
-    line-height: 1.15;
+  .featured-trio__slot--newest .featured-trio__label::before {
+    background: var(--accent);
   }
 
-  .featured-post__title a {
+  .featured-trio__slot--popular .featured-trio__label::before {
+    background: var(--accent-mustard);
+  }
+
+  .featured-trio__slot--archive .featured-trio__label::before {
+    background: var(--accent-oxblood);
+  }
+
+  .featured-trio__title {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    letter-spacing: -0.005em;
+    font-variation-settings: "opsz" 30;
+    line-height: 1.25;
+  }
+
+  .featured-trio__title a {
     color: var(--fg);
     text-decoration: none;
   }
 
-  .featured-post__title a:hover {
+  .featured-trio__title a:hover {
     color: var(--accent);
   }
 
-  .featured-post__excerpt {
-    margin: 0 0 0.75rem;
-    font-size: 1.05rem;
+  .featured-trio__date {
+    margin-top: auto;
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
   }
 
-  .featured-post__more {
-    margin: 0;
-    font-size: 0.95rem;
+  @media (max-width: 600px) {
+    .featured-trio__inner {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
   }
 
   .post-list {

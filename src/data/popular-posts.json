@@ -1,0 +1,50 @@
+{
+  "month": "2026-07",
+  "range": {
+    "start": "2026-05-01",
+    "end": "2026-07-30",
+    "months": 3
+  },
+  "posts": [
+    {
+      "slug": "shoggoths-and-dragons",
+      "count": 203
+    },
+    {
+      "slug": "the-full-rotation",
+      "count": 109
+    },
+    {
+      "slug": "bernardo-huberman-talk",
+      "count": 107
+    },
+    {
+      "slug": "too-lazy-claude-code-for-science",
+      "count": 68
+    },
+    {
+      "slug": "reading-ai-text",
+      "count": 45
+    },
+    {
+      "slug": "tracking-human-mobility-using-wifi-signals",
+      "count": 43
+    },
+    {
+      "slug": "techtonic",
+      "count": 33
+    },
+    {
+      "slug": "science-and-cocktails-amsterdam",
+      "count": 33
+    },
+    {
+      "slug": "visualizing-link-communities",
+      "count": 31
+    },
+    {
+      "slug": "ias-amsterdam",
+      "count": 26
+    }
+  ]
+}

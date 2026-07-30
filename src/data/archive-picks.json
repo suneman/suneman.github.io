@@ -1,0 +1,53 @@
+{
+  "note": "Curated pool for the homepage 'From the archive' slot. The build rotates through it by calendar month: index = (year*12 + monthIndex) % picks.length. Hooks are curation notes for future editors, not rendered on the site. Refresh the pool whenever; order determines rotation sequence.",
+  "picks": [
+    {
+      "slug": "erdos-number",
+      "hook": "Discovering my Erdös number is three, with the full chain of papers (2010)."
+    },
+    {
+      "slug": "tweetquake",
+      "hook": "An earthquake propagating through Twitter (2011)."
+    },
+    {
+      "slug": "tell-a-story",
+      "hook": "Robert Krulwich on why you owe people a real answer to 'what do you work on?' (2011)."
+    },
+    {
+      "slug": "visualizing-link-communities",
+      "hook": "The visuals behind the link-communities work (2010)."
+    },
+    {
+      "slug": "whitman",
+      "hook": "Whitman's learn'd astronomer, and the physicist's case that science adds beauty (2011)."
+    },
+    {
+      "slug": "mood-twitter-and-the-new-shape-of-america",
+      "hook": "The Twittermood maps: America's mood drawn from tweets (2010)."
+    },
+    {
+      "slug": "feynman-on-beauty-again",
+      "hook": "Feynman on beauty, again – the video version worth two minutes of anyone's time (2011)."
+    },
+    {
+      "slug": "no-more-supporting-material",
+      "hook": "When the Journal of Neuroscience banned supplementary material – and why that was interesting (2010)."
+    },
+    {
+      "slug": "youre-here-because-of-a-robot",
+      "hook": "How a small course's Twitter bots reached trending topics, with Piotr Sapieżyński (2013)."
+    },
+    {
+      "slug": "a-note-on-academic-writing",
+      "hook": "The tell-them-three-times structure of academic text, written down once so it can be linked forever (2014)."
+    },
+    {
+      "slug": "tracking-human-mobility-using-wifi-signals",
+      "hook": "WiFi scans as a free, room-scale mobility sensor (2015)."
+    },
+    {
+      "slug": "science-and-art",
+      "hook": "A Danish artist turned my network graphics into foundation cover art (2013)."
+    }
+  ]
+}
