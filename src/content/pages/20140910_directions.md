@@ -14,7 +14,9 @@ My office is on the first floor of Building 321, room 126.
 
 If you're arriving from central Copenhagen via public transportation, I recommend taking [Bus 150S](http://www.moviatrafik.dk/dinrejse/koreplaner/pages/buslinje.aspx?direction_gid=9014200015010000&linegid=9011200015000000&line_name=150S)  (which runs frequently, starting at Nørreport). You exit the bus at DTU and follow this route:
 
-[googlemaps https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d4486.728733066008!2d12.520109309299436!3d55.786910707805234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!1i0!3e2!4m3!3m2!1d55.7880105!2d12.5295664!4m5!1s0x46524e634afedff5%3A0x80901d535308b370!2sMatematiktorvet%2C+Kongens+Lyngby%2C+Denmark!3m2!1d55.7846732!2d12.5191427!5e0!3m2!1sen!2sdk!4v1410344872339&w=600&h=500]
+<div class="embed embed--map"><iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d4486.728733066008!2d12.520109309299436!3d55.786910707805234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!1i0!3e2!4m3!3m2!1d55.7880105!2d12.5295664!4m5!1s0x46524e634afedff5%3A0x80901d535308b370!2sMatematiktorvet%2C+Kongens+Lyngby%2C+Denmark!3m2!1d55.7846732!2d12.5191427!5e0!3m2!1sen!2sdk!4v1410344872339" title="Walking route from the DTU bus stop to Matematiktorvet" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+
+If the map is being uncooperative, here is the same walk [straight from Google Maps](https://www.google.com/maps/dir/?api=1&origin=55.7880105,12.5295664&destination=Matematiktorvet,+2800+Kgs.+Lyngby&travelmode=walking).
 
 You can also take the train to Lyngby Station and then grab bus 40E to DTU.
 
