@@ -1,50 +1,50 @@
 {
   "month": "2026-08",
   "range": {
-    "start": "2026-05-12",
-    "end": "2026-08-10",
+    "start": "2026-05-19",
+    "end": "2026-08-17",
     "months": 3
   },
   "posts": [
     {
       "slug": "shoggoths-and-dragons",
-      "count": 208
+      "count": 212
     },
     {
       "slug": "bernardo-huberman-talk",
-      "count": 128
-    },
-    {
-      "slug": "the-full-rotation",
-      "count": 91
+      "count": 158
     },
     {
       "slug": "too-lazy-claude-code-for-science",
-      "count": 85
-    },
-    {
-      "slug": "tracking-human-mobility-using-wifi-signals",
-      "count": 46
-    },
-    {
-      "slug": "reading-ai-text",
-      "count": 45
+      "count": 88
     },
     {
       "slug": "too-lazy-10k-downloads",
-      "count": 42
+      "count": 55
     },
     {
-      "slug": "techtonic",
-      "count": 33
+      "slug": "youre-here-because-of-a-robot",
+      "count": 49
     },
     {
-      "slug": "science-and-cocktails-amsterdam",
-      "count": 30
+      "slug": "reading-ai-text",
+      "count": 46
+    },
+    {
+      "slug": "tracking-human-mobility-using-wifi-signals",
+      "count": 41
+    },
+    {
+      "slug": "ucph-life-science-keynote",
+      "count": 27
     },
     {
       "slug": "visualizing-link-communities",
-      "count": 29
+      "count": 27
+    },
+    {
+      "slug": "the-full-rotation",
+      "count": 24
     }
   ]
 }
