@@ -8,17 +8,18 @@ Mentoring is one of the parts of my job I take most seriously, and watching a te
 
 ## By the numbers
 
-_As of 2026-05-12._
+_As of 2026-08-16._
 
-- **13** PhD students as main supervisor (plus 12 more as co-supervisor)
+- **14** PhD students as main supervisor (plus 13 more as co-supervisor)
 - **14** postdocs (4 ongoing, 10 former)
 - **[170](/masters)** Master's projects
 - Nominated for best PhD advisor at DTU
 
 ## PhD students
 
-The thirteen PhDs where I served as the primary advisor, reverse-chronological by start.
+The fourteen PhDs where I served as the primary advisor, reverse-chronological by start.
 
+- **2026–present — Jakob Sebastian Engel Ketmig** — Industrial PhD with Danmarks Nationalbank.
 - **2026–present — Lasse Hyldig Hansen** — Industrial PhD with the Danish Competition and Consumer Authority. *Accelerated Digital Consumption and Adolescent Psychological Trajectories.*
 - **2025–present — Viktor Stenby Johansson** — Industrial PhD with Vipps MobilePay. *Understanding Behavior in Massive Social Networks using Embedding Methods.*
 - **2024–present — Christian Vestergaard Djurhuus** — University of Copenhagen / Pioneer Centre for AI. Modelling human life trajectories from registry data using graph representation learning.
