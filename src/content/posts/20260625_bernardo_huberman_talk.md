@@ -10,6 +10,8 @@ images: ["/assets/20260625_bernardo_huberman_talk/hero.jpg"]
 ai_assisted: true
 ---
 
+**Update August 18th.** The room has changed. The talk is now in **Building 305, Room 005** – *not* Auditorium 41 in Building 303A, which is what the original announcement said and what every email about it still says. Everything else is unchanged: Thursday August 20th at 14:00. Apologies to anyone who had already committed the old room to memory.
+
 We're lucky to have a genuine legend visiting DTU this summer. Bernardo Huberman is coming by on August 20th and will give a talk at 14:00 (full details below). 
 
 I'm excited to announce - not only that Bernardo is visiting - but that he's giving a talk about quantum information *for non-physicists*. If you are a data scientist or a computer scientist who has always meant to figure out what all the quantum fuss is about, this is your chance to hear it explained by one of the people actually building the next generation of quantum technology – no prior quantum mechanics required.
@@ -25,7 +27,7 @@ If you want to get to know Bernardo a little before he arrives, I can warmly rec
 The talk details are
 
 - **Time**: August 20th, 14:00
-- **Place**: DTU, Auditorium 41, Building 303A (Lyngby campus)
+- **Place**: DTU, **Building 305, Room 005** (Lyngby campus) – changed from Auditorium 41, Building 303A
 - **Title**: The Quantum Revolution: Security, Coordination, and Trust
 - **Abstract**: Superposition and entanglement are no longer theoretical curiosities; they are the bedrock of a new paradigm in information processing. By harnessing these fundamental quantum phenomena, we can design and implement cryptographic and computational mechanisms with provable security properties that remain unattainable through classical physics alone. This presentation will explain the practical implications of these mechanisms, demonstrating how they address long-standing, complex challenges in economics and communication technology, such as secure private coordination protocols. Beyond security, we will explore the critical role of quantum mechanics in modern infrastructure. We will show how quantum-enabled time synchronization serves as the backbone of reliable, high-performance global networks. Finally, the talk will synthesize these technical advancements to examine a profound social implication: the potential for quantum technology to function as a foundational enabler of trust in human and machine-mediated interactions.
 
