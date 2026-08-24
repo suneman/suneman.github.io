@@ -1,26 +1,26 @@
 {
   "month": "2026-08",
   "range": {
-    "start": "2026-05-19",
-    "end": "2026-08-17",
+    "start": "2026-05-26",
+    "end": "2026-08-24",
     "months": 3
   },
   "posts": [
     {
       "slug": "shoggoths-and-dragons",
-      "count": 212
+      "count": 215
     },
     {
       "slug": "bernardo-huberman-talk",
-      "count": 158
+      "count": 175
     },
     {
       "slug": "too-lazy-claude-code-for-science",
-      "count": 88
+      "count": 90
     },
     {
       "slug": "too-lazy-10k-downloads",
-      "count": 55
+      "count": 63
     },
     {
       "slug": "youre-here-because-of-a-robot",
@@ -36,15 +36,15 @@
     },
     {
       "slug": "ucph-life-science-keynote",
-      "count": 27
+      "count": 28
     },
     {
       "slug": "visualizing-link-communities",
       "count": 27
     },
     {
-      "slug": "the-full-rotation",
-      "count": 24
+      "slug": "iteasc-workshop",
+      "count": 23
     }
   ]
 }
