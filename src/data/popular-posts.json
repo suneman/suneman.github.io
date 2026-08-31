@@ -1,46 +1,46 @@
 {
   "month": "2026-08",
   "range": {
-    "start": "2026-05-26",
-    "end": "2026-08-24",
+    "start": "2026-06-02",
+    "end": "2026-08-31",
     "months": 3
   },
   "posts": [
     {
-      "slug": "shoggoths-and-dragons",
-      "count": 215
+      "slug": "bernardo-huberman-talk",
+      "count": 176
     },
     {
-      "slug": "bernardo-huberman-talk",
-      "count": 175
+      "slug": "shoggoths-and-dragons",
+      "count": 96
     },
     {
       "slug": "too-lazy-claude-code-for-science",
-      "count": 90
+      "count": 92
     },
     {
       "slug": "too-lazy-10k-downloads",
-      "count": 63
+      "count": 65
     },
     {
       "slug": "youre-here-because-of-a-robot",
       "count": 49
     },
     {
-      "slug": "reading-ai-text",
-      "count": 46
-    },
-    {
       "slug": "tracking-human-mobility-using-wifi-signals",
-      "count": 41
+      "count": 39
     },
     {
       "slug": "ucph-life-science-keynote",
-      "count": 28
+      "count": 29
+    },
+    {
+      "slug": "reading-ai-text",
+      "count": 29
     },
     {
       "slug": "visualizing-link-communities",
-      "count": 27
+      "count": 26
     },
     {
       "slug": "iteasc-workshop",
