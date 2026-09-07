@@ -11,7 +11,7 @@ import ColorStripe from "../components/ColorStripe.astro";
   <ColorStripe thickness="8px" margin="0 0 2rem" />
 
   <section class="timer" id="timer" data-state="idle">
-    <div class="timer__clock" id="clock" role="timer" aria-label="Time remaining">25:00</div>
+    <div class="timer__clock" id="clock" role="timer" aria-label="Time remaining"><span id="mm">25</span><span class="timer__colon">:</span><span id="ss">00</span></div>
 
     <svg
       class="timer__network"
@@ -93,11 +93,13 @@ import ColorStripe from "../components/ColorStripe.astro";
   const root = document.getElementById("timer");
   const svg = document.getElementById("network");
   const clockEl = document.getElementById("clock");
+  const mmEl = document.getElementById("mm");
+  const ssEl = document.getElementById("ss");
   const statusEl = document.getElementById("status");
   const announceEl = document.getElementById("announce");
   const toggleBtn = document.getElementById("toggle");
   const resetBtn = document.getElementById("reset");
-  if (!root || !svg || !clockEl || !statusEl || !announceEl || !toggleBtn || !resetBtn) {
+  if (!root || !svg || !clockEl || !mmEl || !ssEl || !statusEl || !announceEl || !toggleBtn || !resetBtn) {
     throw new Error("timer: missing DOM");
   }
 
@@ -323,15 +325,11 @@ import ColorStripe from "../components/ColorStripe.astro";
   }
 
   // Light every node whose time has come; a link lights once both ends have.
-  function syncLit(elapsedMs: number, animate: boolean) {
+  // Lighting is a class flip; the slow fade itself lives in CSS.
+  function syncLit(elapsedMs: number) {
     while (litCount < N && litAt[order[litCount]] <= elapsedMs) {
       const id = order[litCount];
-      const el = nodeEls[id];
-      el.classList.add("lit");
-      if (animate) {
-        el.classList.add("pop");
-        setTimeout(() => el.classList.remove("pop"), 500);
-      }
+      nodeEls[id].classList.add("lit");
       for (const li of linkAdjacency[id]) {
         const l = links[li];
         const other = (l.source as Node).id === id ? (l.target as Node) : (l.source as Node);
@@ -343,7 +341,7 @@ import ColorStripe from "../components/ColorStripe.astro";
 
   function unlightAll() {
     litCount = 0;
-    for (const el of nodeEls) el.classList.remove("lit", "pop");
+    for (const el of nodeEls) el.classList.remove("lit");
     for (const el of linkEls) el.classList.remove("lit");
   }
 
@@ -386,7 +384,9 @@ import ColorStripe from "../components/ColorStripe.astro";
   function paint() {
     const elapsed = DURATION_MS - remainingMs;
     const label = mmss(remainingMs);
-    if (clockEl.textContent !== label) clockEl.textContent = label;
+    const [mm, ss] = label.split(":");
+    if (mmEl.textContent !== mm) mmEl.textContent = mm;
+    if (ssEl.textContent !== ss) ssEl.textContent = ss;
     const title = state === "running" || state === "paused" ? `${label} — ${baseTitle}` : baseTitle;
     if (document.title !== title) document.title = title;
   }
@@ -395,7 +395,7 @@ import ColorStripe from "../components/ColorStripe.astro";
     if (state !== "running") return;
     remainingMs = Math.max(0, endAt - Date.now());
     paint();
-    syncLit(DURATION_MS - remainingMs, true);
+    syncLit(DURATION_MS - remainingMs);
     updateStatus();
     if (remainingMs === 0) finish();
   }
@@ -429,7 +429,7 @@ import ColorStripe from "../components/ColorStripe.astro";
       ticker = null;
     }
     remainingMs = 0;
-    syncLit(DURATION_MS, true);
+    syncLit(DURATION_MS);
     setState("done");
     paint();
     document.title = `Done — ${baseTitle}`;
@@ -484,12 +484,12 @@ import ColorStripe from "../components/ColorStripe.astro";
       remainingMs = Math.max(0, saved.endAt - Date.now());
       if (remainingMs === 0) {
         // Ended while we were away. Show the finished network, skip the chime.
-        syncLit(DURATION_MS, false);
+        syncLit(DURATION_MS);
         setState("done");
         paint();
         return true;
       }
-      syncLit(DURATION_MS - remainingMs, false);
+      syncLit(DURATION_MS - remainingMs);
       endAt = saved.endAt;
       setState("running");
       paint();
@@ -500,7 +500,7 @@ import ColorStripe from "../components/ColorStripe.astro";
     }
     if (saved.state === "paused") {
       remainingMs = Math.min(DURATION_MS, Math.max(0, saved.remainingMs));
-      syncLit(DURATION_MS - remainingMs, false);
+      syncLit(DURATION_MS - remainingMs);
       setState("paused");
       paint();
       return true;
@@ -596,6 +596,11 @@ import ColorStripe from "../components/ColorStripe.astro";
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) tick();
   });
+  // The slow fades would otherwise turn a theme toggle into a 20 s crossfade.
+  document.addEventListener("themechange", () => {
+    svg.classList.add("instant");
+    requestAnimationFrame(() => requestAnimationFrame(() => svg.classList.remove("instant")));
+  });
   for (const ev of ["pointerdown", "keydown"] as const) {
     document.addEventListener(ev, () => {
       if (audio && audio.state === "suspended") audio.resume();
@@ -629,6 +634,13 @@ import ColorStripe from "../components/ColorStripe.astro";
     transition: color 200ms ease;
   }
 
+  .timer__clock span {
+    transition: color 1.5s ease;
+  }
+
+  /* While running, the part that changes every second recedes. */
+  .timer[data-state="running"] .timer__clock #ss,
+  .timer[data-state="running"] .timer__clock .timer__colon,
   .timer[data-state="paused"] .timer__clock {
     color: var(--fg-muted);
   }
@@ -645,14 +657,19 @@ import ColorStripe from "../components/ColorStripe.astro";
     overflow: visible;
   }
 
-  /* Nodes and links start dormant on the rule colour and light up in the
-     colour of their BFS shell. Colours are tokens, so dark mode is free. */
+  /* Nodes and links start dormant on the rule colour and take on the colour
+     of their BFS shell. Colours are tokens, so dark mode is free.
+
+     Calm by design: a node takes 20 s to reach its colour – longer than the
+     gap between nodes – so the network is a slow tide rather than a series
+     of events, and nothing moves. Lit nodes stay at 60% while the timer
+     runs and bloom to full colour only at zero. */
   .timer__network :global(.link) {
     stroke: var(--rule);
     stroke-width: 0.9;
     stroke-linecap: round;
-    transition: stroke 450ms ease, stroke-opacity 450ms ease;
     stroke-opacity: 1;
+    transition: stroke 20s linear, stroke-opacity 20s linear;
   }
 
   .timer__network :global(.node) {
@@ -661,29 +678,11 @@ import ColorStripe from "../components/ColorStripe.astro";
     stroke-opacity: 0.45;
     stroke-width: 1.2;
     cursor: grab;
-    transform-box: fill-box;
-    transform-origin: center;
-    transition: fill 350ms ease, stroke 350ms ease;
+    transition: fill 20s linear, stroke 20s linear, fill-opacity 20s linear, stroke-opacity 20s linear;
   }
 
   .timer__network :global(.node:active) {
     cursor: grabbing;
-  }
-
-  .timer__network :global(.node.pop) {
-    animation: pop 500ms cubic-bezier(0.2, 0.9, 0.3, 1.4);
-  }
-
-  @keyframes pop {
-    0% {
-      transform: scale(1);
-    }
-    40% {
-      transform: scale(1.7);
-    }
-    100% {
-      transform: scale(1);
-    }
   }
 
   .timer__network :global([data-shell="0"].lit) { --c: var(--accent-sienna); }
@@ -696,12 +695,33 @@ import ColorStripe from "../components/ColorStripe.astro";
   .timer__network :global(.node.lit) {
     fill: var(--c);
     stroke: var(--c);
-    stroke-opacity: 1;
+    fill-opacity: 0.6;
+    stroke-opacity: 0.6;
   }
 
   .timer__network :global(.link.lit) {
     stroke: var(--c);
+    stroke-opacity: 0.3;
+  }
+
+  .timer[data-state="done"] .timer__network :global(.node),
+  .timer[data-state="done"] .timer__network :global(.link) {
+    transition-duration: 3s;
+    transition-timing-function: ease;
+  }
+
+  .timer[data-state="done"] .timer__network :global(.node.lit) {
+    fill-opacity: 1;
+    stroke-opacity: 1;
+  }
+
+  .timer[data-state="done"] .timer__network :global(.link.lit) {
     stroke-opacity: 0.55;
+  }
+
+  .timer__network.instant :global(.node),
+  .timer__network.instant :global(.link) {
+    transition: none;
   }
 
   .timer__status {
@@ -831,12 +851,6 @@ import ColorStripe from "../components/ColorStripe.astro";
   @media (max-width: 600px) {
     .timer__hint {
       display: none;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .timer__network :global(.node.pop) {
-      animation: none;
     }
   }
 </style>
