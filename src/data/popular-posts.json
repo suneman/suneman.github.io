@@ -1,42 +1,38 @@
 {
-  "month": "2026-08",
+  "month": "2026-09",
   "range": {
-    "start": "2026-06-02",
-    "end": "2026-08-31",
+    "start": "2026-06-09",
+    "end": "2026-09-07",
     "months": 3
   },
   "posts": [
     {
       "slug": "bernardo-huberman-talk",
-      "count": 176
-    },
-    {
-      "slug": "shoggoths-and-dragons",
-      "count": 96
+      "count": 177
     },
     {
       "slug": "too-lazy-claude-code-for-science",
-      "count": 92
+      "count": 84
+    },
+    {
+      "slug": "shoggoths-and-dragons",
+      "count": 81
     },
     {
       "slug": "too-lazy-10k-downloads",
-      "count": 65
+      "count": 67
     },
     {
       "slug": "youre-here-because-of-a-robot",
-      "count": 49
+      "count": 48
     },
     {
       "slug": "tracking-human-mobility-using-wifi-signals",
-      "count": 39
+      "count": 37
     },
     {
       "slug": "ucph-life-science-keynote",
-      "count": 29
-    },
-    {
-      "slug": "reading-ai-text",
-      "count": 29
+      "count": 30
     },
     {
       "slug": "visualizing-link-communities",
@@ -45,6 +41,10 @@
     {
       "slug": "iteasc-workshop",
       "count": 23
+    },
+    {
+      "slug": "aftryk-festival",
+      "count": 21
     }
   ]
 }
