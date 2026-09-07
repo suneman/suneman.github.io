@@ -406,6 +406,7 @@ import ColorStripe from "../components/ColorStripe.astro";
     endAt = Date.now() + remainingMs;
     setState("running");
     if (ticker === null) ticker = window.setInterval(tick, 200);
+    armChime();
     announce(fresh ? "Timer started" : "Timer resumed");
     tick();
   }
@@ -416,6 +417,7 @@ import ColorStripe from "../components/ColorStripe.astro";
       clearInterval(ticker);
       ticker = null;
     }
+    cancelChime();
     setState("paused");
     paint();
     announce("Timer paused");
@@ -432,7 +434,8 @@ import ColorStripe from "../components/ColorStripe.astro";
     paint();
     document.title = `Done — ${baseTitle}`;
     announce("Twenty-five minutes are up.");
-    chime();
+    if (pendingChime.length) pendingChime = [];
+    else if (audio) chimeAt(audio.currentTime);
   }
 
   function reset(fresh = true) {
@@ -440,6 +443,7 @@ import ColorStripe from "../components/ColorStripe.astro";
       clearInterval(ticker);
       ticker = null;
     }
+    cancelChime();
     remainingMs = DURATION_MS;
     endAt = 0;
     if (fresh) buildNetwork();
@@ -490,6 +494,8 @@ import ColorStripe from "../components/ColorStripe.astro";
       setState("running");
       paint();
       if (ticker === null) ticker = window.setInterval(tick, 200);
+      ensureAudio();
+      armChime();
       return true;
     }
     if (saved.state === "paused") {
@@ -503,35 +509,73 @@ import ColorStripe from "../components/ColorStripe.astro";
   }
 
   // ---------- chime ----------
+  //
+  // The chime is scheduled on the audio clock the moment the timer starts,
+  // not fired from the tick. A window hidden behind another one gets its
+  // JavaScript timers throttled to roughly once a minute after five
+  // minutes; the audio thread does not, so the notes land on the second.
+
+  let pendingChime: { osc: OscillatorNode; gain: GainNode }[] = [];
 
   function ensureAudio() {
     try {
-      if (!audio) audio = new (window.AudioContext || (window as any).webkitAudioContext)();
+      if (!audio) {
+        audio = new (window.AudioContext || (window as any).webkitAudioContext)();
+        // A context created without a user gesture (restored session) starts
+        // suspended with a frozen clock; re-arm once it actually runs.
+        audio.addEventListener("statechange", () => {
+          if (audio?.state === "running") armChime();
+        });
+      }
       if (audio.state === "suspended") audio.resume();
     } catch {
       audio = null;
     }
   }
 
-  function chime() {
+  function cancelChime() {
+    for (const { osc, gain } of pendingChime) {
+      try {
+        osc.stop();
+      } catch {
+        /* never started, or already stopped */
+      }
+      osc.disconnect();
+      gain.disconnect();
+    }
+    pendingChime = [];
+  }
+
+  // Two rising notes, played twice: gentle enough for an office, hard to miss.
+  function chimeAt(when: number) {
     if (!audio) return;
-    const t0 = audio.currentTime;
+    cancelChime();
     const notes: [number, number][] = [
       [659.25, 0], // E5
       [880.0, 0.22], // A5
+      [659.25, 1.5],
+      [880.0, 1.72],
     ];
     for (const [freq, at] of notes) {
       const osc = audio.createOscillator();
       const gain = audio.createGain();
+      const t = when + at;
       osc.type = "sine";
       osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0.0001, t0 + at);
-      gain.gain.exponentialRampToValueAtTime(0.18, t0 + at + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + at + 0.9);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.22, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.9);
       osc.connect(gain).connect(audio.destination);
-      osc.start(t0 + at);
-      osc.stop(t0 + at + 1);
+      osc.start(t);
+      osc.stop(t + 1);
+      pendingChime.push({ osc, gain });
     }
+  }
+
+  // (Re)schedule the chime for the current end time, if the clock is live.
+  function armChime() {
+    if (!audio || state !== "running" || audio.state !== "running") return;
+    chimeAt(audio.currentTime + Math.max(0, endAt - Date.now()) / 1000);
   }
 
   // ---------- wiring ----------
@@ -552,6 +596,11 @@ import ColorStripe from "../components/ColorStripe.astro";
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) tick();
   });
+  for (const ev of ["pointerdown", "keydown"] as const) {
+    document.addEventListener(ev, () => {
+      if (audio && audio.state === "suspended") audio.resume();
+    }, { passive: true });
+  }
 
   buildNetwork();
   if (!restore()) {
