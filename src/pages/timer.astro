@@ -1,0 +1,793 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ColorStripe from "../components/ColorStripe.astro";
+---
+
+<BaseLayout
+  title="Timer"
+  description="A twenty-five minute pomodoro timer. Press start and the news spreads through a small network, one node at a time, until everyone has heard."
+>
+  <h1>Twenty-five minutes</h1>
+  <ColorStripe thickness="8px" margin="0 0 2rem" />
+
+  <section class="timer" id="timer" data-state="idle">
+    <div class="timer__clock" id="clock" role="timer" aria-label="Time remaining">25:00</div>
+
+    <svg
+      class="timer__network"
+      id="network"
+      viewBox="0 0 640 400"
+      preserveAspectRatio="xMidYMid meet"
+      style="aspect-ratio: 640 / 400"
+      aria-hidden="true"
+    ></svg>
+
+    <p class="timer__status" id="status">Nobody has heard yet.</p>
+    <p class="sr-only" id="announce" aria-live="polite"></p>
+
+    <div class="timer__controls">
+      <button class="btn btn--primary" id="toggle" type="button">Start</button>
+      <button class="btn btn--quiet" id="reset" type="button">Reset</button>
+    </div>
+
+    <p class="timer__hint">Space starts and pauses. R resets. Nodes can be dragged, if that helps.</p>
+  </section>
+
+  <div class="copy">
+    <p>
+      This is a pomodoro timer: twenty-five minutes, no more, no
+      fewer.<sup><a href="#fn1" id="fnref1" class="fn-ref">1</a></sup> Press
+      start, and one node in the network hears the news. The rest hear it from
+      their neighbours, and their neighbours' neighbours, one at a time, until
+      at zero everyone has heard. The spreading is timed to take exactly
+      twenty-five minutes, and it is – for once – simple
+      contagion.<sup><a href="#fn2" id="fnref2" class="fn-ref">2</a></sup>
+      When the network is fully lit, you get up.
+    </p>
+    <p>
+      I have no opinion about what you do with the twenty-five minutes. I
+      usually spend the first four of them getting ready to start.
+    </p>
+
+    <section class="footnotes">
+      <ol>
+        <li id="fn1">
+          The original technique, by Francesco Cirillo, used a tomato-shaped
+          kitchen timer, hence the name. This one uses a random geometric
+          graph. I did not have a tomato.
+          <a href="#fnref1" class="fn-back" aria-label="Back to reference 1">↩</a>
+        </li>
+        <li id="fn2">
+          In real social networks, people are much more likely to pass
+          something on after hearing it from several sources rather than one –
+          so-called complex contagion, which we measured on Twitter in 2017.
+          Here a single exposure is enough. Think of it as the spherical cow
+          of social networks.
+          <a href="#fnref2" class="fn-back" aria-label="Back to reference 2">↩</a>
+        </li>
+      </ol>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  import { select } from "d3-selection";
+  import { forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceY } from "d3-force";
+  import { drag } from "d3-drag";
+
+  const DURATION_MS = 25 * 60 * 1000;
+  const STORAGE_KEY = "timer.v1";
+
+  // Network geometry. Same recipe as the homepage hero: random geometric
+  // graph, regenerate until there is at most one large component, bridge
+  // any small stragglers to the giant one. Phones get a squarer, sparser
+  // network so the nodes stay finger-sized once the viewBox scales down.
+  const MOBILE = window.matchMedia("(max-width: 600px)").matches;
+  const W = MOBILE ? 400 : 640;
+  const H = 400;
+  const N = MOBILE ? 60 : 100;
+  const R = MOBILE ? 88 : 84;
+  const NODE_R = MOBILE ? 8 : 6.5;
+  const PAD = NODE_R + 1;
+
+  const root = document.getElementById("timer");
+  const svg = document.getElementById("network");
+  const clockEl = document.getElementById("clock");
+  const statusEl = document.getElementById("status");
+  const announceEl = document.getElementById("announce");
+  const toggleBtn = document.getElementById("toggle");
+  const resetBtn = document.getElementById("reset");
+  if (!root || !svg || !clockEl || !statusEl || !announceEl || !toggleBtn || !resetBtn) {
+    throw new Error("timer: missing DOM");
+  }
+
+  const baseTitle = document.title;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.style.aspectRatio = `${W} / ${H}`;
+
+  type Node = { id: number; x: number; y: number; vx?: number; vy?: number; fx?: number | null; fy?: number | null };
+  type Link = { source: number | Node; target: number | Node };
+
+  // ---------- network ----------
+
+  let nodes: Node[] = [];
+  let links: Link[] = [];
+  let dist: number[] = [];
+  let order: number[] = []; // node ids in the order they hear the news
+  let litAt: number[] = []; // elapsed ms at which each node (by id) lights
+  let litCount = 0;
+  let nodeEls: SVGCircleElement[] = [];
+  let linkEls: SVGLineElement[] = [];
+  let linkAdjacency: number[][] = []; // node id -> indices into links
+  let sim: ReturnType<typeof forceSimulation> | null = null;
+
+  function buildNetwork() {
+    const R2 = R * R;
+    let adj: number[][] = [];
+    let components: number[][] = [];
+    let attempt = 0;
+    do {
+      attempt++;
+      nodes = Array.from({ length: N }, (_, i) => ({
+        id: i,
+        x: PAD + Math.random() * (W - 2 * PAD),
+        y: PAD + Math.random() * (H - 2 * PAD),
+      }));
+      links = [];
+      for (let i = 0; i < N; i++) {
+        for (let j = i + 1; j < N; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          if (dx * dx + dy * dy < R2) links.push({ source: i, target: j });
+        }
+      }
+      adj = Array.from({ length: N }, () => []);
+      for (const l of links) {
+        adj[l.source as number].push(l.target as number);
+        adj[l.target as number].push(l.source as number);
+      }
+      const componentOf = new Array(N).fill(-1);
+      components = [];
+      for (let i = 0; i < N; i++) {
+        if (componentOf[i] !== -1) continue;
+        const comp: number[] = [];
+        const stack = [i];
+        componentOf[i] = components.length;
+        while (stack.length) {
+          const u = stack.pop() as number;
+          comp.push(u);
+          for (const v of adj[u]) {
+            if (componentOf[v] === -1) {
+              componentOf[v] = components.length;
+              stack.push(v);
+            }
+          }
+        }
+        components.push(comp);
+      }
+    } while (attempt < 50 && components.filter((c) => c.length >= 0.2 * N).length > 1);
+
+    if (components.length > 1) {
+      components.sort((a, b) => b.length - a.length);
+      const giant = components[0];
+      for (let i = 1; i < components.length; i++) {
+        const comp = components[i];
+        const u = comp[Math.floor(Math.random() * comp.length)];
+        const v = giant[Math.floor(Math.random() * giant.length)];
+        links.push({ source: u, target: v });
+        adj[u].push(v);
+        adj[v].push(u);
+        for (const k of comp) giant.push(k);
+      }
+    }
+
+    // BFS shells from a random epicenter. The news travels shell by shell;
+    // within a shell the order is shuffled so it doesn't look like a scan.
+    const epicenter = Math.floor(Math.random() * N);
+    dist = new Array(N).fill(-1);
+    dist[epicenter] = 0;
+    const queue = [epicenter];
+    while (queue.length) {
+      const u = queue.shift() as number;
+      for (const v of adj[u]) {
+        if (dist[v] === -1) {
+          dist[v] = dist[u] + 1;
+          queue.push(v);
+        }
+      }
+    }
+    const key = nodes.map((n) => dist[n.id] + Math.random() * 0.9);
+    order = nodes.map((n) => n.id).sort((a, b) => key[a] - key[b]);
+    litAt = new Array(N);
+    order.forEach((id, rank) => {
+      litAt[id] = (rank / (N - 1)) * DURATION_MS;
+    });
+
+    linkAdjacency = Array.from({ length: N }, () => []);
+    links.forEach((l, i) => {
+      linkAdjacency[l.source as number].push(i);
+      linkAdjacency[l.target as number].push(i);
+    });
+
+    // Settle the layout synchronously so the network appears in place, then
+    // keep the simulation around (asleep) so dragging can wake it.
+    const WALL_MARGIN = 0.22 * Math.min(W, H);
+    function wallForce(alpha: number) {
+      for (const n of nodes) {
+        const penL = WALL_MARGIN - n.x;
+        if (penL > 0) n.vx = (n.vx ?? 0) + penL * 0.5 * alpha;
+        const penR = n.x - (W - WALL_MARGIN);
+        if (penR > 0) n.vx = (n.vx ?? 0) - penR * 0.5 * alpha;
+        const penT = WALL_MARGIN - n.y;
+        if (penT > 0) n.vy = (n.vy ?? 0) + penT * 0.5 * alpha;
+        const penB = n.y - (H - WALL_MARGIN);
+        if (penB > 0) n.vy = (n.vy ?? 0) - penB * 0.5 * alpha;
+      }
+    }
+    if (sim) sim.stop();
+    sim = forceSimulation(nodes as any)
+      .force("link", forceLink(links as any).id((d: any) => d.id))
+      .force("charge", forceManyBody().strength(-22))
+      .force("collide", forceCollide(NODE_R * 2.1).strength(0.8))
+      .force("compress-x", forceX(W / 2).strength(0.02))
+      .force("compress-y", forceY(H / 2).strength(0.025))
+      .force("walls", wallForce)
+      .alpha(0.9)
+      .alphaDecay(0.025)
+      .stop();
+    for (let i = 0; i < 180; i++) {
+      sim.tick();
+      clampNodes();
+    }
+
+    render();
+  }
+
+  function clampNodes() {
+    for (const n of nodes) {
+      if (n.x < PAD) n.x = PAD;
+      else if (n.x > W - PAD) n.x = W - PAD;
+      if (n.y < PAD) n.y = PAD;
+      else if (n.y > H - PAD) n.y = H - PAD;
+    }
+  }
+
+  function render() {
+    svg.replaceChildren();
+    const ns = "http://www.w3.org/2000/svg";
+    const gLinks = document.createElementNS(ns, "g");
+    const gNodes = document.createElementNS(ns, "g");
+    linkEls = links.map((l) => {
+      const s = l.source as Node;
+      const t = l.target as Node;
+      const el = document.createElementNS(ns, "line");
+      el.setAttribute("class", "link");
+      el.dataset.shell = String(Math.min(dist[s.id], dist[t.id]) % 6);
+      gLinks.appendChild(el);
+      return el;
+    });
+    nodeEls = nodes.map((n) => {
+      const el = document.createElementNS(ns, "circle");
+      el.setAttribute("class", "node");
+      el.setAttribute("r", String(NODE_R));
+      el.dataset.shell = String(dist[n.id] % 6);
+      gNodes.appendChild(el);
+      return el;
+    });
+    svg.append(gLinks, gNodes);
+    positionAll();
+
+    const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+    select(svg)
+      .selectAll<SVGCircleElement, Node>("circle")
+      .data(nodes)
+      .call(
+        drag<SVGCircleElement, Node>()
+          .on("start", (event, d) => {
+            if (!event.active && sim) sim.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+          })
+          .on("drag", (event, d) => {
+            d.fx = clamp(event.x, PAD, W - PAD);
+            d.fy = clamp(event.y, PAD, H - PAD);
+          })
+          .on("end", (event, d) => {
+            if (!event.active && sim) sim.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+          })
+      );
+    if (sim) {
+      sim.on("tick", () => {
+        clampNodes();
+        positionAll();
+      });
+    }
+  }
+
+  function positionAll() {
+    links.forEach((l, i) => {
+      const s = l.source as Node;
+      const t = l.target as Node;
+      const el = linkEls[i];
+      el.setAttribute("x1", s.x.toFixed(1));
+      el.setAttribute("y1", s.y.toFixed(1));
+      el.setAttribute("x2", t.x.toFixed(1));
+      el.setAttribute("y2", t.y.toFixed(1));
+    });
+    nodes.forEach((n, i) => {
+      nodeEls[i].setAttribute("cx", n.x.toFixed(1));
+      nodeEls[i].setAttribute("cy", n.y.toFixed(1));
+    });
+  }
+
+  // Light every node whose time has come; a link lights once both ends have.
+  function syncLit(elapsedMs: number, animate: boolean) {
+    while (litCount < N && litAt[order[litCount]] <= elapsedMs) {
+      const id = order[litCount];
+      const el = nodeEls[id];
+      el.classList.add("lit");
+      if (animate) {
+        el.classList.add("pop");
+        setTimeout(() => el.classList.remove("pop"), 500);
+      }
+      for (const li of linkAdjacency[id]) {
+        const l = links[li];
+        const other = (l.source as Node).id === id ? (l.target as Node) : (l.source as Node);
+        if (nodeEls[other.id].classList.contains("lit")) linkEls[li].classList.add("lit");
+      }
+      litCount++;
+    }
+  }
+
+  function unlightAll() {
+    litCount = 0;
+    for (const el of nodeEls) el.classList.remove("lit", "pop");
+    for (const el of linkEls) el.classList.remove("lit");
+  }
+
+  // ---------- clock ----------
+
+  type State = "idle" | "running" | "paused" | "done";
+  let state: State = "idle";
+  let remainingMs = DURATION_MS;
+  let endAt = 0;
+  let ticker: number | null = null;
+  let audio: AudioContext | null = null;
+
+  const mmss = (ms: number) => {
+    const s = Math.max(0, Math.ceil(ms / 1000));
+    return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+  };
+
+  function setState(next: State) {
+    state = next;
+    root.dataset.state = next;
+    toggleBtn.textContent =
+      next === "running" ? "Pause" : next === "paused" ? "Resume" : next === "done" ? "Again" : "Start";
+    persist();
+    updateStatus();
+  }
+
+  function updateStatus() {
+    let text: string;
+    if (state === "idle") text = "Nobody has heard yet.";
+    else if (state === "done") text = "Everyone has heard. Go stretch.";
+    else if (state === "paused") text = `Paused. ${litCount} of ${N} have heard; the rest can wait.`;
+    else text = `${litCount} of ${N} have heard.`;
+    if (statusEl.textContent !== text) statusEl.textContent = text;
+  }
+
+  function announce(text: string) {
+    announceEl.textContent = text;
+  }
+
+  function paint() {
+    const elapsed = DURATION_MS - remainingMs;
+    const label = mmss(remainingMs);
+    if (clockEl.textContent !== label) clockEl.textContent = label;
+    const title = state === "running" || state === "paused" ? `${label} — ${baseTitle}` : baseTitle;
+    if (document.title !== title) document.title = title;
+  }
+
+  function tick() {
+    if (state !== "running") return;
+    remainingMs = Math.max(0, endAt - Date.now());
+    paint();
+    syncLit(DURATION_MS - remainingMs, true);
+    updateStatus();
+    if (remainingMs === 0) finish();
+  }
+
+  function start() {
+    ensureAudio();
+    const fresh = remainingMs === DURATION_MS;
+    endAt = Date.now() + remainingMs;
+    setState("running");
+    if (ticker === null) ticker = window.setInterval(tick, 200);
+    announce(fresh ? "Timer started" : "Timer resumed");
+    tick();
+  }
+
+  function pause() {
+    remainingMs = Math.max(0, endAt - Date.now());
+    if (ticker !== null) {
+      clearInterval(ticker);
+      ticker = null;
+    }
+    setState("paused");
+    paint();
+    announce("Timer paused");
+  }
+
+  function finish() {
+    if (ticker !== null) {
+      clearInterval(ticker);
+      ticker = null;
+    }
+    remainingMs = 0;
+    syncLit(DURATION_MS, true);
+    setState("done");
+    paint();
+    document.title = `Done — ${baseTitle}`;
+    announce("Twenty-five minutes are up.");
+    chime();
+  }
+
+  function reset(fresh = true) {
+    if (ticker !== null) {
+      clearInterval(ticker);
+      ticker = null;
+    }
+    remainingMs = DURATION_MS;
+    endAt = 0;
+    if (fresh) buildNetwork();
+    unlightAll();
+    setState("idle");
+    paint();
+    announce("Timer reset");
+  }
+
+  function toggle() {
+    if (state === "running") pause();
+    else if (state === "done") {
+      reset();
+      start();
+    } else start();
+  }
+
+  // ---------- persistence: survive a reload mid-pomodoro ----------
+
+  function persist() {
+    try {
+      if (state === "idle" || state === "done") localStorage.removeItem(STORAGE_KEY);
+      else localStorage.setItem(STORAGE_KEY, JSON.stringify({ state, endAt, remainingMs }));
+    } catch {
+      /* private mode, blocked storage: nothing to do */
+    }
+  }
+
+  function restore(): boolean {
+    let saved: { state: State; endAt: number; remainingMs: number } | null = null;
+    try {
+      saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null");
+    } catch {
+      saved = null;
+    }
+    if (!saved) return false;
+    if (saved.state === "running") {
+      remainingMs = Math.max(0, saved.endAt - Date.now());
+      if (remainingMs === 0) {
+        // Ended while we were away. Show the finished network, skip the chime.
+        syncLit(DURATION_MS, false);
+        setState("done");
+        paint();
+        return true;
+      }
+      syncLit(DURATION_MS - remainingMs, false);
+      endAt = saved.endAt;
+      setState("running");
+      paint();
+      if (ticker === null) ticker = window.setInterval(tick, 200);
+      return true;
+    }
+    if (saved.state === "paused") {
+      remainingMs = Math.min(DURATION_MS, Math.max(0, saved.remainingMs));
+      syncLit(DURATION_MS - remainingMs, false);
+      setState("paused");
+      paint();
+      return true;
+    }
+    return false;
+  }
+
+  // ---------- chime ----------
+
+  function ensureAudio() {
+    try {
+      if (!audio) audio = new (window.AudioContext || (window as any).webkitAudioContext)();
+      if (audio.state === "suspended") audio.resume();
+    } catch {
+      audio = null;
+    }
+  }
+
+  function chime() {
+    if (!audio) return;
+    const t0 = audio.currentTime;
+    const notes: [number, number][] = [
+      [659.25, 0], // E5
+      [880.0, 0.22], // A5
+    ];
+    for (const [freq, at] of notes) {
+      const osc = audio.createOscillator();
+      const gain = audio.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.0001, t0 + at);
+      gain.gain.exponentialRampToValueAtTime(0.18, t0 + at + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + at + 0.9);
+      osc.connect(gain).connect(audio.destination);
+      osc.start(t0 + at);
+      osc.stop(t0 + at + 1);
+    }
+  }
+
+  // ---------- wiring ----------
+
+  toggleBtn.addEventListener("click", toggle);
+  resetBtn.addEventListener("click", () => reset());
+  document.addEventListener("keydown", (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const tag = (e.target as HTMLElement | null)?.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "BUTTON") return;
+    if (e.code === "Space") {
+      e.preventDefault();
+      toggle();
+    } else if (e.key === "r" || e.key === "R") {
+      reset();
+    }
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) tick();
+  });
+
+  buildNetwork();
+  if (!restore()) {
+    setState("idle");
+    paint();
+  }
+</script>
+
+<style>
+  .timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .timer__clock {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-variation-settings: "opsz" 96;
+    font-variant-numeric: tabular-nums;
+    font-size: clamp(4.5rem, 16vw, 7.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0.5rem 0 0.25rem;
+    transition: color 200ms ease;
+  }
+
+  .timer[data-state="paused"] .timer__clock {
+    color: var(--fg-muted);
+  }
+
+  .timer[data-state="done"] .timer__clock {
+    color: var(--accent);
+  }
+
+  .timer__network {
+    display: block;
+    width: 100%;
+    height: auto;
+    touch-action: none;
+    overflow: visible;
+  }
+
+  /* Nodes and links start dormant on the rule colour and light up in the
+     colour of their BFS shell. Colours are tokens, so dark mode is free. */
+  .timer__network :global(.link) {
+    stroke: var(--rule);
+    stroke-width: 0.9;
+    stroke-linecap: round;
+    transition: stroke 450ms ease, stroke-opacity 450ms ease;
+    stroke-opacity: 1;
+  }
+
+  .timer__network :global(.node) {
+    fill: var(--bg);
+    stroke: var(--fg-muted);
+    stroke-opacity: 0.45;
+    stroke-width: 1.2;
+    cursor: grab;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: fill 350ms ease, stroke 350ms ease;
+  }
+
+  .timer__network :global(.node:active) {
+    cursor: grabbing;
+  }
+
+  .timer__network :global(.node.pop) {
+    animation: pop 500ms cubic-bezier(0.2, 0.9, 0.3, 1.4);
+  }
+
+  @keyframes pop {
+    0% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.7);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .timer__network :global([data-shell="0"].lit) { --c: var(--accent-sienna); }
+  .timer__network :global([data-shell="1"].lit) { --c: var(--accent-clay); }
+  .timer__network :global([data-shell="2"].lit) { --c: var(--accent-mustard); }
+  .timer__network :global([data-shell="3"].lit) { --c: var(--accent-olive); }
+  .timer__network :global([data-shell="4"].lit) { --c: var(--accent-teal); }
+  .timer__network :global([data-shell="5"].lit) { --c: var(--accent-oxblood); }
+
+  .timer__network :global(.node.lit) {
+    fill: var(--c);
+    stroke: var(--c);
+    stroke-opacity: 1;
+  }
+
+  .timer__network :global(.link.lit) {
+    stroke: var(--c);
+    stroke-opacity: 0.55;
+  }
+
+  .timer__status {
+    margin: 0.5rem 0 0;
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+    text-align: center;
+    min-height: 1.6em;
+  }
+
+  .timer__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: center;
+    margin-top: 0.25rem;
+  }
+
+  .btn--quiet {
+    border-color: transparent;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .timer[data-state="idle"] .btn--quiet {
+    visibility: hidden;
+  }
+
+  .btn {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.55rem 1.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--fg-muted);
+    cursor: pointer;
+    transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  }
+
+  .btn:hover {
+    color: var(--fg);
+    background: color-mix(in srgb, var(--rule) 35%, transparent);
+  }
+
+  .btn--primary {
+    border-color: var(--accent);
+    color: var(--accent);
+    min-width: 7.5rem;
+  }
+
+  .btn--primary:hover {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .timer__hint {
+    margin: 0.25rem 0 0;
+    color: var(--fg-muted);
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .copy {
+    margin-top: 3rem;
+    font-size: 1.05rem;
+  }
+
+  .copy p {
+    margin: 1em 0;
+  }
+
+  .copy sup {
+    line-height: 0;
+  }
+
+  .fn-ref {
+    text-decoration: none;
+    font-size: 0.75em;
+    padding-left: 0.1em;
+  }
+
+  .footnotes {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+  }
+
+  .footnotes ol {
+    padding-left: 1.25rem;
+    margin: 0;
+  }
+
+  .footnotes li {
+    margin: 0.5em 0;
+  }
+
+  .footnotes li:target {
+    color: var(--fg);
+  }
+
+  .fn-back {
+    text-decoration: none;
+    margin-left: 0.25em;
+  }
+
+  @media (max-width: 600px) {
+    .timer__hint {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timer__network :global(.node.pop) {
+      animation: none;
+    }
+  }
+</style>
