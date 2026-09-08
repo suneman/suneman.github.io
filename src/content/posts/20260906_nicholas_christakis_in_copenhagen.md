@@ -8,6 +8,8 @@ categories: ["Talks"]
 ai_assisted: true
 ---
 
+**Update September 8th.** Wrong building, sorry. The lecture is at **the Auditorium at the Natural History Museum, Øster Voldgade 5, 1350 Copenhagen** – *not* the University Library on Gothersgade, which is what this post originally said (copied faithfully from an event page that was itself wrong; it has since been fixed). Everything else is unchanged: Wednesday September 23rd at 14:00, registration via the same link below.
+
 I'm excited to share that [Nicholas Christakis](https://humannaturelab.net) is coming to Copenhagen. It's (as far as I can tell) his first ever visit to the city, and on Wednesday September 23rd he's giving an academic guest lecture at the Pioneer Centre for AI, jointly hosted by the University of Copenhagen and DTU. 
 
 If you have done any work on social networks, Nicholas needs no introduction, and if you came to networks via some other path, there's a good chance that you've been building on his ideas whether you noticed or not. 
@@ -23,7 +25,7 @@ The lecture is about **"How Social Connection Is Embodied"**. This is something 
 The practical details:
 
 - **Time**: Wednesday, September 23rd, 14:00 – lecture followed by Q&A
-- **Place**: Auditorium 1, Copenhagen University Library (City Campus), Gothersgade 140, Copenhagen K
+- **Place**: The Auditorium at the Natural History Museum, Øster Voldgade 5, 1350 Copenhagen
 - **Registration**: mandatory, and seats are limited – sign up via [the event page](https://www.aicentre.dk/events/20260923-guest-lecture-how-social-connection-is-embodied-by-prof-nicholas-a-christakis)
 
 One important note: the guest lecture is for academic audiences. But there's good news: he's also giving a public lecture the evening before: [The Evolutionary Origins of a Good Society](https://www.scienceandcocktails.org/en/events/copenhagen/the-evolutionary-origins-of-a-good-society) at Science & Cocktails, Tuesday September 22nd at Den Grå Hal in Christiania. That's the *Blueprint* material, live on stage, with hipness and cocktails. Highly recommended.
