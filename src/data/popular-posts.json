@@ -1,42 +1,38 @@
 {
   "month": "2026-09",
   "range": {
-    "start": "2026-06-09",
-    "end": "2026-09-07",
+    "start": "2026-06-16",
+    "end": "2026-09-14",
     "months": 3
   },
   "posts": [
     {
       "slug": "bernardo-huberman-talk",
-      "count": 177
-    },
-    {
-      "slug": "too-lazy-claude-code-for-science",
-      "count": 84
+      "count": 181
     },
     {
       "slug": "shoggoths-and-dragons",
-      "count": 81
+      "count": 83
+    },
+    {
+      "slug": "too-lazy-claude-code-for-science",
+      "count": 74
     },
     {
       "slug": "too-lazy-10k-downloads",
-      "count": 67
+      "count": 68
     },
     {
       "slug": "youre-here-because-of-a-robot",
-      "count": 48
-    },
-    {
-      "slug": "tracking-human-mobility-using-wifi-signals",
-      "count": 37
+      "count": 44
     },
     {
       "slug": "ucph-life-science-keynote",
       "count": 30
     },
     {
-      "slug": "visualizing-link-communities",
-      "count": 26
+      "slug": "tracking-human-mobility-using-wifi-signals",
+      "count": 30
     },
     {
       "slug": "iteasc-workshop",
@@ -45,6 +41,10 @@
     {
       "slug": "aftryk-festival",
       "count": 21
+    },
+    {
+      "slug": "immunosuppression-and-persistent-sars-cov-2",
+      "count": 20
     }
   ]
 }
