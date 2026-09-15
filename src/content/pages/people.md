@@ -19,7 +19,7 @@ _As of 2026-08-16._
 
 The fourteen PhDs where I served as the primary advisor, reverse-chronological by start.
 
-- **2026–present — Jakob Sebastian Engel Ketmig** — Industrial PhD with Danmarks Nationalbank.
+- **2026–present — Jakob Sebastian Engel Ketmig** — Industrial PhD with Danmarks Nationalbank. *Representation learning for national scale financial data.*
 - **2026–present — Lasse Hyldig Hansen** — Industrial PhD with the Danish Competition and Consumer Authority. *Accelerated Digital Consumption and Adolescent Psychological Trajectories.*
 - **2025–present — Viktor Stenby Johansson** — Industrial PhD with Vipps MobilePay. *Understanding Behavior in Massive Social Networks using Embedding Methods.*
 - **2024–present — Christian Vestergaard Djurhuus** — University of Copenhagen / Pioneer Centre for AI. Modelling human life trajectories from registry data using graph representation learning.
