@@ -8,6 +8,8 @@ categories: ["Talks"]
 ai_assisted: true
 ---
 
+**Update September 29th.** In the end I didn't make it to Billund – I woke up sick this morning and had to stay home, which is a genuinely disappointing way to miss a day I'd been looking forward to since the summer. Sorry to the organizers, my fellow panelists, and everyone who came to hear the debate. I hope the question of whether destruction is in our nature got a good airing without me – and that technology got at least one kind word.
+
 I'm excited to be heading to Billund on September 29th for a panel debate at [AFTRYK Festival](https://www.aftrykfestival.dk), billed as Denmark's first cross-disciplinary festival for students and apprentices across the building trades. The premise is to put future carpenters, constructors, architects, designers, and engineers in the same field for a day and see what happens – which, given how thoroughly those educations are usually kept apart, is a pretty interesting experiment before anyone has said a word from a stage.
 
 The debate I'm part of is called:
