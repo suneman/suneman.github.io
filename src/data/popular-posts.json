@@ -1,50 +1,50 @@
 {
-  "month": "2026-09",
+  "month": "2026-10",
   "range": {
-    "start": "2026-06-23",
-    "end": "2026-09-21",
+    "start": "2026-07-07",
+    "end": "2026-10-05",
     "months": 3
   },
   "posts": [
     {
       "slug": "bernardo-huberman-talk",
-      "count": 182
+      "count": 114
     },
     {
       "slug": "shoggoths-and-dragons",
-      "count": 80
+      "count": 82
     },
     {
       "slug": "too-lazy-10k-downloads",
-      "count": 70
-    },
-    {
-      "slug": "too-lazy-claude-code-for-science",
-      "count": 70
-    },
-    {
-      "slug": "youre-here-because-of-a-robot",
-      "count": 44
-    },
-    {
-      "slug": "ucph-life-science-keynote",
-      "count": 31
+      "count": 77
     },
     {
       "slug": "nicholas-christakis-in-copenhagen",
-      "count": 29
+      "count": 57
     },
     {
-      "slug": "tracking-human-mobility-using-wifi-signals",
-      "count": 28
+      "slug": "youre-here-because-of-a-robot",
+      "count": 46
+    },
+    {
+      "slug": "too-lazy-claude-code-for-science",
+      "count": 41
+    },
+    {
+      "slug": "ucph-life-science-keynote",
+      "count": 32
+    },
+    {
+      "slug": "how-writing-helps-thinking",
+      "count": 25
     },
     {
       "slug": "aftryk-festival",
-      "count": 23
+      "count": 25
     },
     {
       "slug": "iteasc-workshop",
-      "count": 23
+      "count": 25
     }
   ]
 }
