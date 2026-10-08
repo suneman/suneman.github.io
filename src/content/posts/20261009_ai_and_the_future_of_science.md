@@ -6,7 +6,7 @@ status: draft
 author: "sunelehmann"
 categories: ["Misc"]
 images: ["/assets/20261009_ai_and_the_future_of_science/fermat_map.jpg"]
-ai_assisted: true
+ai_assisted: false
 ---
 
 ## Preamble on the meaning of life
