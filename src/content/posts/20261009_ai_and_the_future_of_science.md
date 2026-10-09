@@ -112,13 +112,13 @@ In the declaration, he says something really interesting that aligns with my own
 
 That is exactly the epistemic component. Tao and I share the goal of human understanding and insight. 
 
-## The unclaimed territory could be great for science!
+## The unclaimed territory could be great for the Scientific Project!
 
 But where we differ is where my argument perhaps gets interesting. I think that **AI progressing beyond human understanding could be a great thing**. 
 
 Tao worries about ["proof indigestion"](https://mathstodon.xyz/@tao/116551624228986501) – proofs being generated and even verified without being digested (= understood).
 
-But what's the rush? Imagine a big open territory that we can take our sweet time digging into. We don't have to keep up with understanding; we can proceed at a human pace, nibbling away until knowledge is fully incorporated.
+But what's the rush? Imagine a big open territory that we can take our sweet time digging into. We don't have to keep up with discovery; we can proceed at a human pace, nibbling away until knowledge is fully incorporated.
 
 Consider this idea: What if exploring the unclaimed territory turns out to be fun? Maybe it's not so bad to be helicoptered in, landing on a peak. I explore this idea in Figure 2. In panel A, we have Tao's view of undigested insight, the researcher helicoptered in.  
 
@@ -127,17 +127,17 @@ Consider this idea: What if exploring the unclaimed territory turns out to be fu
 
 First off, the ability to land on a peak doesn't rule out the old ways. I think we could and should hang on to "insights gained, collaborations formed, and new targets located". Moving forward, awareness that the aim is squarely to *understand* implies that we should strengthen those aspects everywhere, as science evolves in this new phase. (How we keep the old skills alive once nobody *has* to hike is a real question. I return to it in [Appendix 2](#where-will-the-surveyors-come-from).)
 
-Secondly, and this is the part that I want to unpack a bit. The presence of the unclaimed territory opens up many new interesting ways of supporting the epistemic component of science. There could be many new ways of supporting human understanding. To stay in Tao's metaphor, the human being is still hiking; it's just from a different trailhead. 
+Secondly, and this is what I think we need to think more about as we envision the science of the future. The presence of the unclaimed territory opens up many new interesting ways of supporting the epistemic component of science. There could be many new ways of supporting human understanding. To stay in Tao's metaphor, the human being is still hiking; it's just from a different trailhead. 
 
 So arriving by helicopter doesn't necessarily skip the journey; it provides new places to *start* your journey. It might also tell you which journey is worth taking and give you a point to hike towards [^10].
 
 Knowing that something is true, and roughly how it fits into the landscape of knowledge, opens up a new doorway to understand that problem. Every student who has gotten stuck on a problem and worked backwards from the answer at the back of the book knows this. 
 
-I realize that working backwards from the answer has a negative ring to it, but in the case of the Scientific Project (recall the preamble) it shouldn't have. We're not vying for good grades in a class here – the aim is to wrestle secrets from the universe. Any method counts!
+I realize that working backwards from the answer has a negative ring to it, but in the case of the Scientific Project it shouldn't have. We're not vying for good grades in a class here – the aim is to wrestle secrets from the universe. Any method counts!
 
 In fact, *science* **has** *worked backwards from the results before*, and not just through lucky accidents like penicillin, as I mentioned above. Experiments have handed us answers that took theorists decades to explain. The Balmer formula for hydrogen's spectral lines (1885) waited 28 years for Bohr (1913) [^11]. Superconductivity (1911) waited 46 years for BCS theory (1957) [^12]. High-temperature superconductors (1986) are still not fully explained [^13]. 
 
-And the idea of results without proofs leading to exciting times in math is also not unheard of historically. Think about Ramanujan, who died in 1920 at the age of 32 and left behind notebooks full of results with almost no proofs. Mathematicians have spent a century happily hiking back to his peaks; Bruce Berndt alone filled [five volumes](https://link.springer.com/book/10.1007/978-1-4612-1088-7) (1985–1998) proving what was in the notebooks. Or good old Fermat's theorem. Around 1637, Pierre de Fermat scribbled in the margin of a book that he had a marvelous proof that the margin was too small to contain. That note was a result that kept mathematicians talking for 358 years, until Andrew Wiles's proof was published in 1995. (We'll meet Fermat again below.)
+And the idea of results without proofs leading to exciting times in math is also not unheard of historically. There is Ramanujan, who died in 1920 at the age of 32 and left behind notebooks full of results with almost no proofs. Mathematicians have spent a century happily hiking back to his peaks; Bruce Berndt alone filled [five volumes](https://link.springer.com/book/10.1007/978-1-4612-1088-7) (1985–1998) proving what was in the notebooks. Or good old Fermat's theorem. Around 1637, Pierre de Fermat scribbled in the margin of a book that he had a marvelous proof that the margin was too small to contain. That note was a result that fueled mathematicians for 358 years, until Andrew Wiles's proof was published in 1995. (More Fermat below.)
 
 ## The unclaimed territory is a new place for human minds to play
 
@@ -147,34 +147,37 @@ But most of all, it could also be good old-fashioned fun! There are lots of exam
 
 - **Puzzles.** Human beings love puzzles. Sudoku, crosswords, wordle, the list goes on. They all have an answer key and nobody thinks that ruins them. Knowing that an answer exists can even be part of what makes the hunt fun.
 - **Chess.** A machine beat the world champion in 1997, when IBM's Deep Blue defeated Garry Kasparov. Today engines are far stronger than any human, but chess has never been more popular: Chess.com [passed 100 million members](https://www.chess.com/article/view/chesscom-reaches-100-million-members) in December 2022, and a whole generation of players learned the game by studying engines.
-- **Go.** Cognitive scientists analyzed 5.8 million moves made by professional Go players between 1950 and 2021 ([Shin et al., *PNAS*, 2023](https://doi.org/10.1073/pnas.2214840120)). After superhuman Go programs arrived in 2016, *human players started making significantly better decisions*. And the improvement went hand in hand with *novelty*: players began making moves that had never been played before, and those new moves were increasingly good ones. **The machines didn't make the game boring. They pushed the humans off the old trails and into new parts of the map**.
+- **Go.** Cognitive scientists analyzed 5.8 million moves made by professional Go players between 1950 and 2021 ([Shin et al., *PNAS*, 2023](https://doi.org/10.1073/pnas.2214840120)). After superhuman Go programs arrived in 2016, *human players started making significantly better decisions*. And the improvement went hand in hand with *novelty*: players began making moves that had never been played before, and those new moves were increasingly good ones. The machines didn't make the game boring. They pushed the humans off the old trails and into new parts of the map.
 
 ## The epistemic surveyor
 
-So I argue that we'll all be fine in the future. It might even be a golden age for the growth of human understanding. 
+So I argue that we'll all be fine in the future. It might even be a golden age for the growth of human understanding, for the Scientific Project. 
 
 But one last question remains. Once the discovery part is gone, and the focus is on understanding, are we still researchers? My best answer: probably not.
 
-As this page goes live, I am walking on stage for a debate where I *have to* [argue that the job of researcher will disappear in the future](https://d3aconference.dk/should-ai-agents-replace-phd-students-in-research-projects/). My strategy is to lean into the arguments below: the job of the future "understander of unclaimed territory results" is so different from what scientists are doing today that it deserves a new name [^14]. And in honor of the main metaphor, I came up with "epistemic surveyor", or just the humble "surveyor" for short [^15].
+As this page goes live, I am walking on stage for a debate where I **have to** [argue that the job of researcher will disappear in the future](https://d3aconference.dk/should-ai-agents-replace-phd-students-in-research-projects/). This position is dictated by the debate format.
 
-But is it overkill to rename the whole profession? I actually don't think so. Here's why.
+My strategy is to lean into the arguments below: the job of the future "understander of unclaimed territory results" is so different from what scientists are doing today that it deserves a new name [^14]. And in honor of the main metaphor, I came up with "epistemic surveyor", or just the humble "surveyor" for short [^15].
 
-If we look at the history of work, plenty of jobs have vanished because technology made their essential task obsolete. Lamplighter. Switchboard operator. Elevator operator. The knocker-up, who walked the streets of industrial England tapping on bedroom windows with a long pole so that factory workers would wake up on time [^16].
+It's a rhetorical trick, but is it overkill to rename the whole profession? I actually don't think so. 
 
+If we look at the history of work, plenty of jobs have vanished because technology made their essential task obsolete. Lamplighter. Switchboard operator. Elevator operator. The list is long.
 
 But notice that most jobs *don't* vanish when the tools change. A chef with an induction stove is still a chef. A surgeon with a robot is still a surgeon. An architect who has swapped the drawing board for software is still an architect. 
 
-So what do the jobs that didn't disappear have in common? The *tools* changed, but the central task of the job stayed the same: deciding what people will eat, cutting into a living body, imagining a building. When technology only changes the tools, the name of the job survives.
+So what is the difference between the jobs that disappeared and the ones that didn't? In the jobs that stayed, the *tools* changed, but the central task of the job stayed the same: deciding what people will eat, cutting into a living body, imagining a building. When technology only changes the tools, the name of the job survives.
 
 Jobs disappear when technology changes the central task itself. The example I want to feature is *computer*.
 
-Before electronic computers existed, "computer" was a job description. A computer was a person who computed: ballistics tables, the positions of stars, the long columns of arithmetic behind early numerical science. In the twentieth century it was (for some reason I don't quite get) mostly considered women's work [^17]. When the electronic computers began to arrive in the 1940s, the task that defined the job was gone within a few years. 
+Before electronic computers existed, "computer" was a job description. A computer was a person who computed: ballistics tables, the positions of stars, the long columns of arithmetic behind early numerical science. When the electronic computers began to arrive in the 1940s, the task that defined the job was gone within a few years. 
 
 But here's the thing. The (human) computers didn't go home. They became programmers. 
 
-The first six programmers of ENIAC – Kay McNulty, Betty Jennings, Betty Snyder, Marlyn Wescoff, Fran Bilas and Ruth Lichterman – were recruited straight from the pool of human computers working on ballistics tables. At NASA's Langley laboratory, Dorothy Vaughan saw the IBM machines coming, taught herself FORTRAN, and then taught her entire group of human computers to program them [^18]. The job "computer" disappeared. The people moved into a new job that grew up around the new bottleneck: no longer *doing* the calculation, but deciding what the machine should calculate and making sense of what came out.
+The first six programmers of the ENIAC computer were recruited straight from the pool of human computers working on ballistics tables: Kay McNulty, Betty Jennings, Betty Snyder, Marlyn Wescoff, Fran Bilas and Ruth Lichterman. At NASA's Langley laboratory, Dorothy Vaughan saw the IBM machines coming, taught herself FORTRAN, and then taught her entire group of human computers to program them [^16]. 
 
-My point is that the job changed name **because the substance of what they did changed**.
+The job "computer" disappeared. The people moved into a new job that grew up around the new bottleneck: no longer *doing* the calculation, but deciding what the machine should calculate and making sense of what came out.
+
+So the point is that the job changed name because the substance of what they did changed.
 
 And what is a researcher? According to Merriam-Webster, research is
 
@@ -196,7 +199,7 @@ https://x.com/karpathy/status/2105819303471976479
 
 A friend of mine called the process of learning how to work with and learn from frontier models *dancing with the AI*. I think our current experiences are already revealing the creativity of how human beings can tease understanding out of the unclaimed territory.
 
-We can also attack it more schematically. Today, research runs more or less like this:
+We can also attack the job changes more schematically. Today, research runs more or less like this:
 
 > `question → search → discovery → understanding`
 
@@ -204,13 +207,13 @@ In the future, I think it is going to be more like:
 
 > `machine discovery → selection → interrogation → simplification → human understanding`
 
-*Selection* is about choosing the problem in the first place. There will be effectively infinitely many new theorems to choose from, each of them machine-checked and true, and most of them boring. A key task for the surveyor will be deciding which ones are worth spending time on [^19]. (More on the challenges this raises below.)
+*Selection* is about choosing the problem in the first place. There will be effectively infinitely many new theorems to choose from, each of them machine-checked and true, and most of them boring. A key task for the surveyor will be deciding which ones are worth spending time on [^17]. (More on the challenges this raises below.)
 
 *Interrogation* is the *dancing with the AI* aspect. The helicoptering. The working backwards from the result. The part that I argue will be fun. What will it look like? We don't know; this part is just beginning. All of our old tricks will be in there, but I reckon that it'll be mostly weird and new. (One more example of what it might look like is in [Appendix 1](#appendix-1-more-inspiration-for-what-interrogation-might-look-like).) 
 
 Finally, *simplification.* Basically, I imagine this as the part where findings are connected more formally to the edifice of science. It's about finding the frame that makes things simple (if they can be simple) and coming up with ways of communicating so other humans can more easily approach the result. It's the sense-making aspect we remember (Balmer had a formula that fit four spectral lines; Bohr found the atom that explained why).
 
-Somewhere along the path outlined above, understanding arrives. First as intuition, then something more firm, and then finally ownership. Think Bloom's taxonomy [^20].
+Somewhere along the path outlined above, understanding arrives. First as intuition, then something more firm, and then finally ownership. Think Bloom's taxonomy [^18].
 
 
 ### Novel challenges for the surveyors?
@@ -219,9 +222,11 @@ The unclaimed territory isn't necessarily all idyllic, flowers and open meadows.
 
 Facing these challenges is part of the surveyor's job description.
 
-The "dark side" of the selection aspect from the previous section is *overwhelm*. And it's not just frontier labs publishing new results. Human scientists with AI agents are also generating more (and blander [^21]) papers on an unprecedented scale. arXiv received about 105,000 new papers in 2015 and about 284,000 in 2025, and this September alone it took in more than 40,000, a new record [^22]. On 1 October, arXiv capped authors at two submissions per month, saying that AI tools make it easy to "flood arXiv" with thin papers. If the literature already feels like more than anyone can read, imagine it with the machines submitting. 
+The "dark side" of the selection aspect from the previous section is *overwhelm*. And it's not just frontier labs publishing new results. Human scientists with AI agents are also generating more (and blander [^19]) papers on an unprecedented scale. arXiv received about 105,000 new papers in 2015 and about 284,000 in 2025, and this September alone it took in more than 40,000, a new record [^20]. On 1 October, arXiv capped authors at two submissions per month, saying that AI tools make it easy to "flood arXiv" with thin papers. If the literature already feels like more than anyone can read, imagine it with the machines submitting. 
 
-Above, I mentioned Bloom's taxonomy, a framework that shows the complexity of the term "understand". And I agree that AI use can lead to (and *has* led to) *illusions of understanding.* Messeri and Crockett warn that AI tools make scientists believe they understand more than they do. In the unclaimed territory this is the occupational hazard. A result arrives with a proof, an explanation, maybe a tidy summary, and it *feels* understood. Feynman's blackboard had the test written on it: "What I cannot create, I do not understand." Part of the surveyor's job will be to truly "own" the results they claim. The ideas of *interrogation* and *simplification* are the first steps, and maybe we'll develop many other tools for this part. Understanding is slow, and that is fine. What's the rush?
+Above, I mentioned Bloom's taxonomy, a framework that shows the complexity of the term "understand". And I agree that AI use can lead to (and *has* led to) *illusions of understanding.* Messeri and Crockett warn that AI tools make scientists believe they understand more than they do. In the unclaimed territory this is the occupational hazard. A result arrives with a proof, an explanation, maybe a tidy summary, and it *feels* understood. 
+
+Feynman's blackboard had the test written on it: "What I cannot create, I do not understand." Part of the surveyor's job will be to truly "own" the results they claim. The ideas of *interrogation* and *simplification* are the first steps, and maybe we'll develop many other tools for this part. Understanding is slow, and that is fine. What's the rush?
 
 ## Wrapping up
 
@@ -231,9 +236,13 @@ That is because science as an exploration of the unclaimed territory could mean 
 
 ## Postscript (8 October 2026)
 
-I wrote everything above before Tuesday evening. On Tuesday evening, OpenAI [released](https://github.com/openai/math) 719 manuscripts in 372 families, each claiming to settle or substantially advance an open problem in mathematics or theoretical computer science, all produced by an internal model at about three hours of compute per result. Among them is a claimed proof of the Unique Games Conjecture. Scott Aaronson, whose wife Dana Moshkovitz has worked toward that conjecture for her entire career, called the day [the Mathocalypse](https://scottaaronson.blog/?p=10169).
+I wrote everything above before Tuesday evening (October 6th). That's when OpenAI [released](https://github.com/openai/math) 719 manuscripts in 372 families, each claiming to settle or substantially advance an open problem in mathematics or theoretical computer science, all produced by an internal model at about three hours of compute per result. Among them is a claimed proof of the Unique Games Conjecture. Scott Aaronson, whose wife Dana Moshkovitz has worked toward that conjecture for her entire career, called the day [the Mathocalypse](https://scottaaronson.blog/?p=10169).
 
 Consider this piece of news with the arguments above in mind. Maybe we just opened up our first big chunk of the unclaimed territory. Wild times indeed.
+
+## Post postscript (9 October 2026)
+
+The checker is only as good as the translation. OpenAI's Navier–Stokes blow-up result from September came with a Lean verification, the kind of guarantee I lean on above. A [new paper](https://arxiv.org/abs/2610.08144) by Alexander Bastounis, Fabian Circelli and Anders Hansen argues that Lean checks the formal proof, not the written proof it was translated from, that faithful translation is in general uncomputable, and that in the Navier–Stokes case the two proofs don't match. I haven't worked through their argument. But it's a timely reminder of what the surveyor's job is: owning the result, not reading the certificate.
 
 ## The fine print
 
@@ -241,7 +250,7 @@ A few more caveats, as promised.
 
 1. **Before we can ever let AIs do science and implement technology, there are many complex legal and ethical questions to solve.** I won't get into any of those here. Let's imagine for the moment that we manage to figure all that out too.
 2. **I won't get into anything related to energy consumption.** There are valid reasons why we should worry about data centers, pollution, etc. And those reasons could mean that we shouldn't use AIs to do science because it's just not worth it. But I won't worry about that here. Let's imagine that energy problems have also been solved. Maybe models are better, maybe there's fusion. Whatever. The point is that I want to focus solely on the topic defined above.
-3. **Here I'm mostly discussing the hard sciences** like math, physics, chemistry, computer science, etc. Things get muddier when we get to the social sciences and humanities that are about the human world. Within those fields, it's not as clear-cut that AI Science will create a clean unclaimed territory. As someone doing quantitative work within social science where systems react to being understood [^23], I spend a lot of time thinking about this question, but a fully fledged theory for these parts of the great scientific project is a job for another post 😅 
+3. **Here I'm mostly discussing the hard sciences** like math, physics, chemistry, computer science, etc. Things get muddier when we get to the social sciences and humanities that are about the human world. Within those fields, it's not as clear-cut that AI Science will create a clean unclaimed territory. As someone doing quantitative work within social science where systems react to being understood [^21], I spend a lot of time thinking about this question, but a fully fledged theory for these parts of the great scientific project is a job for another post 😅 
 
 ## Notes
 
@@ -277,23 +286,19 @@ A few more caveats, as promised.
 [^15]: And let's be honest: without the discovery part, the job *is* going to be more humble, so a more humble name is a bonus. Surveyors have never been lauded the way discoverers are. Columbus gets a holiday; Juan de la Cosa, who sailed with him and in 1500 drew the first map that shows the new continent, gets a footnote (this one). The highest mountain on Earth is named after George Everest, Surveyor General of India, not after Radhanath Sikdar, the human computer in his survey who in 1852 worked out that Peak XV was the highest of them all. And yet without the surveyors, the discoveries would have stayed anecdotes. A landfall is not a map. Turning discoveries into territory that other people can actually use was necessary, valuable work, and it still is. I'm fine with the modesty.
 <!-- C: drafted 8 Oct on your note. De la Cosa 1500 and Sikdar 1852 are standard history, from memory; both are easy to check before Friday. -->
 
-[^16]: The knocker-up was a real job, and it lasted longer than you'd think: the last ones in the north of England worked into the 1970s. It was killed by a tool that cost less than a week of its wages. The alarm clock.
+[^16]: If you've seen *Hidden Figures* you know this story; if you haven't, Margot Lee Shetterly's 2016 book of the same name is even better than the film. Vaughan is the one who walks into the room with the IBM 7090 that nobody at Langley could get to work ... and gets it to work. So great.
 
-[^17]: And often brilliant work. Harvard's "computers" in the 1880s and 90s – Williamina Fleming, Annie Jump Cannon, Henrietta Swan Leavitt – classified hundreds of thousands of stars by hand and, along the way, discovered the period–luminosity relation that let us measure the size of the universe. Leavitt was paid 30 cents an hour. Insanity.
+[^17]: From a Simons Foundation piece on [Lean's impact on mathematics](https://www.simonsfoundation.org/2026/06/23/from-trust-to-verification-leans-impact-on-mathematics/), June 2026. The same piece has the line that, with Lean, mathematicians can "trust AI-generated proofs of lemmas without worrying about AI hallucinations or 'slop'." That's the whole trick: an unreliable generator plus a reliable checker gives reliable mathematics.
 
-[^18]: If you've seen *Hidden Figures* you know this story; if you haven't, Margot Lee Shetterly's 2016 book of the same name is even better than the film. Vaughan is the one who walks into the room with the IBM 7090 that nobody at Langley could get to work ... and gets it to work. So great.
-
-[^19]: From a Simons Foundation piece on [Lean's impact on mathematics](https://www.simonsfoundation.org/2026/06/23/from-trust-to-verification-leans-impact-on-mathematics/), June 2026. The same piece has the line that, with Lean, mathematicians can "trust AI-generated proofs of lemmas without worrying about AI hallucinations or 'slop'." That's the whole trick: an unreliable generator plus a reliable checker gives reliable mathematics.
-
-[^20]: Bloom's taxonomy is the classic ladder of learning objectives from educational psychology (Benjamin Bloom and colleagues, 1956; revised by Anderson and Krathwohl in 2001). The revised rungs are: remember, understand, apply, analyze, evaluate, create. Checking that a proof is correct lives on the bottom rungs. Owning a result – being able to judge it and build with it – is the top. The surveyor's job is to climb that ladder on behalf of humankind, one machine result at a time.
+[^18]: Bloom's taxonomy is the classic ladder of learning objectives from educational psychology (Benjamin Bloom and colleagues, 1956; revised by Anderson and Krathwohl in 2001). The revised rungs are: remember, understand, apply, analyze, evaluate, create. Checking that a proof is correct lives on the bottom rungs. Owning a result – being able to judge it and build with it – is the top. The surveyor's job is to climb that ladder on behalf of humankind, one machine result at a time.
 <!-- C: drafted 8 Oct on your note. -->
 
-[^21]: Blander is a strong word, but there is data behind it. Qianyue Hao, Fengli Xu, Yong Li and James Evans analysed 41 million papers and found that scientists who use AI tools publish about three times as many papers and collect almost five times as many citations, while the collective set of topics that science studies *shrinks*, and scientists engage less with each other's work. AI-augmented research drifts toward wherever the data is richest. More papers, fewer places. [*Nature* 649, 1237–1243 (2026)](https://doi.org/10.1038/s41586-025-09922-y).
+[^19]: Blander is a strong word, but there is data behind it. Qianyue Hao, Fengli Xu, Yong Li and James Evans analysed 41 million papers and found that scientists who use AI tools publish about three times as many papers and collect almost five times as many citations, while the collective set of topics that science studies *shrinks*, and scientists engage less with each other's work. AI-augmented research drifts toward wherever the data is richest. More papers, fewer places. [*Nature* 649, 1237–1243 (2026)](https://doi.org/10.1038/s41586-025-09922-y).
 <!-- C: drafted 8 Oct on your note; numbers from the arXiv abstract (3.02x papers, 4.84x citations, topics -4.63%, engagement -22%). DOI from a web search; the arXiv version is 2412.07727. This is also the monoculture point you cut from the main text, in one footnote. -->
 
-[^22]: From arXiv's own [monthly submission statistics](https://arxiv.org/stats/monthly_submissions), downloaded 7 October 2026: 105,280 new submissions in 2015, 284,486 in 2025, and 40,363 in September 2026. The 2026 total had passed the whole of 2025 before the year was three quarters done. How much of the recent jump is machines writing papers, I can't tell you. Nobody can, which is rather the point. The rate limit is in arXiv's [blog post of 1 October 2026](https://blog.arxiv.org/2026/10/01/updated-rate-limit-policy/), which also gives the September count and notes that submissions in the AI category grew more than sixfold between 2024 and 2026.
+[^20]: From arXiv's own [monthly submission statistics](https://arxiv.org/stats/monthly_submissions), downloaded 7 October 2026: 105,280 new submissions in 2015, 284,486 in 2025, and 40,363 in September 2026. The 2026 total had passed the whole of 2025 before the year was three quarters done. How much of the recent jump is machines writing papers, I can't tell you. Nobody can, which is rather the point. The rate limit is in arXiv's [blog post of 1 October 2026](https://blog.arxiv.org/2026/10/01/updated-rate-limit-policy/), which also gives the September count and notes that submissions in the AI category grew more than sixfold between 2024 and 2026.
 
-[^23]: Social scientists have a whole vocabulary for this. Robert Merton called it the self-fulfilling prophecy (a rumor that a bank is in trouble can be enough to sink it), Karl Popper called it the Oedipus effect, and economists know it as Goodhart's law: when a measure becomes a target, it ceases to be a good measure. Planets don't change their orbits because we've predicted them. People change their behavior all the time because of what we've predicted about them. In the social world, the map changes the territory.
+[^21]: Social scientists have a whole vocabulary for this. Robert Merton called it the self-fulfilling prophecy (a rumor that a bank is in trouble can be enough to sink it), Karl Popper called it the Oedipus effect, and economists know it as Goodhart's law: when a measure becomes a target, it ceases to be a good measure. Planets don't change their orbits because we've predicted them. People change their behavior all the time because of what we've predicted about them. In the social world, the map changes the territory.
 
 ## Appendix 1: More inspiration for what interrogation might look like
 
@@ -400,7 +405,7 @@ WHERE WILL THE SURVEYORS COME FROM, unused material:
 
 CUT IN SUNE'S PASS, 8 Oct (the earlier Claude versions of the three jobs, accountability, the Tao 'fully alive' line, the Ramanujan helicopter line). Kept here in case a sentence is wanted back:
 
-**Selection.** Imagine ten thousand new theorems a week, every one of them machine-checked and true, and most of them boring. Deciding which ones matter is taste, and taste is the most human thing in science. The mathematician Alex Kontorovich put it well: "Lean will prove that 17 plus 18 equals 35, and it will certify that the theorem is correct, which is not interesting. So, it's still up to mathematicians to determine what our taste is" [^18]. The same goes for the autonomous lab that has run a thousand experiments overnight. Somebody has to say which results are worth human attention.
+**Selection.** Imagine ten thousand new theorems a week, every one of them machine-checked and true, and most of them boring. Deciding which ones matter is taste, and taste is the most human thing in science. The mathematician Alex Kontorovich put it well: "Lean will prove that 17 plus 18 equals 35, and it will certify that the theorem is correct, which is not interesting. So, it's still up to mathematicians to determine what our taste is" [^16]. The same goes for the autonomous lab that has run a thousand experiments overnight. Somebody has to say which results are worth human attention.
 
 **Interrogation.** Once you have picked a result, you take it apart. Why is it true? Where does it break? Which assumption is doing the work? If it's an experimental result, what is the one discriminating experiment that would tell you whether the machine's mechanism is the real one? This is the back-of-the-book move from earlier, done professionally: you know the answer, and now you want to know *why* it's the answer.
 
