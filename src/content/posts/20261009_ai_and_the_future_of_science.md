@@ -2,7 +2,7 @@
 title: "AI and the future of science"
 date: 2026-10-09 09:00:00
 slug: "ai-and-the-future-of-science"
-status: draft
+status: publish
 author: "sunelehmann"
 categories: ["Misc"]
 images: ["/assets/20261009_ai_and_the_future_of_science/fermat_map.jpg"]
