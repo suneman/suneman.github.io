@@ -8,7 +8,6 @@ categories: ["Misc"]
 images: ["/assets/20261009_ai_and_the_future_of_science/fermat_map.jpg"]
 ai_assisted: false
 ---
-
 ## Preamble on the meaning of life
 
 Let me start by admitting something a little bit embarrassing. My job is a key source of meaning in my life. Not in an I-think-I-am-playing-an-important-role-in-many-lives kind of way, but something more existential.
@@ -25,7 +24,10 @@ I think this understanding of why I find my job as a scientist meaningful is imp
 
 The thing that set this whole thing in motion is the following post by Joe Bak-Coleman:
 
-<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:y7e3mcqeuzcgvagpds5ixywn/app.bsky.feed.post/3m6sqievhj22x" data-bluesky-cid="bafyreifaizfmolqxz7upzhbjikl2crghw32rc624hhfcs4vqq4ukal7z2m"><p lang="en">Artists: “ai can never replace what we do, we get the value we infuse into the world”<br><br>Scientists: “what if the computer went brrr and spit out science”</p>&mdash; Joe Bak-Coleman (<a href="https://bsky.app/profile/did:plc:y7e3mcqeuzcgvagpds5ixywn?ref_src=embed">@jbakcoleman.bsky.social</a>) <a href="https://bsky.app/profile/did:plc:y7e3mcqeuzcgvagpds5ixywn/post/3m6sqievhj22x?ref_src=embed">November 30, 2025</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+<figure>
+<a href="https://bsky.app/profile/jbakcoleman.bsky.social/post/3m6sqievhj22x"><img src="/assets/20261009_ai_and_the_future_of_science/bak_coleman_post.png" alt="Bluesky post by Joe Bak-Coleman, reposted by Carl T. Bergstrom. Artists: ai can never replace what we do, we get the value we infuse into the world. Scientists: what if the computer went brrr and spit out science."></a>
+<figcaption><a href="https://bsky.app/profile/jbakcoleman.bsky.social/post/3m6sqievhj22x">Joe Bak-Coleman on Bluesky</a>, 30 November 2025.</figcaption>
+</figure>
 
 When I saw it, my initial reaction was something along the lines of "I get those scientists. I think it's actually in the spirit of science to investigate AI Science [^1]." It'd be amazing if we could speed up the rate of exciting discoveries or perhaps (at some point in the future) come up with new insights that humans couldn't even have imagined.
 
