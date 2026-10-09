@@ -1,6 +1,6 @@
 ---
 title: "AI and the future of science"
-date: 2026-10-09 13:00:00
+date: 2026-10-09 09:00:00
 slug: "ai-and-the-future-of-science"
 status: draft
 author: "sunelehmann"
