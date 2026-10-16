@@ -1,0 +1,779 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ColorStripe from "../components/ColorStripe.astro";
+---
+
+<BaseLayout
+  title="Name that note"
+  description="A small ear-training game. Press play, a note sounds, and you find it on the keyboard."
+>
+  <h1>Name that note</h1>
+  <ColorStripe thickness="8px" margin="0 0 2rem" />
+
+  <section class="pitch" id="pitch" data-state="idle" data-level="white">
+    <div class="pitch__keys" id="keys" role="group" aria-label="Piano keyboard"></div>
+
+    <p class="pitch__status" id="status">Press play, then find the note on the keyboard.</p>
+    <p class="sr-only" id="announce" aria-live="polite"></p>
+
+    <div class="pitch__controls">
+      <button class="btn btn--primary" id="play" type="button">Play a note</button>
+      <button class="btn btn--quiet" id="again" type="button">Hear it again</button>
+    </div>
+
+    <p class="pitch__streak" id="streak" aria-live="off"></p>
+
+    <div class="pitch__options">
+      <div class="seg" role="group" aria-label="Which keys" id="levels">
+        <button class="seg__btn" type="button" data-level="white" aria-pressed="true">White keys</button>
+        <button class="seg__btn" type="button" data-level="all" aria-pressed="false">All keys</button>
+        <button class="seg__btn" type="button" data-level="two" aria-pressed="false">Two octaves</button>
+      </div>
+      <label class="check">
+        <input type="checkbox" id="reference" checked />
+        <span>Play a C first</span>
+      </label>
+    </div>
+
+    <p class="pitch__hint" id="hint">Space plays the next note. A plays it again. The keys work on their own, too.</p>
+    <p class="pitch__ios" id="ios" hidden>No sound? Check the mute switch on the side of the phone.</p>
+  </section>
+
+  <div class="copy">
+    <p>
+      A small ear-training game. Press play and a note sounds. Then find it on
+      the keyboard. That is the whole
+      game.<sup><a href="#fn1" id="fnref1" class="fn-ref">1</a></sup> Start
+      with the white keys; the black keys and a second octave are one click
+      away, for when the white ones get boring.
+    </p>
+    <p>
+      By default you hear a C first, then the mystery note. That turns it into a
+      question about distance – is the new note a little above the C, or a lot?
+      – and distance is something ears can learn. Switch the C off and you are
+      asking a much harder question, the one almost nobody can
+      answer.<sup><a href="#fn2" id="fnref2" class="fn-ref">2</a></sup>
+    </p>
+
+    <section class="footnotes">
+      <ol>
+        <li id="fn1">
+          There is a streak counter, because of course there is. It remembers
+          your best run on this device and nowhere else.
+          <a href="#fnref1" class="fn-back" aria-label="Back to reference 1">↩</a>
+        </li>
+        <li id="fn2">
+          Absolute pitch – naming a note cold, with nothing to compare it to –
+          is rare. The usual estimate is about one person in 10,000, though it
+          is far more common among people who started music very early.
+          Relative pitch is the ordinary, trainable kind. The piano sound,
+          incidentally, is five sine waves in a trench coat.
+          <a href="#fnref2" class="fn-back" aria-label="Back to reference 2">↩</a>
+        </li>
+      </ol>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  const STORAGE_KEY = "pitch.v1";
+  const REFERENCE_MIDI = 60; // C4
+  const NAMES = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
+  const IS_BLACK = [false, true, false, true, false, false, true, false, true, false, true, false];
+
+  type Level = "white" | "all" | "two";
+  const LEVELS: Record<Level, { from: number; to: number; whitesOnly: boolean }> = {
+    white: { from: 60, to: 71, whitesOnly: true },
+    all: { from: 60, to: 71, whitesOnly: false },
+    two: { from: 60, to: 83, whitesOnly: false },
+  };
+
+  const root = document.getElementById("pitch");
+  const keysEl = document.getElementById("keys");
+  const statusEl = document.getElementById("status");
+  const announceEl = document.getElementById("announce");
+  const playBtn = document.getElementById("play");
+  const againBtn = document.getElementById("again");
+  const streakEl = document.getElementById("streak");
+  const levelsEl = document.getElementById("levels");
+  const referenceEl = document.getElementById("reference") as HTMLInputElement | null;
+  const iosEl = document.getElementById("ios");
+  if (!root || !keysEl || !statusEl || !announceEl || !playBtn || !againBtn || !streakEl || !levelsEl || !referenceEl || !iosEl) {
+    throw new Error("pitch: missing DOM");
+  }
+
+  // ---------- settings + best streak ----------
+
+  let level: Level = "white";
+  let useReference = true;
+  let best = 0;
+
+  function load() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null");
+      if (saved && typeof saved === "object") {
+        if (saved.level in LEVELS) level = saved.level;
+        if (typeof saved.reference === "boolean") useReference = saved.reference;
+        if (typeof saved.best === "number") best = saved.best;
+      }
+    } catch {
+      /* private mode, blocked storage: defaults are fine */
+    }
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ level, reference: useReference, best }));
+    } catch {
+      /* nothing to do */
+    }
+  }
+
+  // ---------- sound ----------
+  //
+  // A piano-ish voice: a handful of harmonics, each with a fast attack and
+  // its own decay (the higher the partial, the sooner it fades), through a
+  // lowpass that closes as the note dies. Not a piano. Nicer than a sine.
+
+  let audio: AudioContext | null = null;
+
+  function ensureAudio(): AudioContext | null {
+    try {
+      if (!audio) audio = new (window.AudioContext || (window as any).webkitAudioContext)();
+      if (audio.state === "suspended") audio.resume();
+      return audio;
+    } catch {
+      return null;
+    }
+  }
+
+  const freqOf = (midi: number) => 440 * Math.pow(2, (midi - 69) / 12);
+
+  function playNote(midi: number, when: number, duration = 1.6, velocity = 1) {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    const f = freqOf(midi);
+    const partials: [number, number][] = [
+      [1, 1],
+      [2, 0.42],
+      [3, 0.18],
+      [4, 0.09],
+      [5, 0.045],
+    ];
+    const lp = ctx.createBiquadFilter();
+    lp.type = "lowpass";
+    lp.Q.value = 0.5;
+    lp.frequency.setValueAtTime(Math.min(7000, f * 7), when);
+    lp.frequency.exponentialRampToValueAtTime(Math.max(f * 1.5, 300), when + duration);
+    const out = ctx.createGain();
+    out.gain.value = 0.2 * velocity;
+    lp.connect(out).connect(ctx.destination);
+
+    for (const [k, amp] of partials) {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      const d = duration / (1 + 0.4 * (k - 1));
+      osc.type = "sine";
+      osc.frequency.value = f * k;
+      g.gain.setValueAtTime(0.0001, when);
+      g.gain.exponentialRampToValueAtTime(amp, when + 0.008);
+      g.gain.exponentialRampToValueAtTime(amp * 0.45, when + 0.18);
+      g.gain.exponentialRampToValueAtTime(0.0001, when + d);
+      osc.connect(g).connect(lp);
+      osc.start(when);
+      osc.stop(when + d + 0.05);
+    }
+  }
+
+  // ---------- keyboard ----------
+
+  let keyEls = new Map<number, HTMLButtonElement>();
+
+  function buildKeys() {
+    const { from, to, whitesOnly } = LEVELS[level];
+    keysEl.replaceChildren();
+    keyEls = new Map();
+    const whites: number[] = [];
+    for (let m = from; m <= to; m++) if (!IS_BLACK[m % 12]) whites.push(m);
+    const n = whites.length;
+    root.style.setProperty("--whites", String(n));
+
+    whites.forEach((m) => {
+      const el = document.createElement("button");
+      el.type = "button";
+      el.className = "key key--white";
+      el.dataset.midi = String(m);
+      el.setAttribute("aria-label", NAMES[m % 12] + (Math.floor(m / 12) - 1));
+      const label = document.createElement("span");
+      label.className = "key__label";
+      label.textContent = NAMES[m % 12];
+      el.appendChild(label);
+      keysEl.appendChild(el);
+      keyEls.set(m, el);
+    });
+
+    if (!whitesOnly) {
+      for (let m = from; m <= to; m++) {
+        if (!IS_BLACK[m % 12]) continue;
+        // A black key sits on the boundary after the white key below it.
+        const i = whites.indexOf(m - 1);
+        if (i < 0 || i + 1 >= n) continue;
+        const el = document.createElement("button");
+        el.type = "button";
+        el.className = "key key--black";
+        el.dataset.midi = String(m);
+        el.setAttribute("aria-label", NAMES[m % 12] + (Math.floor(m / 12) - 1));
+        el.style.left = `${((i + 1) / n) * 100}%`;
+        keysEl.appendChild(el);
+        keyEls.set(m, el);
+      }
+    }
+  }
+
+  function clearKeys() {
+    for (const el of keyEls.values()) delete el.dataset.mark;
+  }
+
+  // ---------- game ----------
+
+  type State = "idle" | "listening" | "answered";
+  let state: State = "idle";
+  let target = -1;
+  let previous = -1;
+  let streak = 0;
+
+  function setState(next: State) {
+    state = next;
+    root.dataset.state = next;
+    playBtn.textContent = next === "idle" ? "Play a note" : next === "listening" ? "Skip" : "Next note";
+  }
+
+  function announce(text: string) {
+    announceEl.textContent = text;
+  }
+
+  function setStatus(text: string) {
+    statusEl.textContent = text;
+    announce(text);
+  }
+
+  function paintStreak() {
+    streakEl.textContent = streak || best ? `Streak ${streak} · Best ${best}` : "";
+  }
+
+  function choices(): number[] {
+    const { from, to, whitesOnly } = LEVELS[level];
+    const out: number[] = [];
+    for (let m = from; m <= to; m++) if (!(whitesOnly && IS_BLACK[m % 12])) out.push(m);
+    return out;
+  }
+
+  function pickTarget() {
+    const pool = choices().filter((m) => m !== previous);
+    target = pool[Math.floor(Math.random() * pool.length)];
+    previous = target;
+  }
+
+  // Reference first (if on), then the mystery note. Scheduled on the audio
+  // clock so the gap is the same every time.
+  function soundQuestion() {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    const t0 = ctx.currentTime + 0.03;
+    if (useReference && target !== REFERENCE_MIDI) {
+      playNote(REFERENCE_MIDI, t0, 1.2, 0.8);
+      playNote(target, t0 + 0.75);
+    } else if (useReference) {
+      // The answer is the reference itself: play it once, so nothing is given away.
+      playNote(target, t0);
+    } else {
+      playNote(target, t0);
+    }
+  }
+
+  function ask() {
+    clearKeys();
+    pickTarget();
+    setState("listening");
+    setStatus(useReference ? "First a C, then the note. Which one was it?" : "Which note was that?");
+    soundQuestion();
+  }
+
+  function next() {
+    if (state === "listening") {
+      // Skipping counts as a miss; show the answer first.
+      reveal(-1);
+      return;
+    }
+    ask();
+  }
+
+  function nameOf(m: number) {
+    return NAMES[m % 12];
+  }
+
+  // "an A", "an E", "an F" (eff), "a B", "a C" ... and the same for sharps.
+  function aNote(m: number) {
+    const n = nameOf(m);
+    return (/^[AEF]/.test(n) ? "an " : "a ") + n;
+  }
+
+  const yesLines = ["Yes – that was {an}.", "Got it. {n}.", "Right, {an}.", "{n}. Nicely heard."];
+
+  function reveal(pressed: number) {
+    const correct = pressed === target;
+    const targetEl = keyEls.get(target);
+    if (targetEl) targetEl.dataset.mark = "correct";
+    if (correct) {
+      streak++;
+      if (streak > best) {
+        best = streak;
+        save();
+      }
+      let line = yesLines[Math.floor(Math.random() * yesLines.length)]
+        .replace("{n}", nameOf(target))
+        .replace("{an}", aNote(target));
+      if (streak === 5 && level === "white") line += " Five in a row. The black keys are waiting.";
+      else if (streak === 10) line += " Ten in a row. Show someone.";
+      else if (streak === 20) line += " Twenty. At this point I believe you.";
+      setStatus(line);
+    } else {
+      const pressedEl = pressed >= 0 ? keyEls.get(pressed) : undefined;
+      if (pressedEl) pressedEl.dataset.mark = "wrong";
+      streak = 0;
+      setStatus(
+        pressed >= 0
+          ? `Not quite. It was ${aNote(target)} – you pressed ${nameOf(pressed)}.`
+          : `It was ${aNote(target)}.`
+      );
+    }
+    paintStreak();
+    setState("answered");
+  }
+
+  function onKey(midi: number) {
+    const ctx = ensureAudio();
+    if (ctx) playNote(midi, ctx.currentTime + 0.01, 1.4, 0.9);
+    if (state === "listening") {
+      reveal(midi);
+      return;
+    }
+    // Free play, before a question or after the answer: a brief mustard
+    // touch so the key visibly responds. Marked answer keys keep their colour.
+    const el = keyEls.get(midi);
+    if (el && !el.dataset.mark) {
+      el.dataset.mark = "touch";
+      window.setTimeout(() => {
+        if (el.dataset.mark === "touch") delete el.dataset.mark;
+      }, 250);
+    }
+  }
+
+  function setLevel(next: Level) {
+    level = next;
+    root.dataset.level = next;
+    for (const b of levelsEl.querySelectorAll<HTMLButtonElement>(".seg__btn")) {
+      b.setAttribute("aria-pressed", String(b.dataset.level === next));
+    }
+    buildKeys();
+    previous = -1;
+    if (state !== "idle") {
+      setState("idle");
+      setStatus("New keys. Press play.");
+    }
+    save();
+  }
+
+  // ---------- wiring ----------
+
+  keysEl.addEventListener("pointerdown", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(".key");
+    if (!btn || !btn.dataset.midi) return;
+    e.preventDefault();
+    onKey(Number(btn.dataset.midi));
+  });
+  // Keyboard users: Enter/Space on a focused key.
+  keysEl.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(".key");
+    if (!btn || !btn.dataset.midi) return;
+    e.preventDefault();
+    onKey(Number(btn.dataset.midi));
+  });
+
+  playBtn.addEventListener("click", next);
+  againBtn.addEventListener("click", () => {
+    if (state !== "idle") soundQuestion();
+  });
+  levelsEl.addEventListener("click", (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLButtonElement>(".seg__btn");
+    if (b && b.dataset.level && b.dataset.level !== level) setLevel(b.dataset.level as Level);
+  });
+  referenceEl.addEventListener("change", () => {
+    useReference = referenceEl.checked;
+    save();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const tag = (e.target as HTMLElement | null)?.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "BUTTON") return;
+    if (e.code === "Space") {
+      e.preventDefault();
+      next();
+    } else if (e.key === "a" || e.key === "A") {
+      if (state !== "idle") soundQuestion();
+    }
+  });
+  for (const ev of ["pointerdown", "keydown"] as const) {
+    document.addEventListener(ev, () => {
+      if (audio && audio.state === "suspended") audio.resume();
+    }, { passive: true });
+  }
+
+  // iPhones and iPads silence Web Audio when the side switch is on mute,
+  // which is the single most common reason a page like this "doesn't work".
+  const ua = navigator.userAgent;
+  const isIOS = /iPhone|iPad|iPod/.test(ua) || (ua.includes("Mac") && navigator.maxTouchPoints > 1);
+  if (isIOS) iosEl.hidden = false;
+
+  load();
+  referenceEl.checked = useReference;
+  setLevel(level);
+  setState("idle");
+  paintStreak();
+</script>
+
+<style>
+  .pitch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    --key-white: #ffffff;
+    --key-black: #2a2a2f;
+    --key-edge: var(--rule);
+    --key-label: var(--fg-muted);
+  }
+
+  :global(:root[data-theme="dark"]) .pitch {
+    --key-white: #1b2b57;
+    --key-black: #050b1f;
+    --key-edge: #0b1838;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root[data-theme="system"]) .pitch {
+      --key-white: #1b2b57;
+      --key-black: #050b1f;
+      --key-edge: #0b1838;
+    }
+  }
+
+  /* ---------- keyboard ---------- */
+
+  .pitch__keys {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: clamp(8rem, 28vw, 11rem);
+    margin: 0.5rem 0 0.25rem;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .pitch__keys :global(.key) {
+    appearance: none;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .pitch__keys :global(.key--white) {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100%;
+    background: var(--key-white);
+    border: 1px solid var(--key-edge);
+    border-radius: 0 0 5px 5px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 0.55rem;
+    color: var(--key-label);
+    font-family: var(--sans);
+    font-size: clamp(0.65rem, 1.8vw, 0.85rem);
+    font-weight: 500;
+    box-shadow: inset 0 -4px 0 color-mix(in srgb, var(--fg) 6%, transparent);
+  }
+
+  .pitch__keys :global(.key--white + .key--white) {
+    border-left-width: 0;
+  }
+
+  .pitch__keys :global(.key--black) {
+    position: absolute;
+    top: 0;
+    /* left is set per key from JS; width is a fraction of a white key */
+    width: calc(100% / var(--whites, 7) * 0.58);
+    height: 62%;
+    transform: translateX(-50%);
+    background: var(--key-black);
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+    z-index: 1;
+  }
+
+  .pitch__keys :global(.key:hover) {
+    filter: brightness(0.96);
+  }
+
+  .pitch__keys :global(.key:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .pitch__keys :global(.key[data-mark="touch"]) {
+    background: color-mix(in srgb, var(--accent-mustard) 45%, var(--key-white));
+  }
+
+  .pitch__keys :global(.key--black[data-mark="touch"]) {
+    background: color-mix(in srgb, var(--accent-mustard) 55%, var(--key-black));
+  }
+
+  .pitch__keys :global(.key[data-mark="correct"]) {
+    background: var(--accent-teal);
+    color: #fff;
+  }
+
+  .pitch__keys :global(.key[data-mark="wrong"]) {
+    background: var(--accent-sienna);
+    color: #fff;
+  }
+
+  /* While listening, the keys are the answer sheet: no idle grey. */
+  .pitch[data-state="listening"] .pitch__keys :global(.key--white) {
+    box-shadow: inset 0 -4px 0 color-mix(in srgb, var(--accent) 14%, transparent);
+  }
+
+  /* ---------- text + controls ---------- */
+
+  .pitch__status {
+    margin: 0.5rem 0 0;
+    font-family: var(--serif);
+    font-size: clamp(1.15rem, 3.4vw, 1.5rem);
+    font-variation-settings: "opsz" 40;
+    text-align: center;
+    min-height: 1.6em;
+    line-height: 1.35;
+  }
+
+  .pitch[data-state="idle"] .pitch__status {
+    color: var(--fg-muted);
+  }
+
+  .pitch__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: center;
+    margin-top: 0.25rem;
+  }
+
+  .btn {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.55rem 1.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--fg-muted);
+    cursor: pointer;
+    transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  }
+
+  .btn:hover {
+    color: var(--fg);
+    background: color-mix(in srgb, var(--rule) 35%, transparent);
+  }
+
+  .btn--primary {
+    border-color: var(--accent);
+    color: var(--accent);
+    min-width: 8.5rem;
+  }
+
+  .btn--primary:hover {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .btn--quiet {
+    border-color: transparent;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .pitch[data-state="idle"] .btn--quiet {
+    visibility: hidden;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .pitch__streak {
+    margin: 0;
+    color: var(--fg-muted);
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+    min-height: 1.3em;
+  }
+
+  .pitch__options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    width: 100%;
+  }
+
+  .seg {
+    display: inline-flex;
+    padding: 2px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--rule) 35%, transparent);
+  }
+
+  .seg__btn {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.3rem 0.8rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--fg-muted);
+    cursor: pointer;
+    transition: background-color 120ms ease, color 120ms ease;
+  }
+
+  .seg__btn:hover {
+    color: var(--fg);
+  }
+
+  .seg__btn[aria-pressed="true"] {
+    background: var(--bg);
+    color: var(--accent);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  .seg__btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    cursor: pointer;
+  }
+
+  .check input {
+    accent-color: var(--accent);
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+  }
+
+  .pitch__hint,
+  .pitch__ios {
+    margin: 0.25rem 0 0;
+    color: var(--fg-muted);
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ---------- copy ---------- */
+
+  .copy {
+    margin-top: 3rem;
+    font-size: 1.05rem;
+  }
+
+  .copy p {
+    margin: 1em 0;
+  }
+
+  .copy sup {
+    line-height: 0;
+  }
+
+  .fn-ref {
+    text-decoration: none;
+    font-size: 0.75em;
+    padding-left: 0.1em;
+  }
+
+  .footnotes {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+  }
+
+  .footnotes ol {
+    padding-left: 1.25rem;
+    margin: 0;
+  }
+
+  .footnotes li {
+    margin: 0.5em 0;
+  }
+
+  .footnotes li:target {
+    color: var(--fg);
+  }
+
+  .fn-back {
+    text-decoration: none;
+    margin-left: 0.25em;
+  }
+
+  @media (max-width: 600px) {
+    .pitch__hint {
+      display: none;
+    }
+    .pitch[data-level="two"] .pitch__keys :global(.key__label) {
+      display: none;
+    }
+  }
+</style>
