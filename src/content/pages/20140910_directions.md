@@ -10,17 +10,20 @@ images: ["/assets/20140910_directions/screenshot-2022-11-18-at-09.54.04.png"]
 
 <style>
 .journey{list-style:none;margin:1.5em 0 1.5em .5rem;padding:0;max-width:34rem}
-.journey li{--c:var(--fg-muted);position:relative;margin:0;padding:.15em 0 .15em 1.6rem;border-left:4px solid var(--c)}
-.journey li::before{content:"";position:absolute;box-sizing:border-box;left:-8px;top:.55em;width:12px;height:12px;border-radius:50%;background:var(--bg);border:3px solid var(--c)}
+.journey li{--c:var(--fg-muted);position:relative;margin:0;padding:.15em 0 .15em 1.6rem}
+.journey li::after{content:"";position:absolute;left:-2px;top:0;bottom:0;width:4px;background:var(--c)}
+.journey li:not(.leg)::after{top:calc(.55em + 6px)}
+.journey li::before{content:"";position:absolute;box-sizing:border-box;z-index:1;left:-6px;top:.55em;width:12px;height:12px;border-radius:50%;background:var(--bg);border:3px solid var(--dot,var(--c))}
 .journey .leg{padding:.6em 0 .6em 1.6rem;color:var(--fg-muted);font-size:.92em}
 .journey .leg::before{display:none}
 .journey .strain{--c:var(--accent-oxblood)}
 .journey .tram{--c:var(--accent-olive)}
-.journey .walk{--c:var(--accent-sienna);border-left-style:dashed}
-.journey .change::before{box-shadow:0 0 0 3px var(--bg),0 0 0 6px var(--accent-oxblood)}
-.journey .here{--c:var(--accent-sienna)}
-.journey .here::before{width:14px;height:14px;left:-9px;top:.5em}
-.journey .dest{--c:var(--accent-sienna);border-left-color:transparent}
+.journey .walk{--c:var(--accent-sienna)}
+.journey .walk::after{background:repeating-linear-gradient(to bottom,var(--c) 0 6px,transparent 6px 11px)}
+.journey .change::before{box-shadow:0 0 0 3px var(--bg),0 0 0 6px var(--ring)}
+.journey .here::before{width:14px;height:14px;left:-7px;top:.5em}
+.journey .dest{--c:var(--accent-sienna)}
+.journey .dest::after{display:none}
 .journey .minor{color:var(--fg-muted);font-size:.9em}
 .dirtable{border-collapse:collapse;width:100%;font-size:.95em;margin:1em 0 1.5em}
 .dirtable th,.dirtable td{text-align:left;padding:.45em .7em .45em 0;border-bottom:1px solid var(--rule);vertical-align:top}
@@ -34,17 +37,19 @@ My office is on the first floor of Building 321, room 126, on DTU's campus in Ly
 ### From central Copenhagen, by train
 
 1. **S-train to Lyngby.** From Nørreport (or København H, Østerport, wherever you are), take line **A** towards Hillerød or line **E** towards Holte and get off at **Lyngby St.** The ride takes about a quarter of an hour. On weekdays each line runs every ten minutes, so in practice there is a train roughly every five minutes. In the evenings and at weekends only line A runs: every ten minutes during the day, every twenty later on.
-2. **Light rail to campus.** At Lyngby, a tunnel leads straight from the S-train platforms to the light rail stop. Take the light rail towards **Lundtofte**. It runs every five to eight minutes during the day on weekdays and Saturdays, every ten minutes in the evening and on Sundays. Three stops later you are at **Akademivej (DTU)**, the first of two stops on campus.[^1] Under ten minutes.
+2. **Light rail to campus.** At Lyngby, a tunnel leads straight from the S-train platforms to the light rail stop, a walk of about 100 metres. Take the light rail towards **Lundtofte**. It runs every five to eight minutes during the day on weekdays and Saturdays, every ten minutes in the evening and on Sundays. Three stops later you are at **Akademivej (DTU)**, the first of two stops on campus.[^1] Under ten minutes.
 3. **Walk.** From the Akademivej stop, follow the tracks north for about 450 metres. Building 321 is on your left, just before the tracks bend east. Five or six minutes, depending on the weather and your attitude towards it.
 
 <ol class="journey">
 <li class="strain"><strong>Nørreport</strong> <span class="minor">(or any S-train station in town)</span></li>
 <li class="leg strain">S-train, line A towards Hillerød or line E towards Holte. About 15 minutes.</li>
-<li class="tram change"><strong>Lyngby St.</strong> – change to the light rail; the tunnel from the platforms takes you straight there.</li>
+<li class="walk change" style="--dot:var(--accent-oxblood);--ring:var(--accent-olive)"><strong>Lyngby St.</strong> – off the S-train.</li>
+<li class="leg walk">On foot, through the tunnel from the platforms to the light rail stop. About 100 metres.</li>
+<li class="tram change" style="--ring:var(--accent-oxblood)"><strong>Lyngby St.</strong>, light rail stop.</li>
 <li class="leg tram">Light rail towards Lundtofte. Under 10 minutes.</li>
 <li class="tram minor">Lyngby Centrum</li>
 <li class="tram minor">Fortunbyen</li>
-<li class="tram here"><strong>Akademivej (DTU)</strong> – get off here.</li>
+<li class="walk here"><strong>Akademivej (DTU)</strong> – get off here.</li>
 <li class="leg walk">On foot, north along the tracks. About 450 metres.</li>
 <li class="dest"><strong>Building 321</strong>, first floor, room 126.</li>
 </ol>
@@ -78,7 +83,7 @@ All in all, something like half an hour from Nørreport. For live departures, [r
 .dirmap .rd-path{stroke-width:1;stroke-opacity:.22}
 .dirmap .tram{fill:none;stroke:var(--accent-olive,#7e8d20);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
 .dirmap .tram-core{fill:none;stroke:var(--bg,#fbfbf8);stroke-width:1.5;stroke-dasharray:9 9;stroke-opacity:.9}
-.dirmap .walk{fill:none;stroke:var(--accent-sienna,#b8451e);stroke-width:6;stroke-dasharray:10 9;stroke-linecap:round;stroke-linejoin:round}
+.dirmap .walk{fill:none;stroke:var(--accent-sienna,#b8451e);stroke-width:9;stroke-dasharray:12 10;stroke-linecap:round;stroke-linejoin:round}
 .dirmap .stop{fill:var(--bg,#fbfbf8);stroke:var(--accent-olive,#7e8d20);stroke-width:4}
 .dirmap .stop-here{stroke:var(--accent-sienna,#b8451e)}
 .dirmap .b321{fill:var(--accent-sienna,#b8451e);stroke:none}

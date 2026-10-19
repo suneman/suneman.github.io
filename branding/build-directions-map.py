@@ -194,7 +194,7 @@ def build_svg(ways):
 .dirmap .rd-path{{stroke-width:1;stroke-opacity:.22}}
 .dirmap .tram{{fill:none;stroke:var(--accent-olive,#7e8d20);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}}
 .dirmap .tram-core{{fill:none;stroke:var(--bg,#fbfbf8);stroke-width:1.5;stroke-dasharray:9 9;stroke-opacity:.9}}
-.dirmap .walk{{fill:none;stroke:var(--accent-sienna,#b8451e);stroke-width:6;stroke-dasharray:10 9;stroke-linecap:round;stroke-linejoin:round}}
+.dirmap .walk{{fill:none;stroke:var(--accent-sienna,#b8451e);stroke-width:9;stroke-dasharray:12 10;stroke-linecap:round;stroke-linejoin:round}}
 .dirmap .stop{{fill:var(--bg,#fbfbf8);stroke:var(--accent-olive,#7e8d20);stroke-width:4}}
 .dirmap .stop-here{{stroke:var(--accent-sienna,#b8451e)}}
 .dirmap .b321{{fill:var(--accent-sienna,#b8451e);stroke:none}}
