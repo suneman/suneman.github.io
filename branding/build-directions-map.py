@@ -147,7 +147,8 @@ def walk_route(ways, nodes, frame, src, dst):
     pos = {k: frame.xy(*v) for k, v in nodes.items()}
     adj = {}
     for t, refs, _ in ways:
-        if t.get("highway") in WALKABLE and t.get("foot") != "no" and t.get("access") not in ("private", "no"):
+        underground = t.get("tunnel") or t.get("indoor") or str(t.get("layer", "")).startswith("-") or str(t.get("level", "")).startswith("-")
+        if t.get("highway") in WALKABLE and t.get("foot") != "no" and t.get("access") not in ("private", "no") and not underground:
             for a, b in zip(refs, refs[1:]):
                 if a in pos and b in pos:
                     w = math.dist(pos[a], pos[b])
@@ -354,14 +355,23 @@ def build_ku():
     # rotated 45 degrees clockwise so Øster Farimagsgade runs left to right and CSS faces down, as on KU's own map
     frame = Frame(55.686, 12.571, rot_deg=-45)
     ways, nodes = fetch(tiles)
-    cv = Canvas("kumap", frame, (-270, 250, -260, 250), ways,
+    cv = Canvas("kumap", frame, (-270, 250, -300, 250), ways,
                 {"Øster Farimagsgade", "Nørre Farimagsgade", "Gothersgade", "Frederiksborggade", "Nørre Voldgade", "Øster Voldgade"},
                 "Map of the walk from Nørreport to CSS, the old Kommunehospitalet, on Øster Farimagsgade",
                 "From Nørreport station, walk up Frederiksborggade and along Nørre Farimagsgade, which becomes Øster Farimagsgade after Gothersgade. CSS is the red-brick hospital complex on the left, opposite the Botanical Garden. Enter the front garden at number 5 and take the door in the left wing, Building 7.")
-    norreport = frame.xy(55.68418, 12.57078)   # street-level exit, Nørre Voldgade at Frederiksborggade
+    norreport = frame.xy(55.68385, 12.57276)   # the S-train platforms under Nørre Voldgade; the metro is next door
+    corner = frame.xy(55.68408, 12.57160)      # street level, Nørre Voldgade at Frederiksborggade
+    gate = frame.xy(55.68693, 12.57100)        # the main gate, Øster Farimagsgade 5, straight out from the dome
     door = frame.xy(55.68711, 12.57007)        # door in the Building 7 façade, facing the front garden
     dome = frame.xy(55.68722, 12.57052)        # Building 1, under the dome
-    walk = walk_route(ways, nodes, frame, norreport, door)
+    turn = frame.xy(55.68496, 12.56839)        # Frederiksborggade meets Nørre Farimagsgade
+    goth = frame.xy(55.68613, 12.56976)        # Gothersgade crossing, where the street becomes Øster Farimagsgade
+    # the footway graph is routed only as far as Gothersgade: beyond it OSM's pavement is disconnected and
+    # Dijkstra would rather tour the Botanical Garden. The stub along Nørre Voldgade and the straight stretch
+    # along Øster Farimagsgade to the gate are drawn by hand, as is the path through the front garden.
+    walk = [norreport] + walk_route(ways, nodes, frame, corner, turn)
+    walk += walk_route(ways, nodes, frame, turn, goth)[1:]
+    walk += [(gate[0], walk[-1][1]), gate, (gate[0] + 1, dome[1] - 10), (door[0] + 6, door[1] - 6), door]
     print(f"  walk {length(walk):.0f} m; nørreport {norreport[0]:.0f},{norreport[1]:.0f} door {door[0]:.0f},{door[1]:.0f} dome {dome[0]:.0f},{dome[1]:.0f}", file=sys.stderr)
     css = next((P(rdp([frame.xy(*p) for p in ll], 1.0)) + "Z" for t, _, ll in ways
                 if t.get("amenity") == "university" and "Sundhed og Samfund" in t.get("name", "")), None)
@@ -377,10 +387,9 @@ def build_ku():
         return f'<text class="lbl-road" x="{mx - nx:.0f}" y="{my - ny:.0f}" text-anchor="middle" transform="rotate({ang:.1f} {mx - nx:.0f} {my - ny:.0f})">{name}</text>'
 
     # the walk's two long straight legs carry the street names that textPath would put off-canvas
-    turn = max(walk, key=lambda p: -p[0] + 0.3 * p[1])         # the corner Frederiksborggade / Nørre Farimagsgade
     end_nf = max((p for p in walk if p[1] < 80), key=lambda p: p[0])  # where the walk turns north into CSS
     defs, body = "", [f'<path class="walk" d="{P(rdp(walk, 1.0))}"/>',
-                      along("Frederiksborggade", norreport, turn, 16, 0.45), along("Nørre Farimagsgade", turn, end_nf, 16, 0.5)]
+                      along("Frederiksborggade", norreport, turn, 16, 0.45), along("Nørre Farimagsgade", turn, end_nf, 16, 0.33)]
     for name, pid, off, dy in [("Øster Farimagsgade", "kp-of", "42%", -9), ("Gothersgade", "kp-go", "15%", -9), ("Nørre Voldgade", "kp-nv", "35%", 16)]:
         d, t = cv.road_label(name, pid, off, dy)
         defs += d
