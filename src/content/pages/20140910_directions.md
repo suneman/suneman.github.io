@@ -32,7 +32,7 @@ images: ["/assets/20140910_directions/css_facade_annotated.jpg"]
 
 ## DTU
 
-My office is on the first floor of Building 321, room 126, on DTU's campus in Lyngby.
+My office is on the second floor of Building 321, room 209, on DTU's campus in Lyngby.
 
 ### From central Copenhagen, by train
 
@@ -51,7 +51,7 @@ My office is on the first floor of Building 321, room 126, on DTU's campus in Ly
 <li class="tram minor">Fortunbyen</li>
 <li class="walk here"><strong>Akademivej (DTU)</strong> – get off here.</li>
 <li class="leg walk">On foot, north along the tracks. About 450 metres.</li>
-<li class="dest"><strong>Building 321</strong>, first floor, room 126.</li>
+<li class="dest"><strong>Building 321</strong>, second floor, room 209.</li>
 </ol>
 
 All in all, something like half an hour from Nørreport. For live departures, [rejseplanen.dk](https://www.rejseplanen.dk) knows everything, and [dinletbane.dk](https://dinletbane.dk/) has the light rail timetable.
@@ -134,7 +134,7 @@ All in all, something like half an hour from Nørreport. For live departures, [r
 <text class="lbl-stop halo" x="503" y="-260" text-anchor="end">Rævehøjvej</text>
 <text class="lbl-muted halo" x="615" y="-263" text-anchor="middle">bus 150S</text>
 <text class="lbl-here halo" x="-78" y="136" text-anchor="end">Building 321</text>
-<text class="lbl-muted halo" x="-78" y="156" text-anchor="end">my office, 1st floor</text>
+<text class="lbl-muted halo" x="-78" y="156" text-anchor="end">my office, 2nd floor</text>
 <text class="lbl-muted halo" x="245" y="612">to Lyngby St. ↓</text>
 <text class="lbl-muted halo" x="523" y="-307" text-anchor="end">↑ to Lundtofte</text>
 <line class="scale" x1="-240" y1="590" x2="-40" y2="590"/><line class="scale" x1="-240" y1="584" x2="-240" y2="596"/><line class="scale" x1="-40" y1="584" x2="-40" y2="596"/><text class="lbl-muted" x="-140" y="580" text-anchor="middle">200 m</text>

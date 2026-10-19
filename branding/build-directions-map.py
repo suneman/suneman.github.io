@@ -341,7 +341,7 @@ def build_dtu():
              f'<text class="lbl-stop halo" x="{rv[0]-16:.0f}" y="{-rv[1]-16:.0f}" text-anchor="end">Rævehøjvej</text>',
              f'<text class="lbl-muted halo" x="{bus[1][0]:.0f}" y="{-bus[1][1]+24:.0f}" text-anchor="middle">bus 150S</text>',
              '<text class="lbl-here halo" x="-78" y="136" text-anchor="end">Building 321</text>',
-             '<text class="lbl-muted halo" x="-78" y="156" text-anchor="end">my office, 1st floor</text>',
+             '<text class="lbl-muted halo" x="-78" y="156" text-anchor="end">my office, 2nd floor</text>',
              f'<text class="lbl-muted halo" x="{t_south[0]+16:.0f}" y="{-t_south[1]-4:.0f}">to Lyngby St. ↓</text>',
              f'<text class="lbl-muted halo" x="{t_north[0]-16:.0f}" y="{-t_north[1]+22:.0f}" text-anchor="end">↑ to Lundtofte</text>',
              cv.scale_bar(200), cv.north()]

@@ -14,7 +14,7 @@ The best way to reach me is by email.
 
 DTU Compute (Department of Applied Mathematics and Computer Science)
 Technical University of Denmark
-Building 321, Office 126
+Building 321, Office 209
 DK-2800 Kgs. Lyngby, Denmark
 
 Phone: [+45 4525 3904](tel:+4545253904)
