@@ -362,8 +362,8 @@ def build_ku():
     norreport = frame.xy(55.68385, 12.57276)   # the S-train platforms under Nørre Voldgade; the metro is next door
     corner = frame.xy(55.68408, 12.57160)      # street level, Nørre Voldgade at Frederiksborggade
     gate = frame.xy(55.68693, 12.57100)        # the main gate, Øster Farimagsgade 5, straight out from the dome
-    door = frame.xy(55.68711, 12.57007)        # door in the Building 7 façade, facing the front garden
     dome = frame.xy(55.68722, 12.57052)        # Building 1, under the dome
+    door = dome                                # the Building 7 door is the one just left of the dome: same spot at this scale
     turn = frame.xy(55.68496, 12.56839)        # Frederiksborggade meets Nørre Farimagsgade
     goth = frame.xy(55.68613, 12.56976)        # Gothersgade crossing, where the street becomes Øster Farimagsgade
     # the footway graph is routed only as far as Gothersgade: beyond it OSM's pavement is disconnected and
@@ -371,7 +371,7 @@ def build_ku():
     # along Øster Farimagsgade to the gate are drawn by hand, as is the path through the front garden.
     walk = [norreport] + walk_route(ways, nodes, frame, corner, turn)
     walk += walk_route(ways, nodes, frame, turn, goth)[1:]
-    walk += [(gate[0], walk[-1][1]), gate, (gate[0] + 1, dome[1] - 10), (door[0] + 6, door[1] - 6), door]
+    walk += [(gate[0], walk[-1][1]), gate, (gate[0] + 1, dome[1] - 10), door]
     print(f"  walk {length(walk):.0f} m; nørreport {norreport[0]:.0f},{norreport[1]:.0f} door {door[0]:.0f},{door[1]:.0f} dome {dome[0]:.0f},{dome[1]:.0f}", file=sys.stderr)
     css = next((P(rdp([frame.xy(*p) for p in ll], 1.0)) + "Z" for t, _, ll in ways
                 if t.get("amenity") == "university" and "Sundhed og Samfund" in t.get("name", "")), None)
@@ -397,10 +397,9 @@ def build_ku():
     gx, gy = frame.xy(55.6868, 12.5735)   # Botanical Garden label
     body += [f'<circle class="stn" cx="{norreport[0]:.0f}" cy="{-norreport[1]:.0f}" r="9"/>',
              f'<text class="lbl-stop halo" x="{norreport[0]+16:.0f}" y="{-norreport[1]+7:.0f}">Nørreport <tspan class="sub">S-train and metro</tspan></text>',
-             f'<circle class="pin" cx="{door[0]:.0f}" cy="{-door[1]:.0f}" r="7"/>',
-             f'<text class="lbl-here halo" x="{door[0]-18:.0f}" y="{-door[1]-22:.0f}" text-anchor="end">Building 7 door</text>',
-             f'<text class="lbl-muted halo" x="{door[0]-18:.0f}" y="{-door[1]-2:.0f}" text-anchor="end">then up to 7.2.48</text>',
-             f'<circle class="stop" cx="{dome[0]:.0f}" cy="{-dome[1]:.0f}" r="6"/>',
+             f'<circle class="pin" cx="{door[0]:.0f}" cy="{-door[1]:.0f}" r="8"/>',
+             f'<text class="lbl-here halo" x="{door[0]-18:.0f}" y="{-door[1]-16:.0f}" text-anchor="end">Enter here</text>',
+             f'<text class="lbl-muted halo" x="{door[0]-18:.0f}" y="{-door[1]+4:.0f}" text-anchor="end">Building 7 door, then up to 7.2.48</text>',
              f'<text class="lbl-muted halo" x="{cv.X1-10}" y="{-dome[1]-56:.0f}" text-anchor="end">the dome: Building 1, SODAS</text>',
              f'<text class="lbl-area halo" x="{gx:.0f}" y="{-gy:.0f}" text-anchor="middle">Botanical Garden</text>',
              f'<text class="lbl-area halo" x="{dome[0]-130:.0f}" y="{-dome[1]-100:.0f}" text-anchor="middle">CSS (Kommunehospitalet)</text>',
