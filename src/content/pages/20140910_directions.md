@@ -159,7 +159,7 @@ Nørreport is the nearest station, about ten minutes on foot. Leave the station 
 <!-- kumap:start -->
 <svg class="kumap" xmlns="http://www.w3.org/2000/svg" viewBox="-270 -250 520 550" role="img" aria-labelledby="kumap-title kumap-desc">
 <title id="kumap-title">Map of the walk from Nørreport to CSS, the old Kommunehospitalet, on Øster Farimagsgade</title>
-<desc id="kumap-desc">From Nørreport station, walk up Frederiksborggade and along Nørre Farimagsgade, which becomes Øster Farimagsgade after Gothersgade. CSS is the red-brick hospital complex on the left, opposite the Botanical Garden. Enter the front garden at number 5 and take the door in the left wing, Building 7.</desc>
+<desc id="kumap-desc">From Nørreport station, walk up Frederiksborggade and along Nørre Farimagsgade, which becomes Øster Farimagsgade after Gothersgade. CSS is the red-brick hospital complex on the left, opposite the Botanical Garden. Enter the front garden at number 5 and go in through the left gate, Building 7.</desc>
 <style>
 .kumap{width:100%;height:auto;display:block;margin:1.5em 0;font-family:Inter,system-ui,sans-serif}
 .kumap .paper{fill:var(--surface-card,#f1f0ea)}
@@ -215,7 +215,7 @@ Nørreport is the nearest station, about ten minutes on foot. Leave the station 
 <text class="lbl-stop halo" x="-75" y="254">Nørreport <tspan class="sub">S-train and metro</tspan></text>
 <circle class="pin" cx="75" cy="-117" r="8"/>
 <text class="lbl-here halo" x="57" y="-133" text-anchor="end">Enter here</text>
-<text class="lbl-muted halo" x="57" y="-113" text-anchor="end">Building 7 door, then up to 7.2.48</text>
+<text class="lbl-muted halo" x="57" y="-113" text-anchor="end">Left gate of Building 7, then up to 7.2.48</text>
 <text class="lbl-muted halo" x="240" y="-173" text-anchor="end">the dome: Building 1, SODAS</text>
 <text class="lbl-area halo" x="174" y="48" text-anchor="middle">Botanical Garden</text>
 <text class="lbl-area halo" x="-55" y="-217" text-anchor="middle">CSS (Kommunehospitalet)</text>
@@ -226,11 +226,11 @@ Nørreport is the nearest station, about ten minutes on foot. Leave the station 
 
 ### Finding the office
 
-1. **Into the front garden.** Enter at number 5 and walk towards the dome. Facing the building, head for the door in the left wing – "Enter here" in the helpful illustration below.
-2. **Up, immediately left.** Through the door, take the stairs on your left. They bring you out in the space in front of the bookstore.
-3. **Through to the central stairs.** Cross that room to the central stairwell (there is an elevator in the middle of it) and go all the way to the top floor.
+1. **In through the left gate.** Standing in front of the building, take the left-hand gate – "Enter here" in the helpful illustration below.
+2. **Stairs, left.** Just inside the gate there are stairs on both sides. Choose the ones on your left.
+3. **Through to the central stairs.** You come out in a large-ish room, and you will be able to see stairs. Cross the room to that central stairwell (there is an elevator in the middle of it) and go all the way to the top floor.
 4. **Glass door, office.** At the top, walk through the glass door and you can see the office. Room 7.2.48.
 
-![The CSS façade seen from the front garden: the Building 7 door marked "Enter here", the top-floor windows of the left wing marked "We are up here, 7.2.48", and the dome marked "SODAS, Building 1".](/assets/20140910_directions/css_facade_annotated.jpg)
+![The CSS façade seen from the front garden: the left gate marked "Enter here", the top-floor windows of the left wing marked "We are up here, 7.2.48", and the dome marked "SODAS, Building 1".](/assets/20140910_directions/css_facade_annotated.jpg)
 
 [^1]: The next stop, Anker Engelunds Vej (DTU), by the main building, works almost as well. It is a coin toss, really – about 500 metres either way – but Akademivej comes first, and I am a man of simple heuristics.
