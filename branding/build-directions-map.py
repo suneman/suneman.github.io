@@ -12,7 +12,7 @@ result into src/content/pages/20140910_directions.md between marker comments.
   dtu  DTU Lyngby Campus: the light rail through campus and the walk from the
        Akademivej stop to Building 321.        <!-- dirmap:start/end -->
   ku   CSS (Kommunehospitalet) in Copenhagen: the walk from Nørreport to the
-       Building 7 gate, drawn with Øster Farimagsgade horizontal, like KU's
+       left gate of Building 1, drawn with Øster Farimagsgade horizontal, like KU's
        own campus map.                          <!-- kumap:start/end -->
 
     uv run branding/build-directions-map.py            # rewrite both maps
@@ -358,12 +358,12 @@ def build_ku():
     cv = Canvas("kumap", frame, (-270, 250, -300, 250), ways,
                 {"Øster Farimagsgade", "Nørre Farimagsgade", "Gothersgade", "Frederiksborggade", "Nørre Voldgade", "Øster Voldgade"},
                 "Map of the walk from Nørreport to CSS, the old Kommunehospitalet, on Øster Farimagsgade",
-                "From Nørreport station, walk up Frederiksborggade and along Nørre Farimagsgade, which becomes Øster Farimagsgade after Gothersgade. CSS is the red-brick hospital complex on the left, opposite the Botanical Garden. Enter the front garden at number 5 and take the door in the left wing, Building 7.")
+                "From Nørreport station, walk up Frederiksborggade and along Nørre Farimagsgade, which becomes Øster Farimagsgade after Gothersgade. CSS is the red-brick hospital complex on the left, opposite the Botanical Garden. Enter the front garden at number 5 and go in through the left gate of Building 1, under the dome; the office is one building to the left, Building 7.")
     norreport = frame.xy(55.68385, 12.57276)   # the S-train platforms under Nørre Voldgade; the metro is next door
     corner = frame.xy(55.68408, 12.57160)      # street level, Nørre Voldgade at Frederiksborggade
     gate = frame.xy(55.68693, 12.57100)        # the main gate, Øster Farimagsgade 5, straight out from the dome
     dome = frame.xy(55.68722, 12.57052)        # Building 1, under the dome
-    door = dome                                # the left gate of Building 7 is just left of the dome: same spot at this scale
+    door = dome                                # the left gate of Building 1 is just left of the dome: same spot at this scale
     turn = frame.xy(55.68496, 12.56839)        # Frederiksborggade meets Nørre Farimagsgade
     goth = frame.xy(55.68613, 12.56976)        # Gothersgade crossing, where the street becomes Øster Farimagsgade
     # the footway graph is routed only as far as Gothersgade: beyond it OSM's pavement is disconnected and
@@ -399,7 +399,7 @@ def build_ku():
              f'<text class="lbl-stop halo" x="{norreport[0]+16:.0f}" y="{-norreport[1]+7:.0f}">Nørreport <tspan class="sub">S-train and metro</tspan></text>',
              f'<circle class="pin" cx="{door[0]:.0f}" cy="{-door[1]:.0f}" r="8"/>',
              f'<text class="lbl-here halo" x="{door[0]-18:.0f}" y="{-door[1]-16:.0f}" text-anchor="end">Enter here</text>',
-             f'<text class="lbl-muted halo" x="{door[0]-18:.0f}" y="{-door[1]+4:.0f}" text-anchor="end">Left gate of Building 7, then up to 7.2.48</text>',
+             f'<text class="lbl-muted halo" x="{door[0]-18:.0f}" y="{-door[1]+4:.0f}" text-anchor="end">Left gate of Building 1, then up to 7.2.48</text>',
              f'<text class="lbl-muted halo" x="{cv.X1-10}" y="{-dome[1]-56:.0f}" text-anchor="end">the dome: Building 1, SODAS</text>',
              f'<text class="lbl-area halo" x="{gx:.0f}" y="{-gy:.0f}" text-anchor="middle">Botanical Garden</text>',
              f'<text class="lbl-area halo" x="{dome[0]-130:.0f}" y="{-dome[1]-100:.0f}" text-anchor="middle">CSS (Kommunehospitalet)</text>',

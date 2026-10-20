@@ -159,7 +159,7 @@ Nørreport is the nearest station, about ten minutes on foot. Leave the station 
 <!-- kumap:start -->
 <svg class="kumap" xmlns="http://www.w3.org/2000/svg" viewBox="-270 -250 520 550" role="img" aria-labelledby="kumap-title kumap-desc">
 <title id="kumap-title">Map of the walk from Nørreport to CSS, the old Kommunehospitalet, on Øster Farimagsgade</title>
-<desc id="kumap-desc">From Nørreport station, walk up Frederiksborggade and along Nørre Farimagsgade, which becomes Øster Farimagsgade after Gothersgade. CSS is the red-brick hospital complex on the left, opposite the Botanical Garden. Enter the front garden at number 5 and go in through the left gate, Building 7.</desc>
+<desc id="kumap-desc">From Nørreport station, walk up Frederiksborggade and along Nørre Farimagsgade, which becomes Øster Farimagsgade after Gothersgade. CSS is the red-brick hospital complex on the left, opposite the Botanical Garden. Enter the front garden at number 5 and go in through the left gate of Building 1, under the dome; the office is one building to the left, Building 7.</desc>
 <style>
 .kumap{width:100%;height:auto;display:block;margin:1.5em 0;font-family:Inter,system-ui,sans-serif}
 .kumap .paper{fill:var(--surface-card,#f1f0ea)}
@@ -215,7 +215,7 @@ Nørreport is the nearest station, about ten minutes on foot. Leave the station 
 <text class="lbl-stop halo" x="-75" y="254">Nørreport <tspan class="sub">S-train and metro</tspan></text>
 <circle class="pin" cx="75" cy="-117" r="8"/>
 <text class="lbl-here halo" x="57" y="-133" text-anchor="end">Enter here</text>
-<text class="lbl-muted halo" x="57" y="-113" text-anchor="end">Left gate of Building 7, then up to 7.2.48</text>
+<text class="lbl-muted halo" x="57" y="-113" text-anchor="end">Left gate of Building 1, then up to 7.2.48</text>
 <text class="lbl-muted halo" x="240" y="-173" text-anchor="end">the dome: Building 1, SODAS</text>
 <text class="lbl-area halo" x="174" y="48" text-anchor="middle">Botanical Garden</text>
 <text class="lbl-area halo" x="-55" y="-217" text-anchor="middle">CSS (Kommunehospitalet)</text>
