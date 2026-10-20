@@ -363,8 +363,8 @@ def build_ku():
     gate = frame.xy(55.68693, 12.57100)        # the main gate, Øster Farimagsgade 5, straight out from the dome
     dome = frame.xy(55.68722, 12.57052)        # Building 1, under the dome
     door = dome                                # the left gate of Building 1 is just left of the dome: same spot at this scale
-    corner = frame.xy(55.68449, 12.57391)      # street level, the Gothersgade end of the station, at Øster Voldgade
-    goth = frame.xy(55.68613, 12.56976)        # Gothersgade crossing, where the street becomes Øster Farimagsgade
+    corner = frame.xy(55.68458, 12.57355)      # OSM node 3627218951: Gothersgade meets Øster Voldgade, the Gothersgade end of the station
+    goth = frame.xy(55.68570, 12.56926)        # OSM node 9865771105: Gothersgade meets Øster Farimagsgade (don't eyeball this one: 2026-10-20 it sat 55 m off, and the walk cut through the garden)
     # The KU walk is drawn by hand, not with Dijkstra. Gothersgade is dead straight, and OSM's footway graph
     # is no help here: it would send the walk down a service road 40 m off the street, and past Gothersgade
     # the pavement is disconnected, so the search tours the Botanical Garden. (Until 2026-10-20 a waypoint
@@ -373,9 +373,9 @@ def build_ku():
     n = math.hypot(ux, uy)
     px, py = uy / n * 9, -ux / n * 9                  # 9 m to the Botanical Garden side: the pavement along the fence
     assert px > 0, "pavement offset should point towards the garden (+x)"
-    kerb = goth[1] + 8                                # Øster Farimagsgade's CSS-side pavement
-    walk = [norreport, (corner[0] - 20, corner[1] - 2), (corner[0] + px, corner[1] + py), (goth[0] + px, goth[1] - 8), (goth[0] + px, kerb),
-            (gate[0], kerb), gate, (gate[0] + 1, dome[1] - 10), door]
+    kerb = goth[1] + 10                               # Øster Farimagsgade's CSS-side pavement at the crossing
+    walk = [norreport, (corner[0] + px, norreport[1]), (corner[0] + px, corner[1] + py), (goth[0] + px, goth[1] + py - 8), (goth[0] + px, kerb),
+            (gate[0], gate[1] - 4), gate, (gate[0] + 1, dome[1] - 10), door]
     print(f"  walk {length(walk):.0f} m; nørreport {norreport[0]:.0f},{norreport[1]:.0f} door {door[0]:.0f},{door[1]:.0f} dome {dome[0]:.0f},{dome[1]:.0f}", file=sys.stderr)
     css = next((P(rdp([frame.xy(*p) for p in ll], 1.0)) + "Z" for t, _, ll in ways
                 if t.get("amenity") == "university" and "Sundhed og Samfund" in t.get("name", "")), None)
