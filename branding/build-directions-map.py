@@ -358,20 +358,24 @@ def build_ku():
     cv = Canvas("kumap", frame, (-270, 250, -300, 250), ways,
                 {"Øster Farimagsgade", "Nørre Farimagsgade", "Gothersgade", "Frederiksborggade", "Nørre Voldgade", "Øster Voldgade"},
                 "Map of the walk from Nørreport to CSS, the old Kommunehospitalet, on Øster Farimagsgade",
-                "From Nørreport station, walk up Frederiksborggade and along Nørre Farimagsgade, which becomes Øster Farimagsgade after Gothersgade. CSS is the red-brick hospital complex on the left, opposite the Botanical Garden. Enter the front garden at number 5 and go in through the left gate of Building 1, under the dome; the office is one building to the left, Building 7.")
+                "From Nørreport station, walk up Gothersgade along the Botanical Garden fence to Øster Farimagsgade. CSS is the red-brick hospital complex straight ahead across the crossing, opposite the Botanical Garden. Turn right along Øster Farimagsgade, enter the front garden at number 5 and go in through the left gate of Building 1, under the dome; the office is one building to the left, Building 7.")
     norreport = frame.xy(55.68385, 12.57276)   # the S-train platforms under Nørre Voldgade; the metro is next door
-    corner = frame.xy(55.68408, 12.57160)      # street level, Nørre Voldgade at Frederiksborggade
     gate = frame.xy(55.68693, 12.57100)        # the main gate, Øster Farimagsgade 5, straight out from the dome
     dome = frame.xy(55.68722, 12.57052)        # Building 1, under the dome
     door = dome                                # the left gate of Building 1 is just left of the dome: same spot at this scale
-    turn = frame.xy(55.68496, 12.56839)        # Frederiksborggade meets Nørre Farimagsgade
+    corner = frame.xy(55.68449, 12.57391)      # street level, the Gothersgade end of the station, at Øster Voldgade
     goth = frame.xy(55.68613, 12.56976)        # Gothersgade crossing, where the street becomes Øster Farimagsgade
-    # the footway graph is routed only as far as Gothersgade: beyond it OSM's pavement is disconnected and
-    # Dijkstra would rather tour the Botanical Garden. The stub along Nørre Voldgade and the straight stretch
-    # along Øster Farimagsgade to the gate are drawn by hand, as is the path through the front garden.
-    walk = [norreport] + walk_route(ways, nodes, frame, corner, turn)
-    walk += walk_route(ways, nodes, frame, turn, goth)[1:]
-    walk += [(gate[0], walk[-1][1]), gate, (gate[0] + 1, dome[1] - 10), door]
+    # The KU walk is drawn by hand, not with Dijkstra. Gothersgade is dead straight, and OSM's footway graph
+    # is no help here: it would send the walk down a service road 40 m off the street, and past Gothersgade
+    # the pavement is disconnected, so the search tours the Botanical Garden. (Until 2026-10-20 a waypoint
+    # sent the walk west along Frederiksborggade and back up Nørre Farimagsgade: 140 m longer, for no reason.)
+    ux, uy = goth[0] - corner[0], goth[1] - corner[1]
+    n = math.hypot(ux, uy)
+    px, py = uy / n * 9, -ux / n * 9                  # 9 m to the Botanical Garden side: the pavement along the fence
+    assert px > 0, "pavement offset should point towards the garden (+x)"
+    kerb = goth[1] + 8                                # Øster Farimagsgade's CSS-side pavement
+    walk = [norreport, (corner[0] - 20, corner[1] - 2), (corner[0] + px, corner[1] + py), (goth[0] + px, goth[1] - 8), (goth[0] + px, kerb),
+            (gate[0], kerb), gate, (gate[0] + 1, dome[1] - 10), door]
     print(f"  walk {length(walk):.0f} m; nørreport {norreport[0]:.0f},{norreport[1]:.0f} door {door[0]:.0f},{door[1]:.0f} dome {dome[0]:.0f},{dome[1]:.0f}", file=sys.stderr)
     css = next((P(rdp([frame.xy(*p) for p in ll], 1.0)) + "Z" for t, _, ll in ways
                 if t.get("amenity") == "university" and "Sundhed og Samfund" in t.get("name", "")), None)
@@ -386,17 +390,17 @@ def build_ku():
         nx, ny = -math.sin(math.radians(ang)) * side, math.cos(math.radians(ang)) * side  # perpendicular, in SVG coords
         return f'<text class="lbl-road" x="{mx - nx:.0f}" y="{my - ny:.0f}" text-anchor="middle" transform="rotate({ang:.1f} {mx - nx:.0f} {my - ny:.0f})">{name}</text>'
 
-    # the walk's two long straight legs carry the street names that textPath would put off-canvas
-    end_nf = max((p for p in walk if p[1] < 80), key=lambda p: p[0])  # where the walk turns north into CSS
+    # the walk's long straight leg carries the street name that textPath would put off-canvas
     defs, body = "", [f'<path class="walk" d="{P(rdp(walk, 1.0))}"/>',
-                      along("Frederiksborggade", norreport, turn, 16, 0.45), along("Nørre Farimagsgade", turn, end_nf, 16, 0.33)]
-    for name, pid, off, dy in [("Øster Farimagsgade", "kp-of", "42%", -9), ("Gothersgade", "kp-go", "15%", -9), ("Nørre Voldgade", "kp-nv", "35%", 16)]:
+                      along("Gothersgade", corner, goth, -16, 0.5)]
+    for name, pid, off, dy in [("Øster Farimagsgade", "kp-of", "42%", -9), ("Nørre Voldgade", "kp-nv", "14%", 20)]:
         d, t = cv.road_label(name, pid, off, dy)
         defs += d
         body.append(t)
     gx, gy = frame.xy(55.6868, 12.5735)   # Botanical Garden label
     body += [f'<circle class="stn" cx="{norreport[0]:.0f}" cy="{-norreport[1]:.0f}" r="9"/>',
-             f'<text class="lbl-stop halo" x="{norreport[0]+16:.0f}" y="{-norreport[1]+7:.0f}">Nørreport <tspan class="sub">S-train and metro</tspan></text>',
+             f'<text class="lbl-stop halo" x="{norreport[0]-16:.0f}" y="{-norreport[1]+7:.0f}" text-anchor="end">Nørreport</text>',
+             f'<text class="lbl-stop halo" x="{norreport[0]+16:.0f}" y="{-norreport[1]+22:.0f}"><tspan class="sub">S-train and metro</tspan></text>',
              f'<circle class="pin" cx="{door[0]:.0f}" cy="{-door[1]:.0f}" r="8"/>',
              f'<text class="lbl-here halo" x="{door[0]-18:.0f}" y="{-door[1]-16:.0f}" text-anchor="end">Enter here</text>',
              f'<text class="lbl-muted halo" x="{door[0]-18:.0f}" y="{-door[1]+4:.0f}" text-anchor="end">Left gate of Building 1, then up to 7.2.48</text>',
