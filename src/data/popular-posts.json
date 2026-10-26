@@ -1,34 +1,34 @@
 {
   "month": "2026-10",
   "range": {
-    "start": "2026-07-21",
-    "end": "2026-10-19",
+    "start": "2026-07-28",
+    "end": "2026-10-26",
     "months": 3
   },
   "posts": [
     {
       "slug": "ai-and-the-future-of-science",
-      "count": 761
-    },
-    {
-      "slug": "bernardo-huberman-talk",
-      "count": 96
-    },
-    {
-      "slug": "shoggoths-and-dragons",
-      "count": 96
+      "count": 862
     },
     {
       "slug": "too-lazy-10k-downloads",
-      "count": 83
+      "count": 89
+    },
+    {
+      "slug": "shoggoths-and-dragons",
+      "count": 88
+    },
+    {
+      "slug": "bernardo-huberman-talk",
+      "count": 86
+    },
+    {
+      "slug": "how-writing-helps-thinking",
+      "count": 76
     },
     {
       "slug": "nicholas-christakis-in-copenhagen",
       "count": 65
-    },
-    {
-      "slug": "how-writing-helps-thinking",
-      "count": 60
     },
     {
       "slug": "youre-here-because-of-a-robot",
@@ -39,12 +39,12 @@
       "count": 37
     },
     {
-      "slug": "ucph-life-science-keynote",
-      "count": 33
+      "slug": "reading-ai-text",
+      "count": 31
     },
     {
-      "slug": "reading-ai-text",
-      "count": 30
+      "slug": "aftryk-festival",
+      "count": 27
     }
   ]
 }
