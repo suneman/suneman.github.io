@@ -8,10 +8,10 @@ Mentoring is one of the parts of my job I take most seriously, and watching a te
 
 ## By the numbers
 
-_As of 2026-08-16._
+_As of 2026-10-27._
 
 - **14** PhD students as main supervisor (plus 13 more as co-supervisor)
-- **14** postdocs (4 ongoing, 10 former)
+- **14** postdocs (3 ongoing, 11 former)
 - **[170](/masters)** Master's projects
 - Nominated for best PhD advisor at DTU
 
@@ -40,11 +40,11 @@ The fourteen PhDs where I served as the primary advisor, reverse-chronological b
 
 - **Lasse Mohr Mikkelsen** — continuing into a postdoc straight after his DTU defence. <span class="profile-icons"><a href="https://scholar.google.com/citations?user=gZKRPnEAAAAJ&hl=en" aria-label="Google Scholar"><svg><use href="#i-scholar"/></svg></a> <a href="https://www.linkedin.com/in/lasse-mohr-785760193/" aria-label="LinkedIn"><svg><use href="#i-linkedin"/></svg></a></span>
 - **Louis Boucherie** — DTU Compute and SODAS. Also guest researcher at Statistics Denmark and co-founder of mirand.ai. <span class="profile-icons"><a href="https://louisboucherie.com" aria-label="Personal site"><svg><use href="#i-site"/></svg></a> <a href="https://scholar.google.com/citations?user=UtfTBZ4AAAAJ&hl=fr" aria-label="Google Scholar"><svg><use href="#i-scholar"/></svg></a> <a href="https://www.linkedin.com/in/louis-boucherie/" aria-label="LinkedIn"><svg><use href="#i-linkedin"/></svg></a></span>
-- **Abbas Karimi Rizi** — DTU Compute, visiting at SODAS. Works on epidemic and spreading dynamics on complex networks. <span class="profile-icons"><a href="https://abbas.sitpor.org" aria-label="Personal site"><svg><use href="#i-site"/></svg></a> <a href="https://scholar.google.com/citations?user=iHARp1sAAAAJ&hl=en" aria-label="Google Scholar"><svg><use href="#i-scholar"/></svg></a> <a href="https://www.linkedin.com/in/abbas-k-rizi/" aria-label="LinkedIn"><svg><use href="#i-linkedin"/></svg></a></span>
 - **Michele Tizzani** — complex networks, epidemics, and computational social science. <span class="profile-icons"><a href="https://micheletizzani.github.io" aria-label="Personal site"><svg><use href="#i-site"/></svg></a> <a href="https://scholar.google.com/citations?user=iXfwdp4AAAAJ&hl=it" aria-label="Google Scholar"><svg><use href="#i-scholar"/></svg></a> <a href="https://www.linkedin.com/in/michele-tizzani/" aria-label="LinkedIn"><svg><use href="#i-linkedin"/></svg></a></span>
 
 ### Former
 
+- **Abbas Karimi Rizi** — DTU Compute, visiting at SODAS, 2024–2026; epidemic and spreading dynamics on complex networks. Now a postdoc in Tom Britton's group at Stockholm University. <span class="profile-icons"><a href="https://abbas.sitpor.org" aria-label="Personal site"><svg><use href="#i-site"/></svg></a> <a href="https://scholar.google.com/citations?user=iHARp1sAAAAJ&hl=en" aria-label="Google Scholar"><svg><use href="#i-scholar"/></svg></a> <a href="https://www.linkedin.com/in/abbas-k-rizi/" aria-label="LinkedIn"><svg><use href="#i-linkedin"/></svg></a></span>
 - **Jonas Lybker Juul** — Carlsberg Foundation Fellow at DTU after a postdoc at Cornell with Strogatz, Kleinberg, and Benson. Now Assistant Professor at the IT University of Copenhagen. <span class="profile-icons"><a href="https://jonassjuul.github.io" aria-label="Personal site"><svg><use href="#i-site"/></svg></a> <a href="https://scholar.google.com/citations?user=uJPXFyMAAAAJ&hl=da" aria-label="Google Scholar"><svg><use href="#i-scholar"/></svg></a> <a href="https://www.linkedin.com/in/jonassjuul/" aria-label="LinkedIn"><svg><use href="#i-linkedin"/></svg></a></span>
 - **Anna Sapienza** — came from USC's Information Sciences Institute. After DTU: postdoc at SODAS (2020–2023). Now Senior Research Scientist at the ISI Foundation, Turin, and Assistant Professor at the University of Eastern Piedmont. <span class="profile-icons"><a href="https://www.annasapienza.it" aria-label="Personal site"><svg><use href="#i-site"/></svg></a> <a href="https://scholar.google.com/citations?user=ghzDSbUAAAAJ&hl=it" aria-label="Google Scholar"><svg><use href="#i-scholar"/></svg></a> <a href="https://www.linkedin.com/in/anna-sapienza-299ab510a/" aria-label="LinkedIn"><svg><use href="#i-linkedin"/></svg></a></span>
 - **Ulf Aslak Lai** — continued briefly into a postdoc after defending. After academia: data scientist at Precis Digital; now an independent consultant via PyMC Labs, focusing on Bayesian marketing-mix modelling and generative AI. <span class="profile-icons"><a href="https://ulfaslak.dk" aria-label="Personal site"><svg><use href="#i-site"/></svg></a> <a href="https://www.linkedin.com/in/ulfaslak/" aria-label="LinkedIn"><svg><use href="#i-linkedin"/></svg></a></span>
