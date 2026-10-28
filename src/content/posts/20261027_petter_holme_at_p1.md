@@ -9,6 +9,8 @@ images: ["/assets/20261027_petter_holme_at_p1/portrait.jpg"]
 ai_assisted: true
 ---
 
+**Update October 28th.** Wrong building, sorry. The talks are at **the Auditorium at the Natural History Museum, Øster Voldgade 5, 1350 Copenhagen** – *not* the University Library on Gothersgade, which is what this post originally said (copied faithfully from an event page that was itself wrong; it has since been fixed). Everything else is unchanged: Friday October 30th at 14:30, registration via the same link below.
+
 Short notice, but exciting news. Network science legend [Petter Holme](https://petterhol.me) will be in Copenhagen this Friday, October 30th, and he's giving the main talk at the Pioneer Centre for AI's *Last Fridays Talks*. This month's edition is hosted by the Networks & Graphs collaboratory.
 
 If you work on networks, you already know Petter. If you work on *temporal* networks, you have almost certainly cited him, because his review with Jari Saramäki is more or less the paper that established temporal networks as a new field. He is Professor of Network Science and Computational Social Science at Aalto University, with earlier stops at Tokyo Institute of Technology and Sungkyunkwan University in Korea, and more than 220 papers on everything from epidemics on networks to the structure of social systems. Petter also has an MA in Chinese.[^1]
@@ -28,11 +30,11 @@ Before Petter, two short talks from my own group, which I'm equally excited abou
 The practical details:
 
 - **Time**: Friday, October 30th, 14:30–17:00
-- **Place**: Auditorium 1, Copenhagen University Library, City Campus, Gothersgade 140, 1123 Copenhagen K
+- **Place**: The Auditorium at the Natural History Museum, Øster Voldgade 5, 1350 Copenhagen
 - **Program**: 14:30 Christian Djurhuus, 14:45 Abbas K. Rizi, 15:00 Petter Holme, 16:00 drinks and discussion
 - **Registration**: free, but please sign up via [the event page](https://www.aicentre.dk/events/20261030-last-fridays-talks-networks-graphs)
 
-Note that the drinks afterwards are at P1 itself, a short walk from the library. Hope to see you there.
+Note that the drinks afterwards are at P1 itself, a short walk from the museum. Hope to see you there.
 
 ## Notes
 
