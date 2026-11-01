@@ -252,6 +252,12 @@ A few more caveats, as promised.
 2. **I won't get into anything related to energy consumption.** There are valid reasons why we should worry about data centers, pollution, etc. And those reasons could mean that we shouldn't use AIs to do science because it's just not worth it. But I won't worry about that here. Let's imagine that energy problems have also been solved. Maybe models are better, maybe there's fusion. Whatever. The point is that I want to focus solely on the topic defined above.
 3. **Here I'm mostly discussing the hard sciences** like math, physics, chemistry, computer science, etc. Things get muddier when we get to the social sciences and humanities that are about the human world. Within those fields, it's not as clear-cut that AI Science will create a clean unclaimed territory. As someone doing quantitative work within social science where systems react to being understood [^21], I spend a lot of time thinking about this question, but a fully fledged theory for these parts of the great scientific project is a job for another post 😅 
 
+## Addendum (1 November 2026): the debate is online
+
+The debate I was walking on stage for when this post went live is now on YouTube. D3A 4.0 in Nyborg, Oxford-style: Anna Rogers from ITU argued that AI agents should not replace PhD students, I was assigned the opposite, and Melanie Ganz-Benjaminsen kept us honest. If you'd rather hear the surveyor argument delivered to a few hundred people in 42 minutes than read it, this is the version for you.
+
+<https://www.youtube.com/watch?v=VH4xBCDZ0-w>
+
 ## Notes
 
 [^1]: By AI Science I basically mean building a computer that goes brrr and spits out science.
@@ -351,9 +357,3 @@ If you've read the preamble, you'll know that I share the premise completely. We
 ## Appendix 3: A post I found after finishing this one
 
 The closest thing to this post that I've found is Jordana Cepelewicz's Quanta essay [*Is AI the End of Math As We Know It?*](https://www.quantamagazine.org/is-ai-the-end-of-math-as-we-know-it-20261005/), published on 5 October, which I only found on 8 October. Cepelewicz arrives at a future of "interpreters" that looks a lot like the surveyor's, and she is less sure than I am that anyone will want the job. If this post left you wanting the view from inside mathematics, read hers.
-
-## Addendum (1 November 2026): the debate is online
-
-The debate I was walking on stage for when this post went live is now on YouTube. D3A 4.0 in Nyborg, Oxford-style: Anna Rogers from ITU argued that AI agents should not replace PhD students, I was assigned the opposite, and Melanie Ganz-Benjaminsen kept us honest. If you'd rather hear the surveyor argument delivered to a few hundred people in 42 minutes than read it, this is the version for you.
-
-<https://www.youtube.com/watch?v=VH4xBCDZ0-w>
