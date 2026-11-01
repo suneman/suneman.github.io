@@ -350,4 +350,10 @@ If you've read the preamble, you'll know that I share the premise completely. We
 
 ## Appendix 3: A post I found after finishing this one
 
-The closest thing to this post that I've found is Jordana Cepelewicz's Quanta essay [*Is AI the End of Math As We Know It?*](https://www.quantamagazine.org/is-ai-the-end-of-math-as-we-know-it-20261005/), published on 5 October, which I only found on 8 October. Cepelewicz arrives at a future of "interpreters" that looks a lot like the surveyor's, and she is less sure than I am that anyone will want the job. If this post left you wanting the view from inside mathematics, read hers
+The closest thing to this post that I've found is Jordana Cepelewicz's Quanta essay [*Is AI the End of Math As We Know It?*](https://www.quantamagazine.org/is-ai-the-end-of-math-as-we-know-it-20261005/), published on 5 October, which I only found on 8 October. Cepelewicz arrives at a future of "interpreters" that looks a lot like the surveyor's, and she is less sure than I am that anyone will want the job. If this post left you wanting the view from inside mathematics, read hers.
+
+## Addendum (1 November 2026): the debate is online
+
+The debate I was walking on stage for when this post went live is now on YouTube. D3A 4.0 in Nyborg, Oxford-style: Anna Rogers from ITU argued that AI agents should not replace PhD students, I was assigned the opposite, and Melanie Ganz-Benjaminsen kept us honest. If you'd rather hear the surveyor argument delivered to a few hundred people in 42 minutes than read it, this is the version for you.
+
+<https://www.youtube.com/watch?v=VH4xBCDZ0-w>

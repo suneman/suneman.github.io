@@ -14,7 +14,7 @@ A grab-bag of public-facing video content – podcast trailers, press features, 
 
 **Popular talks:** [Royal Academy on life2vec – 2025](#ras-2025) · [EliteForsk Lecture – 2022](#eliteforsk-lecture) · [TEDxAarhus – 2018](#tedx) · [Science & Cocktails – 2014](#science-cocktails) · [Royal Academy on networks – 2013](#ras-2013)
 
-**Academic talks:** [DIEP – 2024](#diep) · [NSI – 2024](#nsi) · [NICO – 2022](#nico) · [SICSS-HSE – 2021](#sicss-hse) · [IC2S2 keynote – 2021](#ic2s2) · [DTU Inaugural – 2019](#dtu-inaugural)
+**Academic talks:** [D3A debate – 2026](#d3a-debate) · [DIEP – 2024](#diep) · [NSI – 2024](#nsi) · [NICO – 2022](#nico) · [SICSS-HSE – 2021](#sicss-hse) · [IC2S2 keynote – 2021](#ic2s2) · [DTU Inaugural – 2019](#dtu-inaugural)
 
 ---
 
@@ -117,6 +117,12 @@ Public lecture at Det Kongelige Danske Videnskabernes Selskab on complex network
 ---
 
 ## Academic talks {#talks-academic}
+
+#### D3A 4.0 Oxford-style debate, Nyborg – 9 October 2026 {#d3a-debate}
+
+Should AI agents replace PhD students in research projects? The format assigned me the pro side, against Anna Rogers from ITU, with Melanie Ganz-Benjaminsen moderating. So I argued, to a room of several hundred people, that the researcher of the future won't be a researcher at all but an "epistemic surveyor". It's the live version of my post on [AI and the future of science](/blog/ai-and-the-future-of-science).
+
+<https://www.youtube.com/watch?v=VH4xBCDZ0-w>
 
 #### Dutch Institute for Emergent Phenomena (DIEP), Zoom colloquium – 29 November 2024 {#diep}
 
