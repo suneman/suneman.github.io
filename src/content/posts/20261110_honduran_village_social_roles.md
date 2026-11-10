@@ -24,7 +24,7 @@ Here's my brief summary of the paper. First of all, the paper builds on an amazi
 
 The key idea is that every tie has a direction. Some ties you send: you name someone as a friend, you go to someone for help. Others you receive: people name you, people come to you. So the paper splits each person's role in two. The outgoing side captures how you spend your social effort. The incoming side captures how much others depend on you ... or just how appealing you are as a contact.
 
-The cool thing is that incoming/outgoing links turn out to be organized very differently. Outgoing roles (what people do) are less tied to demographics and more strongly organized by geography than incoming roles. Another way of saying this is that people sharing a local environment tend to act socially in similar ways. Incoming roles (what others come to *you* for) shift with life stage, track socioeconomic position, and they have very little to do with geography.
+The cool thing is that the two sides turn out to be organized very differently. The same ties, seen from the sender's end and from the receiver's end, tell different stories about people. Outgoing roles (what people do) are less tied to demographics and more strongly organized by geography than incoming roles. Another way of saying this is that people sharing a local environment tend to act socially in similar ways. Incoming roles (what others come to *you* for) shift with life stage, track socioeconomic position, and they have very little to do with geography.
 
 And that's it. Now we know a bit more about social networks! An amazing team, and a great collaboration.
 
