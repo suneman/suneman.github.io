@@ -12,7 +12,7 @@ _As of 2026-10-27._
 
 - **14** PhD students as main supervisor (plus 13 more as co-supervisor)
 - **14** postdocs (3 ongoing, 11 former)
-- **[171](/masters)** Master's projects
+- **[169](/masters)** Master's projects
 - Nominated for best PhD advisor at DTU
 
 ## PhD students

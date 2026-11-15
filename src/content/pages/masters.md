@@ -4,7 +4,7 @@ slug: "masters"
 status: publish
 ---
 
-All of them. 171 Master's thesis projects since 2011, grouped by year. Student names come from DTU's official records, such as the Findit thesis catalog and project registrations; a few projects show as `[no record]` where no name is on file.
+All of them. 169 Master's thesis projects since 2011, grouped by year. Student names come from DTU's official records, such as the Findit thesis catalog and project registrations; a few projects show as `[no record]` where no name is on file.
 
 [2027](#y2027) · [2026](#y2026) · [2025](#y2025) · [2024](#y2024) · [2023](#y2023) · [2022](#y2022) · [2021](#y2021) · [2020](#y2020) · [2019](#y2019) · [2018](#y2018) · [2017](#y2017) · [2016](#y2016) · [2015](#y2015) · [2014](#y2014) · [2013](#y2013) · [2012](#y2012) · [2011](#y2011)
 
@@ -24,10 +24,8 @@ All of them. 171 Master's thesis projects since 2011, grouped by year. Student n
 ## 2025 {#y2025}
 
 - 2025-09-27 — Jakob Sebastian Engel Ketmig — Mechanistic Interpretability of the Life2Vec Model
-- 2025-09-25 — [no record] — How the spatial distribution of workplaces and residences shapes commuting behaviors in urban areas
-- 2025-04-26 — [no record] — Stylometric Analysis for Authorship Attribution: Evaluating Human and LLM-Generated Texts
+- 2025-09-25 — Nojus Mickus — How the spatial distribution of workplaces and residences shapes commuting behaviors in urban areas
 - 2025-04-01 — Weronika Ewa Straczek — Examining Social Dynamics in a Hybrid Work Environment: Network Analysis of Workplace Seating Arrangements
-- 2025-03-26 — [no record] — Stylometric Analysis for Authorship Attribution: Evaluating Human and LLM-Generated Texts
 - 2025-03-26 — Eper Stinner — Predictability of Human Mobility Patterns: Analyzing Cell Event Data Using Advanced Predictive Models
 - 2025-03-19 — Anna Bramsløw & Nikolai Beck Jensen — Company2Vec: Modeling company trajectories via business-event sequences
 - 2025-03-01 — Regin Steffansson Kunoy — Understanding App Usage Patterns Across Cityscapes
