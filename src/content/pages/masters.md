@@ -4,22 +4,26 @@ slug: "masters"
 status: publish
 ---
 
-All of them. 170 Master's thesis projects since 2011, grouped by year. Student names appear when DTU's Findit catalog has caught up; older or recently-defended projects sometimes show as `[no record]` until they're deposited.
+All of them. 171 Master's thesis projects since 2011, grouped by year. Student names come from DTU's official records, such as the Findit thesis catalog and project registrations; a few projects show as `[no record]` where no name is on file.
 
-[2026](#y2026) · [2025](#y2025) · [2024](#y2024) · [2023](#y2023) · [2022](#y2022) · [2021](#y2021) · [2020](#y2020) · [2019](#y2019) · [2018](#y2018) · [2017](#y2017) · [2016](#y2016) · [2015](#y2015) · [2014](#y2014) · [2013](#y2013) · [2012](#y2012) · [2011](#y2011)
+[2027](#y2027) · [2026](#y2026) · [2025](#y2025) · [2024](#y2024) · [2023](#y2023) · [2022](#y2022) · [2021](#y2021) · [2020](#y2020) · [2019](#y2019) · [2018](#y2018) · [2017](#y2017) · [2016](#y2016) · [2015](#y2015) · [2014](#y2014) · [2013](#y2013) · [2012](#y2012) · [2011](#y2011)
+
+## 2027 {#y2027}
+
+- 2027-02-14 — Konstantinos Lykostratis — The Anatomy of a Funded Idea: Skill-Network Profiling of Erasmus+ VET Partnerships with ESCO
 
 ## 2026 {#y2026}
 
-- 2026-10-20 — [no record] — The Science of Success in Fashion Modeling - A Network Approach
-- 2026-09-19 — [no record] — Characterizing Authorial Fingerprints Across Human and AI-Generated Text
-- 2026-09-02 — [no record] — Predictability vs. Complexity in Network Epidemic Modelling
-- 2026-08-26 — [no record] — Predicting Future Milestones from Life Event Sequences using Recurrent Neural Networks
-- 2026-07-15 — [no record] — Learning Danish Shopping Habits to Minimize Food Waste
-- 2026-04-01 — [no record] — Measuring Author Style in Large Language Models
+- 2026-10-26 — Aya Fahim Yousif & Jawahir Farah Shahal & Alec Ranjitkar — Spatio-Temporal and Network Analysis of Gun Violence in Chicago
+- 2026-10-20 — Mayisha Maliha — The Science of Success in Fashion Modeling - A Network Approach
+- 2026-09-19 — Yili Ge — Characterizing Authorial Fingerprints Across Human and AI-Generated Text
+- 2026-09-02 — Olivier Gaufrès — Predictability vs. Complexity in Network Epidemic Modelling
+- 2026-08-26 — Thomas Seifert Hegelund — Predicting Future Milestones from Life Event Sequences using Recurrent Neural Networks
+- 2026-07-15 — Leonardo Rodovero — Learning Danish Shopping Habits to Minimize Food Waste
 
 ## 2025 {#y2025}
 
-- 2025-09-27 — [no record] — Mechanistic Interpretability of the Life2Vec Model
+- 2025-09-27 — Jakob Sebastian Engel Ketmig — Mechanistic Interpretability of the Life2Vec Model
 - 2025-09-25 — [no record] — How the spatial distribution of workplaces and residences shapes commuting behaviors in urban areas
 - 2025-04-26 — [no record] — Stylometric Analysis for Authorship Attribution: Evaluating Human and LLM-Generated Texts
 - 2025-04-01 — Weronika Ewa Straczek — Examining Social Dynamics in a Hybrid Work Environment: Network Analysis of Workplace Seating Arrangements
@@ -47,7 +51,7 @@ All of them. 170 Master's thesis projects since 2011, grouped by year. Student n
 ## 2023 {#y2023}
 
 - 2023-09-28 — Viktor Stenby Johansson — Learning Customer Embeddings using Transaction Networks and Graph Neural Networks
-- 2023-09-23 — Charidimos Vradis — Testing the "travel time budget" hypothesis using large-scale mobility data
+- 2023-09-23 — Charidimos Vradis — Testing the “travel time budget” hypothesis using large-scale mobility data
 - 2023-09-14 — Antarlina Mukherjee — Quantifying Complex Patterns in High-Resolution Sleep Activity Data
 - 2023-09-14 — Bartlomiej Jan Granat — Collaboration and conflict in online communities
 - 2023-09-14 — [no record] — Comparing Discussion Thread Structure on Reddit for Different Content Types and Subreddits
