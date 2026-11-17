@@ -9,7 +9,7 @@ ai_assisted: true
 images: ["/assets/20261117_valkendorf_on_tv/valkendorf_vaabenskjold.jpg"]
 ---
 
-Last year I had the absolute honor of becoming [*efor*](https://universitetshistorie.ku.dk/leksikon/e/efor/) at Valkendorfs Kollegium. Valkendorfs is the oldest student residence in the Nordic countries, founded in 1589 and tucked away on Sankt Peders Stræde in the middle of Copenhagen. I was lucky enough to live there when I was a student myself, and the place changed my life (among many other things, for example, it's where I met my wife :)
+Last year I had the absolute honor of becoming [*efor*](https://universitetshistorie.ku.dk/leksikon/e/efor/) at Valkendorfs Kollegium. Valkendorfs is the oldest student residence in the Nordic countries, founded in 1589 and tucked away on Sankt Peders Stræde in the middle of Copenhagen. I was lucky enough to live there when I was a student myself, and the place changed my life (among many other things, it's where I met my wife :)
 
 ![The coat of arms of Valkendorfs Kollegium in black and white: a shield with three curved wings around a rose, topped by a helmet with a plume, framed by acanthus leaves and a banner reading 'Collegii Valkend'.](/assets/20261117_valkendorf_on_tv/valkendorf_vaabenskjold.jpg "The coat of arms of Valkendorfs Kollegium. Image: MKølkær, CC BY-SA 4.0, via Wikimedia Commons.")
 
