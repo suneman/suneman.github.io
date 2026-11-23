@@ -1,14 +1,14 @@
 {
   "month": "2026-11",
   "range": {
-    "start": "2026-08-18",
-    "end": "2026-11-16",
+    "start": "2026-08-25",
+    "end": "2026-11-23",
     "months": 3
   },
   "posts": [
     {
       "slug": "ai-and-the-future-of-science",
-      "count": 1032
+      "count": 1090
     },
     {
       "slug": "shoggoths-and-dragons",
@@ -16,7 +16,7 @@
     },
     {
       "slug": "how-writing-helps-thinking",
-      "count": 83
+      "count": 84
     },
     {
       "slug": "nicholas-christakis-in-copenhagen",
@@ -24,27 +24,27 @@
     },
     {
       "slug": "adaptive-cut",
-      "count": 56
+      "count": 59
     },
     {
       "slug": "reading-ai-text",
-      "count": 43
+      "count": 45
     },
     {
       "slug": "petter-holme-at-p1",
-      "count": 34
+      "count": 37
     },
     {
       "slug": "too-lazy-10k-downloads",
-      "count": 34
+      "count": 30
     },
     {
-      "slug": "bernardo-huberman-talk",
-      "count": 33
+      "slug": "honduran-village-social-roles",
+      "count": 22
     },
     {
-      "slug": "aftryk-festival",
-      "count": 29
+      "slug": "tracking-human-mobility-using-wifi-signals",
+      "count": 19
     }
   ]
 }
