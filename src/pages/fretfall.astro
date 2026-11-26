@@ -18,8 +18,9 @@ import ColorStripe from "../components/ColorStripe.astro";
   <div class="controls">
     <button class="btn" id="fretfall-full" type="button">Fill the screen</button>
     <p class="controls__hint">
-      Steer with the arrow keys, hop with space, M for mute. On a phone: hold a
-      side of the screen to steer, swipe up to hop.
+      Steer with the arrow keys, hop with space (again in mid-air for a double
+      hop), M for mute. On a phone: hold a side of the screen to steer, swipe
+      up or press HOP to hop.
     </p>
   </div>
 
@@ -31,10 +32,18 @@ import ColorStripe from "../components/ColorStripe.astro";
       faster.<sup><a href="#fn1" id="fnref1" class="fn-ref">1</a></sup>
     </p>
     <p>
-      A golden pick starts a six-second solo, during which the correct response
-      to an obstacle is to drive straight through it. Your score is the
-      distance plus ten for every pick, and the best one is remembered on this
-      device and nowhere else.
+      Picks grabbed in quick succession string together into a riff, and a
+      long riff multiplies everything. A golden pick starts a six-second solo,
+      during which the correct response to an obstacle is to drive straight
+      through it. The flashing ramps are whammy bars: hit one and you are
+      airborne. A spare string buys you one free mistake, and the red
+      horseshoe is a pickup magnet, which does to picks what you would hope.
+    </p>
+    <p>
+      The tour starts in the garage and moves to a bigger venue every 500
+      metres, with a bigger band each time. Score well and new guitars turn
+      up on the title screen. Your best score is remembered on this device
+      and nowhere else.
     </p>
     <p>
       Built for my son, who knows a good downhill when he sees one. There are
@@ -92,7 +101,7 @@ import ColorStripe from "../components/ColorStripe.astro";
   let segs = [], segBase = 0, gen = null, features = false;
   function resetWorld(withFeatures) {
     segs = []; segBase = 0; features = withFeatures;
-    gen = { cx: 0, curve: 0, target: 0, hold: 20, cool: 30, holeLeft: 0, holeType: 0, trail: null, air: 0 };
+    gen = { cx: 0, curve: 0, target: 0, hold: 20, cool: 30, holeLeft: 0, holeType: 0, trail: null, air: 0, arc: [] };
   }
   function genSeg(i) {
     const d = Math.min(1, i / 1200);
@@ -102,15 +111,16 @@ import ColorStripe from "../components/ColorStripe.astro";
     }
     gen.curve += (gen.target - gen.curve) * 0.08;
     gen.cx += gen.curve;
-    const s = { cx: gen.cx, hole: 0, obs: [], picks: [], warn: false };
+    const s = { cx: gen.cx, hole: 0, obs: [], picks: [], warn: false, ramp: null };
     const z = i * SEG + SEG / 2;
     if (gen.holeLeft > 0) { s.hole = gen.holeType; gen.holeLeft--; }
     else if (features && i > 25 && --gen.cool <= 0) {
-      let r = Math.random();
-      if (r >= 0.85 && i < 120) r = 0.1;
-      if (r < 0.34) {
+      let r = Math.random(), extra = 0;
+      if (r >= 0.9 && i < 120) r = 0.1;
+      if (r >= 0.76 && r < 0.9 && i < 50) r = 0.4;
+      if (r < 0.3) {
         gen.trail = { n: 5, x: rnd(-4.5, 4.5), wob: rnd(-1.2, 1.2) };
-      } else if (r < 0.62) {
+      } else if (r < 0.56) {
         const lanes = [-4.6, -1.55, 1.55, 4.6];
         const n = Math.random() < 0.25 + d * 0.45 ? 2 : 1;
         for (let k = 0; k < n; k++) {
@@ -118,16 +128,24 @@ import ColorStripe from "../components/ColorStripe.astro";
           const t = Math.random();
           s.obs.push({ dx, z, type: t < 0.45 ? 'amp' : t < 0.75 ? 'drum' : 'mic' });
         }
-      } else if (r < 0.85) {
+      } else if (r < 0.76) {
         gen.holeType = Math.random() < 0.5 ? -1 : 1;
         gen.holeLeft = 2 + Math.floor(rnd(0, 3) + d * 3);
         s.hole = gen.holeType;
         gen.trail = { n: 4, x: -gen.holeType * 3.6, wob: 0 };
+      } else if (r < 0.83) {
+        // whammy ramp: launches the guitar through an arc of picks
+        s.ramp = { dx: rnd(-3.5, 3.5), used: false };
+        const fly = Math.max(30, speed);
+        for (const t of [0.22, 0.38, 0.54, 0.7]) gen.arc.push({ z: z + fly * t, dx: s.ramp.dx, y: 1 + 19 * t - 19 * t * t });
+        extra = Math.ceil(fly / SEG) + 2;
+      } else if (r < 0.9) {
+        s.picks.push({ dx: rnd(-4.5, 4.5), z, y: 1.4, gold: false, taken: false, kind: Math.random() < 0.5 ? 'shield' : 'magnet' });
       } else {
         gen.holeType = 2; gen.holeLeft = 1; s.hole = 2; gen.air = 2;
         for (let k = 1; k <= 3; k++) { const p = segAt(i - k); if (p) p.warn = true; }
       }
-      gen.cool = Math.floor(11 - d * 5 + rnd(0, 8));
+      gen.cool = Math.floor(11 - d * 5 + rnd(0, 8)) + extra;
     }
     if (gen.air > 0 && s.hole === 2) {
       s.picks.push({ dx: 0, z, y: 2.6, gold: false, taken: false }); gen.air--;
@@ -135,6 +153,13 @@ import ColorStripe from "../components/ColorStripe.astro";
       const t = gen.trail; t.n--;
       const gold = t.n === 0 && Math.random() < 0.16;
       s.picks.push({ dx: clamp(t.x + t.wob * Math.sin(t.n * 1.3), -5.5, 5.5), z, y: 1.3, gold, taken: false });
+    }
+    if (gen.arc.length) {
+      gen.arc = gen.arc.filter(a => {
+        if (Math.floor(a.z / SEG) !== i) return a.z / SEG > i;
+        s.picks.push({ dx: a.dx, z: a.z, y: a.y, gold: false, taken: false });
+        return false;
+      });
     }
     return s;
   }
@@ -162,7 +187,73 @@ import ColorStripe from "../components/ColorStripe.astro";
   const toasts = [];
   function toast(text, big) { toasts.push({ text, t: 0, big: !!big }); if (toasts.length > 3) toasts.shift(); }
   const dist = () => Math.floor(pz / 2);
-  const score = () => dist() + picks * 10;
+  const score = () => dist() + points;
+
+  // riffs (combos), power-ups, particles
+  let points = 0, combo = 0, comboT = 0, bestCombo = 0, mult = 1;
+  let shield = false, magnetT = 0, airJumps = 0, flipDur = 0.71, flipDir = 1;
+  const parts = [];
+  function burst(x, y, col, n, pow) {
+    pow = pow || 240;
+    for (let k = 0; k < n; k++) parts.push({ x, y, vx: rnd(-1, 1) * pow, vy: rnd(-1.3, 0.3) * pow, t: 0, life: rnd(0.35, 0.8), col, r: rnd(2, 6) });
+    if (parts.length > 240) parts.splice(0, parts.length - 240);
+  }
+  const gpos = () => P(px, trackY(pz) + jy + 1, pz);
+  function addPicks(n) {
+    combo++; comboT = 1.8; bestCombo = Math.max(bestCombo, combo);
+    const m = Math.min(5, 1 + Math.floor(combo / 5));
+    if (m > mult) toast('RIFF x' + m, true);
+    mult = m;
+    const k = (eleven ? 2 : 1) * n; picks += k; points += 10 * k * mult;
+  }
+  function grab(s, p) {
+    const sp = P(s.cx + p.dx, trackY(p.z) + p.y, Math.max(p.z, camZ + 2));
+    if (p.kind === 'shield') { shield = true; toast('Spare string: one free hit', true); sfxPower(); burst(sp[0], sp[1], '#5fd4ff', 14); }
+    else if (p.kind === 'magnet') { magnetT = 8; toast('Pickup magnet!', true); sfxPower(); burst(sp[0], sp[1], '#ff4d4d', 14); }
+    else {
+      addPicks(1); sfxPick(); burst(sp[0], sp[1], p.gold ? '#ffd23f' : `hsl(${(p.z * 9) % 360}, 95%, 62%)`, 7);
+      if (p.gold) { soloT = 6; addPicks(4); toast('SOLO! Smash everything!', true); sfxSolo(); }
+    }
+  }
+  function launch() {
+    vy = 19; jy = 0.02; spin = 0.0001; airJumps = 0; flipDur = 0.5; flipDir = 1;
+    points += 25 * mult; toast('WHAMMY! +' + 25 * mult, true); sfxWhammy();
+    const g = gpos(); burst(g[0], g[1], '#5ff0ff', 16, 320);
+  }
+
+  // the tour: a new venue every ZONE_LEN metres, each with its own sky and a busier band
+  const ZONE_LEN = 500;
+  const VENUES = [
+    { name: 'The Garage', sky: ['#0b0618', '#2a0f4a', '#7a1f6b', '#f2603c'], hue: 280 },
+    { name: 'The Club', sky: ['#04121f', '#0b3a5c', '#1f7a8c', '#f2c14e'], hue: 170 },
+    { name: 'The Arena', sky: ['#12040a', '#4a0f1f', '#a8201a', '#ffb347'], hue: 0 },
+    { name: 'The Stadium', sky: ['#020a1c', '#10306b', '#5b3fd6', '#ff6ad5'], hue: 220 },
+    { name: 'Low Orbit', sky: ['#000004', '#07051a', '#1a0b3d', '#4a1f7a'], hue: 255 },
+  ];
+  const rgb = h => [1, 3, 5].map(k => parseInt(h.slice(k, k + 2), 16));
+  for (const v of VENUES) v.rgb = v.sky.map(rgb);
+  let zone = 0, hueCur = VENUES[0].hue;
+  const skyCur = VENUES[0].rgb.map(c => c.slice());
+  const tr = () => [0, 3, 5, 7, 10][zone % 5];
+
+  // guitars: finishes unlocked by best score
+  const AXES = [
+    { name: 'Hot Pink', body: '#ff2d95', bolt: '#ffe14d', at: 0 },
+    { name: 'Seafoam', body: '#3fd6b0', bolt: '#ffffff', at: 400 },
+    { name: 'Blackout', body: '#1b1b22', bolt: '#ff3b3b', at: 1000 },
+    { name: 'Sunburst', body: '#e2731a', bolt: '#2a0f08', at: 2000 },
+    { name: 'Chrome', body: '#cfd6e0', bolt: '#3aa0ff', at: 4000 },
+  ];
+  const unlocked = b => AXES.filter(a => a.at <= b).length;
+  let axe = 0, unlockMsg = '';
+  try { axe = clamp(parseInt(localStorage.getItem('fretfall.axe') || '0', 10) || 0, 0, unlocked(best) - 1); } catch (e) {}
+  function saveAxe() { try { localStorage.setItem('fretfall.axe', String(axe)); } catch (e) {} }
+  function cycleAxe(d) {
+    const un = unlocked(best);
+    if (un < 2) return;
+    axe = (axe + d + un) % un; saveAxe();
+    if (ac) gtr(note(PENTA[axe + 2]), ac.currentTime, 0.25, 0.12);
+  }
 
   const DEATHS = ['String snapped!', 'Feedback!', 'Fell off the stage!', 'Out of tune!', 'Unplugged!',
     'Missed the chord change!', 'Wrong fret!', 'Encore?'];
@@ -172,6 +263,8 @@ import ColorStripe from "../components/ColorStripe.astro";
     resetWorld(true);
     px = 0; pz = 0; vx = 0; jy = 0; vy = 0; speed = 30; camX = 0;
     picks = 0; playT = 0; soloT = 0; spin = 0; shake = 0; newBest = false;
+    points = 0; combo = 0; comboT = 0; bestCombo = 0; mult = 1; shield = false; magnetT = 0; airJumps = 0;
+    zone = 0; unlockMsg = ''; parts.length = 0;
     for (const k in hit) delete hit[k];
     lickIdx = 0; step = 0;
     if (ac) nextStepTime = ac.currentTime + 0.06;
@@ -179,14 +272,24 @@ import ColorStripe from "../components/ColorStripe.astro";
     toast(eleven ? 'This one goes to 11' : 'Shred!', true);
   }
   function gameOver(msg) {
-    state = 'over'; overT = 0; deathMsg = msg;
-    const s = score();
+    state = 'over'; overT = 0; deathMsg = msg; toasts.length = 0;
+    const s = score(), u0 = unlocked(best);
     if (s > best) { best = s; newBest = true; try { localStorage.setItem('fretfall.best', String(best)); } catch (e) {} }
+    const u1 = unlocked(best);
+    if (u1 > u0) { axe = u1 - 1; saveAxe(); unlockMsg = 'New guitar unlocked: ' + AXES[axe].name + '!'; }
     if (picks === 0 && dist() > 60) deathMsg += '  (Not one pick?)';
   }
   function jump() {
-    if (state !== 'play' || jy > 0.01) return;
-    vy = 13.5; jy = 0.02; spin = 0.0001;
+    if (state !== 'play') return;
+    if (jy > 0.01) {   // one more hop in mid-air, flipping the other way
+      if (airJumps >= 1) return;
+      airJumps++; vy = 11.5; spin = 0.0001; flipDir = -flipDir;
+      flipDur = (vy + Math.sqrt(vy * vy + 76 * jy)) / 38;
+      if (ac) gtr(294, ac.currentTime, 0.3, 0.1, 880);
+      const g = gpos(); burst(g[0], g[1], '#fff', 6, 160);
+      return;
+    }
+    vy = 13.5; jy = 0.02; spin = 0.0001; airJumps = 0; flipDur = 0.71; flipDir = 1;
     sfxJump();
   }
 
@@ -268,7 +371,14 @@ import ColorStripe from "../components/ColorStripe.astro";
     if (s === 0 || s === 8 || s === 10) kick(t);
     if (s === 4 || s === 12) noise(t, 0.13, 0.32, 'highpass', 1500);
     if (s % 2 === 0) noise(t, 0.04, 0.1, 'highpass', 7000);
-    bass(41.2 * Math.pow(2, RIFF[s] / 12), t);
+    bass(41.2 * Math.pow(2, (RIFF[s] + tr()) / 12), t);
+    // the band fills out as the tour goes on
+    if (zone >= 1 && (s === 0 || s === 6 || s === 12)) {
+      const f = 82.41 * Math.pow(2, (RIFF[s] % 12 + tr()) / 12);
+      gtr(f, t, 0.2, 0.06); gtr(f * 1.498, t, 0.2, 0.05);
+    }
+    if (zone >= 2 && s % 2 === 1) noise(t, 0.03, 0.06, 'highpass', 9000);
+    if (zone >= 3 && s % 2 === 1) gtr(note(PENTA[(s * 3) % 8] + tr()), t, 0.09, 0.045);
     if (cowbell && s % 4 === 0) bell(t);
   }
   function music() {
@@ -287,7 +397,7 @@ import ColorStripe from "../components/ColorStripe.astro";
     const now = ac.currentTime;
     if (now - lastPickT > 2.5) lickIdx = 0;
     lastPickT = now;
-    gtr(note(PENTA[LICK[lickIdx % LICK.length]]), now, 0.32, 0.15);
+    gtr(note(PENTA[LICK[lickIdx % LICK.length]] + tr()), now, 0.32, 0.15);
     lickIdx++;
   }
   function sfxSolo() {
@@ -296,6 +406,8 @@ import ColorStripe from "../components/ColorStripe.astro";
     for (let i = 0; i < 20; i++) gtr(note(PENTA[(i * 3) % PENTA.length] + (i > 13 ? 12 : 0)), now + i * 0.075, 0.12, 0.13);
     gtr(note(24), now + 1.5, 1.0, 0.15, note(27));
   }
+  function sfxPower() { if (ac) { const t = ac.currentTime; gtr(note(12), t, 0.14, 0.12); gtr(note(19), t + 0.1, 0.3, 0.12); } }
+  function sfxWhammy() { if (ac) { const t = ac.currentTime; gtr(660, t, 0.9, 0.13, 110); noise(t, 0.25, 0.25, 'highpass', 3000); } }
   function sfxJump() { if (ac) gtr(196, ac.currentTime, 0.45, 0.12, 620); }
   function sfxLand() { if (ac) kick(ac.currentTime, 0.4); }
   function sfxSmash() { if (ac) { noise(ac.currentTime, 0.3, 0.5, 'lowpass', 900); gtr(82.4, ac.currentTime, 0.4, 0.2); } }
@@ -346,6 +458,7 @@ import ColorStripe from "../components/ColorStripe.astro";
     if (e.key === 'm' || e.key === 'M') {
       muted = !muted; if (master) master.gain.value = muted ? 0 : 0.5; toast(muted ? 'Muted' : 'Sound on');
     }
+    if (state === 'title' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) cycleAxe(e.key === 'ArrowLeft' ? -1 : 1);
     if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
       if (state === 'play') jump();
     }
@@ -368,6 +481,9 @@ import ColorStripe from "../components/ColorStripe.astro";
       if (state === 'title' && Math.hypot(ex(e) - mx, ey(e) - my) < 50) {
         if (++titleTaps >= 6) { titleTaps = 0; golden = !golden; sfxTune(); toast(golden ? 'Perfectly in tune: gold top unlocked' : 'Back to hot pink', true); }
         return;
+      }
+      if (state === 'title' && unlocked(best) > 1 && Math.abs(ey(e) - H * 0.845) < Math.max(22, Math.min(W / 9, H / 6) * 0.3)) {
+        cycleAxe(ex(e) < W / 2 ? -1 : 1); return;
       }
       start(); return;
     }
@@ -400,6 +516,14 @@ import ColorStripe from "../components/ColorStripe.astro";
     for (const t of toasts) t.t += dt;
     while (toasts.length && toasts[0].t > 2.6) toasts.shift();
     if (shake > 0) shake = Math.max(0, shake - dt);
+    for (let k = parts.length - 1; k >= 0; k--) {
+      const q = parts[k]; q.t += dt;
+      if (q.t > q.life) { parts.splice(k, 1); continue; }
+      q.vy += 900 * dt; q.x += q.vx * dt; q.y += q.vy * dt;
+    }
+    const ven = VENUES[(state === 'title' ? 0 : zone) % VENUES.length], kf = Math.min(1, dt * 1.5);
+    for (let a = 0; a < 4; a++) for (let b = 0; b < 3; b++) skyCur[a][b] += (ven.rgb[a][b] - skyCur[a][b]) * kf;
+    hueCur += (ven.hue - hueCur) * kf;
 
     if (state === 'title') {
       pz += 22 * dt; px = cxAt(pz); jy = 0;
@@ -412,9 +536,24 @@ import ColorStripe from "../components/ColorStripe.astro";
       px += vx * dt; pz += speed * dt;
       if (jy > 0) {
         vy -= 38 * dt; jy += vy * dt; spin += dt;
-        if (jy <= 0) { jy = 0; vy = 0; spin = 0; sfxLand(); }
+        if (jy <= 0) {
+          jy = 0; vy = 0; spin = 0; airJumps = 0; sfxLand();
+          const g = gpos(); burst(g[0], g[1] + 10, 'rgba(243,227,179,0.9)', 6, 130);
+        }
       }
-      if (soloT > 0) soloT -= dt;
+      if (soloT > 0) {
+        soloT -= dt;
+        const g = gpos(); burst(g[0], g[1], `hsl(${(T * 300) % 360}, 100%, 65%)`, 1, 90);
+      }
+      if (comboT > 0) { comboT -= dt; if (comboT <= 0) { combo = 0; mult = 1; } }
+      if (magnetT > 0) {
+        magnetT -= dt;
+        const pi0 = Math.floor(pz / SEG), pull = Math.min(1, dt * 7);
+        for (let i = pi0; i <= pi0 + 4; i++) {
+          const s = seg(i);
+          for (const p of s.picks) if (!p.taken) { p.dx += (px - s.cx - p.dx) * pull; p.y += (jy + 1.3 - p.y) * pull; }
+        }
+      }
 
       // items
       const i0 = Math.floor((z0 - 2) / SEG), i1 = Math.floor((pz + 2) / SEG);
@@ -423,22 +562,35 @@ import ColorStripe from "../components/ColorStripe.astro";
         for (const p of s.picks) {
           if (p.taken) continue;
           if (p.z > z0 - 1.6 && p.z < pz + 1.6 && Math.abs(s.cx + p.dx - px) < 1.9 && Math.abs(jy + 1 - p.y) < 2.6) {
-            p.taken = true; picks += eleven ? 2 : 1; sfxPick();
-            if (p.gold) { soloT = 6; picks += 4; toast('SOLO! Smash everything!', true); sfxSolo(); }
+            p.taken = true; grab(s, p);
           }
         }
         for (let k = s.obs.length - 1; k >= 0; k--) {
           const o = s.obs[k];
           const hw = o.type === 'mic' ? 0.45 : 1.3, hh = o.type === 'mic' ? 4 : o.type === 'amp' ? 3 : 2.1;
-          if (o.z > z0 - 0.8 && o.z < pz + 0.8 && Math.abs(s.cx + o.dx - px) < hw + 0.6 && jy < hh - 0.3) {
-            if (soloT > 0) { s.obs.splice(k, 1); picks += 1; shake = 0.15; sfxSmash(); }
-            else { shake = 0.5; sfxCrash(); gameOver(CRASHES[o.type]); return; }
+          const lat = Math.abs(s.cx + o.dx - px), inWin = o.z > z0 - 0.8 && o.z < pz + 0.8 && jy < hh - 0.3;
+          if (inWin && lat >= hw + 0.6 && lat < hw + 1.6 && !o.nm && soloT <= 0) {
+            o.nm = true; points += 5 * mult; toast('Close shave! +' + 5 * mult);
+          }
+          if (inWin && lat < hw + 0.6) {
+            if (soloT > 0 || shield) {
+              const g = gpos(); burst(g[0], g[1] - 20, '#c9ccd1', 14, 320);
+              s.obs.splice(k, 1); shake = 0.2; sfxSmash();
+              if (soloT > 0) points += 25 * mult;
+              else { shield = false; toast('Saved by the spare string!', true); }
+            }
+            else {
+              const g = gpos(); burst(g[0], g[1] - 20, golden ? '#e8b923' : AXES[axe].body, 26, 420); burst(g[0], g[1] - 20, '#fff', 10, 300);
+              shake = 0.5; sfxCrash(); gameOver(CRASHES[o.type]); return;
+            }
           }
         }
       }
       // ground
       if (jy <= 0) {
         const s = seg(Math.floor(pz / SEG)), rel = px - cxAt(pz);
+        if (s.ramp && !s.ramp.used && Math.abs(rel - s.ramp.dx) < 2.1) { s.ramp.used = true; launch(); }
+        else
         if (Math.abs(rel) > HW + 0.4 || s.hole === 2 || (s.hole === -1 && rel < -0.3) || (s.hole === 1 && rel > 0.3)) {
           state = 'fall'; fallT = 0; vy = 0; sfxFall();
         }
@@ -448,6 +600,13 @@ import ColorStripe from "../components/ColorStripe.astro";
       milestone('d808', dist() >= 808, '808: the bass drops', sfxBoom);
       milestone('d1984', dist() >= 1984, '1984! Might as well jump.', sfxSolo);
       milestone('d5150', dist() >= 5150, 'Guitar hero status: confirmed', sfxSolo);
+      const zn = Math.floor(dist() / ZONE_LEN);
+      if (zn !== zone) {
+        zone = zn;
+        const lap = Math.floor(zn / VENUES.length);
+        toast((lap ? 'World tour, lap ' + (lap + 1) + ': ' : 'Now playing: ') + VENUES[zn % VENUES.length].name, true);
+        sfxPower();
+      }
     } else if (state === 'fall') {
       fallT += dt; vy -= 38 * dt; jy += vy * dt; spin += dt * 1.5;
       px += vx * dt; pz += speed * 0.6 * dt;
@@ -477,7 +636,7 @@ import ColorStripe from "../components/ColorStripe.astro";
   }
   function drawSky() {
     const g = ctx.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, '#0b0618'); g.addColorStop(0.3, '#2a0f4a'); g.addColorStop(0.6, '#7a1f6b'); g.addColorStop(1, '#f2603c');
+    [0, 0.3, 0.6, 1].forEach((st, k) => g.addColorStop(st, `rgb(${skyCur[k][0] | 0},${skyCur[k][1] | 0},${skyCur[k][2] | 0})`));
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
     ctx.fillStyle = '#fff';
     for (const s of STARS) {
@@ -495,11 +654,21 @@ import ColorStripe from "../components/ColorStripe.astro";
     ctx.fillStyle = '#111'; ctx.beginPath(); ctx.arc(0, 0, r * 0.05, 0, 6.29); ctx.fill();
     ctx.fillRect(r * 0.12, -1, r * 0.16, 2);
     ctx.restore();
+    // spotlights: more of them at the bigger venues
+    const nb = Math.min(6, 2 + (state === 'title' ? 0 : zone)), bpl = beatPulse(), by = horY + H * 0.05;
+    for (let k = 0; k < nb; k++) {
+      const bx = W * (k + 0.5) / nb, a = Math.sin(T * (0.5 + k * 0.13) + k * 2) * 0.5;
+      ctx.fillStyle = `hsla(${(hueCur + 60 + k * 40) % 360}, 100%, 75%, ${0.05 + 0.07 * bpl})`;
+      ctx.beginPath(); ctx.moveTo(bx - 4, by);
+      ctx.lineTo(bx + Math.sin(a - 0.07) * H, by - Math.cos(a - 0.07) * H);
+      ctx.lineTo(bx + Math.sin(a + 0.07) * H, by - Math.cos(a + 0.07) * H);
+      ctx.lineTo(bx + 4, by); ctx.fill();
+    }
     // equalizer skyline
     const n = 36, bw = W / n, bp = beatPulse();
     for (let k = 0; k < n; k++) {
       const h = H * 0.02 + H * 0.11 * (0.25 + 0.75 * Math.abs(Math.sin(k * 1.7 + Math.floor(T * 5) * 0.9 + k * k))) * (0.45 + 0.55 * bp);
-      ctx.fillStyle = `hsla(${(280 + k * 6 + T * 20) % 360}, 90%, 60%, 0.5)`;
+      ctx.fillStyle = `hsla(${(hueCur + k * 6 + T * 20) % 360}, 90%, 60%, 0.5)`;
       ctx.fillRect(k * bw + 1, horY + H * 0.05 - h, bw - 2, h + H);
     }
   }
@@ -554,6 +723,7 @@ import ColorStripe from "../components/ColorStripe.astro";
   }
   function drawItems(i, front) {
     const s = seg(i);
+    if (s.ramp && !front) drawRamp(i, s);
     if (!s.obs.length && !s.picks.length) return;
     for (const o of s.obs) {
       if ((o.z < pz) !== front || o.z - camZ < 1.5) continue;
@@ -565,6 +735,20 @@ import ColorStripe from "../components/ColorStripe.astro";
       const p = P(s.cx + k.dx, trackY(k.z) + k.y + 0.25 * Math.sin(T * 4 + k.z), k.z);
       drawPick(p[0], p[1], p[2], k);
     }
+  }
+  function drawRamp(i, s) {
+    const n = seg(i + 1), z0 = i * SEG, z1 = z0 + SEG, w = 1.8, dx = s.ramp.dx;
+    if (z0 - camZ < 1.5) return;
+    const a = P(s.cx + dx - w, trackY(z0) + 0.06, z0), b = P(s.cx + dx + w, trackY(z0) + 0.06, z0);
+    const c = P(n.cx + dx + w, trackY(z1) + 1.1, z1), d = P(n.cx + dx - w, trackY(z1) + 1.1, z1);
+    quad(a, b, c, d, s.ramp.used ? '#55506a' : `hsl(${(T * 200) % 360}, 100%, 60%)`);
+    ctx.strokeStyle = '#14081f'; ctx.lineWidth = Math.max(1, 0.22 * a[2]); ctx.lineJoin = 'miter';
+    ctx.beginPath();
+    for (const t of [0.25, 0.6]) {
+      const lx = lerp(a[0], d[0], t), ly = lerp(a[1], d[1], t), rx = lerp(b[0], c[0], t), ry = lerp(b[1], c[1], t);
+      ctx.moveTo(lx, ly); ctx.lineTo((lx + rx) / 2, (ly + ry) / 2 - (a[1] - d[1]) * 0.25); ctx.lineTo(rx, ry);
+    }
+    ctx.stroke();
   }
   function drawObs(type, x, y, s) {
     if (type === 'amp') {
@@ -594,6 +778,19 @@ import ColorStripe from "../components/ColorStripe.astro";
     }
   }
   function drawPick(x, y, s, k) {
+    if (k.kind) {   // power-ups: a coiled spare string (ring), a pickup magnet (horseshoe)
+      const r = 0.8 * s, col = k.kind === 'shield' ? '#5fd4ff' : '#ff4d4d';
+      ctx.shadowColor = col; ctx.shadowBlur = 16; ctx.strokeStyle = col; ctx.lineWidth = Math.max(2, 0.24 * s); ctx.lineCap = 'round';
+      ctx.beginPath();
+      if (k.kind === 'shield') { ctx.arc(x, y, r, 0, 6.29); ctx.moveTo(x + r * 0.45, y); ctx.arc(x, y, r * 0.45, 0, 6.29); }
+      else {
+        ctx.arc(x, y - r * 0.2, r * 0.75, Math.PI, 0);
+        ctx.moveTo(x - r * 0.75, y - r * 0.2); ctx.lineTo(x - r * 0.75, y + r * 0.8);
+        ctx.moveTo(x + r * 0.75, y - r * 0.2); ctx.lineTo(x + r * 0.75, y + r * 0.8);
+      }
+      ctx.stroke(); ctx.shadowBlur = 0; ctx.lineCap = 'butt';
+      return;
+    }
     const w = 0.75 * s * Math.abs(Math.cos(T * 3 + k.z)), h = 0.95 * s;
     if (k.gold) { ctx.shadowColor = '#ffe066'; ctx.shadowBlur = 18; }
     ctx.fillStyle = k.gold ? '#ffd23f' : `hsl(${(k.z * 9) % 360}, 95%, 62%)`;
@@ -618,7 +815,7 @@ import ColorStripe from "../components/ColorStripe.astro";
     ctx.translate(p[0], p[1] - u * 0.6);
     let rot = clamp(vx * 0.022, -0.5, 0.5);
     if (state === 'fall') rot += spin * 4;
-    else if (jy > 0) rot += (spin / 0.71) * Math.PI * 2;
+    else if (jy > 0) rot += flipDir * (spin / flipDur) * Math.PI * 2;
     ctx.rotate(rot);
     ctx.scale(lefty ? -u : u, u);
     ctx.lineJoin = 'round';
@@ -657,9 +854,9 @@ import ColorStripe from "../components/ColorStripe.astro";
       ctx.quadraticCurveTo(0.5, -0.75, 0.28, -0.55);
       ctx.closePath();
     };
-    body(); ctx.fillStyle = golden ? '#e8b923' : '#ff2d95'; ctx.fill();
+    body(); ctx.fillStyle = golden ? '#e8b923' : AXES[axe].body; ctx.fill();
     ctx.save(); body(); ctx.clip();
-    ctx.fillStyle = golden ? '#fff3b0' : '#ffe14d';   // lightning bolt
+    ctx.fillStyle = golden ? '#fff3b0' : AXES[axe].bolt;   // lightning bolt
     ctx.beginPath(); ctx.moveTo(-1.3, 0.2); ctx.lineTo(-0.55, 0.05); ctx.lineTo(-0.75, 0.55); ctx.lineTo(-0.3, 0.45); ctx.lineTo(-1.2, 1.6); ctx.lineTo(-0.95, 0.75); ctx.lineTo(-1.4, 0.85); ctx.fill();
     ctx.restore();
     body(); ctx.strokeStyle = '#1a0a14'; ctx.lineWidth = 0.07; ctx.stroke();
@@ -675,6 +872,14 @@ import ColorStripe from "../components/ColorStripe.astro";
     for (let k = 0; k < 6; k++) { const x = -0.15 + k * 0.06; ctx.moveTo(x * 1.4, 0.8); ctx.lineTo(x, -3.3); }
     ctx.stroke();
     ctx.restore();
+    if (shield) {
+      ctx.strokeStyle = `rgba(95,212,255,${0.55 + 0.3 * Math.sin(T * 8)})`; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.ellipse(p[0], p[1] - u * 2, u * 2, u * 3.5, 0, 0, 6.29); ctx.stroke();
+    }
+    if (magnetT > 0) {
+      ctx.strokeStyle = `rgba(255,77,77,${0.5 * (1 - (T * 2) % 1)})`; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(p[0], p[1] - u * 2, u * (1 + 3 * ((T * 2) % 1)), 0, 6.29); ctx.stroke();
+    }
   }
   function text(str, x, y, size, fill, align) {
     ctx.font = `900 ${size}px "Arial Black", Impact, system-ui, sans-serif`;
@@ -711,11 +916,32 @@ import ColorStripe from "../components/ColorStripe.astro";
     for (let i = pi; i >= iNear; i--) drawItems(i, true);
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
+    for (const q of parts) {
+      ctx.globalAlpha = clamp(1 - q.t / q.life, 0, 1); ctx.fillStyle = q.col;
+      ctx.fillRect(q.x - q.r / 2, q.y - q.r / 2, q.r, q.r);
+    }
+    ctx.globalAlpha = 1;
+    if (state === 'play' && speed > 50) {   // speed lines
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.globalAlpha = clamp((speed - 50) / 70, 0, 0.5);
+      ctx.beginPath();
+      for (let k = 0; k < 8; k++) {
+        const a = rnd(0, 6.28), r0 = Math.max(W, H) * rnd(0.4, 0.62), r1 = r0 + rnd(30, 90);
+        ctx.moveTo(W / 2 + Math.cos(a) * r0, H * 0.45 + Math.sin(a) * r0); ctx.lineTo(W / 2 + Math.cos(a) * r1, H * 0.45 + Math.sin(a) * r1);
+      }
+      ctx.stroke(); ctx.globalAlpha = 1;
+    }
+
     const big = Math.min(W / 9, H / 6);
     if (state === 'play' || state === 'fall') {
       text(dist() + ' m', 16, 28, 26, '#fff', 'left');
       text('▼ ' + picks, 16, 60, 20, '#ffd23f', 'left');
       if (best) text('best ' + best, 16, 86, 14, 'rgba(255,255,255,0.7)', 'left');
+      if (combo > 1) {
+        text('RIFF ' + combo + (mult > 1 ? '   x' + mult : ''), 16, 112, 16, mult > 1 ? '#ff7ac3' : '#fff', 'left');
+        ctx.fillStyle = '#ff7ac3'; ctx.fillRect(16, 125, 80 * clamp(comboT / 1.8, 0, 1), 3);
+      }
+      if (shield) text('SPARE STRING', W - 16, 100, 12, '#5fd4ff', 'right');
+      if (magnetT > 0) text('MAGNET ' + Math.ceil(magnetT), W - 16, shield ? 118 : 100, 12, '#ff6b6b', 'right');
       drawKnob();
       if (soloT > 0) text('SOLO ' + Math.ceil(soloT), W / 2, 30, 22, `hsl(${(T * 300) % 360},100%,65%)`);
       if (touchSeen) {
@@ -730,14 +956,17 @@ import ColorStripe from "../components/ColorStripe.astro";
       const blink = Math.sin(T * 5) > -0.3;
       if (blink) text(touchSeen ? 'TAP TO PLAY' : 'PRESS SPACE OR TAP TO PLAY', W / 2, H * 0.62, big * 0.36, '#ff7ac3');
       text('steer: ← →  or hold a side of the screen', W / 2, H * 0.72, big * 0.22, 'rgba(255,255,255,0.85)');
-      text('hop: SPACE  or swipe up      M: mute', W / 2, H * 0.72 + big * 0.34, big * 0.22, 'rgba(255,255,255,0.85)');
-      if (best) text('best ' + best, W / 2, H * 0.9, big * 0.24, '#ffd23f');
+      text('hop: SPACE  or swipe up  (twice: double hop)    M: mute', W / 2, H * 0.72 + big * 0.34, big * 0.22, 'rgba(255,255,255,0.85)');
+      const un = unlocked(best), nxt = AXES[un];
+      if (un > 1) text('‹   ' + (golden ? 'Gold Top' : AXES[axe].name) + '   ›', W / 2, H * 0.845, big * 0.26, '#ffd23f');
+      if (best || nxt) text((best ? 'best ' + best : '') + (best && nxt ? '   ·   ' : '') + (nxt ? 'new guitar at ' + nxt.at : ''), W / 2, H * 0.935, big * 0.2, '#ffd23f');
     } else if (state === 'over') {
       ctx.fillStyle = `rgba(10,4,20,${Math.min(0.55, overT * 1.5)})`; ctx.fillRect(0, 0, W, H);
       text(deathMsg, W / 2, H * 0.28, big * 0.55, '#ff7ac3');
       text(String(score()), W / 2, H * 0.46, big * 1.2, '#ffd23f');
-      text(dist() + ' m  +  ' + picks + ' picks × 10', W / 2, H * 0.46 + big * 0.85, big * 0.24, '#fff');
-      text(newBest ? 'NEW BEST!' : 'best ' + best, W / 2, H * 0.46 + big * 1.3, big * 0.3, newBest ? `hsl(${(T * 300) % 360},100%,65%)` : 'rgba(255,255,255,0.8)');
+      text(dist() + ' m  +  ' + points + ' riff points', W / 2, H * 0.46 + big * 0.85, big * 0.24, '#fff');
+      text(unlockMsg || ('longest riff ' + bestCombo + '   ·   ' + VENUES[zone % VENUES.length].name), W / 2, H * 0.46 + big * 1.18, big * 0.2, unlockMsg ? '#5fd4ff' : 'rgba(255,255,255,0.75)');
+      text(newBest ? 'NEW BEST!' : 'best ' + best, W / 2, H * 0.46 + big * 1.55, big * 0.3, newBest ? `hsl(${(T * 300) % 360},100%,65%)` : 'rgba(255,255,255,0.8)');
       if (overT > 0.6 && Math.sin(T * 5) > -0.3) text(touchSeen ? 'TAP FOR AN ENCORE' : 'SPACE FOR AN ENCORE', W / 2, H * 0.82, big * 0.34, '#fff');
     }
     toasts.forEach((t, k) => {
